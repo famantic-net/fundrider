@@ -1,0 +1,159 @@
+2003-10-02;Alliance Capital American Growth;25,27;275
+2003-10-02;ACM Bernstein American Value;8,37;434
+2003-10-02;Alliance Capital Glob Grow Trend;38,72;276
+2003-10-02;Alliance Capital Int Technology;94,96;433
+2003-10-03;Alterum Global Quality Growth;69,43;271
+2003-10-03;Baring North America;54,1;278
+2003-10-03;East Capital Ryssland SEK;431,6;436
+2003-10-02;Fidelity European Growth;6,486;431
+2003-10-02;Fidelity International;21,05;430
+2003-10-02;Fidelity European Small;12,09;429
+2003-10-03;JPMF Pacific Equity A;39,97;432
+2003-09-26;Goldman Gl Consumer Grow;8,74;426
+2003-09-26;Goldman Gl Financial Services;10,79;427
+2003-09-26;Goldman Sachs Global Eq;17,76;425
+2003-09-26;Goldman Sachs HiYi E Hedge;7,89;428
+2003-10-03;Merrill Lynch Global Opportun;18,48;274
+2003-10-03;Merrill Lynch Global Equity;77,62;424
+2003-10-03;Merrill Lynch Global Small Cap P;33,83;273
+2003-10-02;Pictet Biotech P;191,24;277
+2003-10-03;SEB Lux CS Europe Chance/Risk;7599,695;954
+2003-10-03;SEB Aktiesparfond;5,772;387
+2003-10-03;SEB Nordamerika Chans/Riskfond;7,423;270
+2003-10-03;SEB Asienfond (exkl Japan);7,141;386
+2003-10-03;SEB Lux Bond Corp Bonds EUR Acc;9,951;961
+2003-10-03;SEB Lux Bond Corp Bonds EUR Inc;9,645;962
+2003-10-03;SEB Lux Bond Corp Bonds SEK Acc;11,219;963
+2003-10-03;SEB Lux Bond Corp Bonds SEK Inc;10,864;964
+2003-10-02;SEB Invest Concept Biotechnology;173,58;418
+2003-10-03;SEB Cancerfonden;7,386;268
+2003-10-03;SEB Ekorren Trygghetsfond;98,702;368
+2003-10-03;SEB Emerging Marketsfond;8,492;385
+2003-10-03;SEB Europeisk Aktieportfölj;74,26;1
+2003-10-03;SEB Europafond;5,775;383
+2003-10-03;SEB Fond i Fond - Balanserad;9,745;1
+2003-10-03;SEB Fond i Fond - Global;9,463;1
+2003-10-03;SEB Forskningsfond;5,3;264
+2003-10-03;SEB Lux Eq Global Chans/Risk;4,788;958
+2003-10-03;SEB Globalfond;5,191;376
+2003-09-29;SEB Hedgefond Equity;44,41;6016
+2003-10-03;SEB Internetfond;4,569;390
+2003-10-03;SEB Internationell Obligation;9,639;357
+2003-10-03;SEB Lux Equity Japan Chans/Risk;4,172;955
+2003-10-03;SEB Likviditetsfond Acc;10,293;395
+2003-10-03;SEB Life Internetfond;4,736;563
+2003-10-02;SEB Invest Neue Märkte;528,86;272
+2003-10-03;SEB Life Optionsrätter Europafnd;661,764;562
+2003-10-03;SEB Life Östeuropafond;12,908;564
+2003-10-03;SEB Life Wireless Communication;1,269;565
+2003-10-03;SEB Modellportfölj;83,474;1
+2003-10-03;SEB Nordamerikafond;5,424;384
+2003-10-03;SEB Nordenfond;8,667;382
+2003-10-03;SEB Lux Equity Opportun Europe;5,387;957
+2003-10-03;SEB Premiefond 50;5,214;972679
+2003-10-03;SEB Premiefond 55;5,199;936849
+2003-10-03;SEB Premiefond 60;5,222;901017
+2003-10-03;SEB Premiefond 65;5,222;865188
+2003-10-03;SEB Premiefond 70;5,206;829358
+2003-10-03;SEB Premiefond 75;5,175;793521
+2003-10-03;SEB Schweizfond;7,508;363
+2003-10-03;SKF Allemansfond;91,579;1
+2003-10-03;SEB Stiftelsefond Obligation;10,41;6003
+2003-10-03;SEB Stiftelsefond Utland;5,485;6002
+2003-10-03;SEB Sverige Aktiefond I;6,417;372
+2003-10-03;SEB Sverige Aktiefond II;6,286;381
+2003-10-03;SEB Sverige Chans/Riskfond;6,456;374
+2003-10-03;SEB Svensk Aktieportfölj;83,537;1
+2003-10-03;SEB Lux Fund I L Bond Realränta;10,98;410
+2003-10-03;SEB Lux Eq Wireless Communicat.;1,344;956
+2003-10-03;Selector Global Value A1;1077,79;437
+2003-10-03;Schroder Emerging Markets Deb Ac;17,41;280
+2003-10-03;Schroder Emerging Europe Acc A;9,39;279
+2003-10-03;SEB/Trygg Scottish Eq Mixed;170,54;6015
+2003-10-03;SEB Lux Fund Europe Equity;11,194;406
+2003-10-03;SEB Lux Fund Asia Equity;5,197;409
+2003-10-03;SEB Lux Fund Global Equity;8,43;404
+2003-10-03;SEB Lux Fund Japan Equity;3,914;407
+2003-10-03;SEB Lux Fund Medical;21,036;412
+2003-10-03;SEB Lux Fund Ethical Global;5,203;405
+2003-10-03;SEB Lux Fund North America Eq;13,846;401
+2003-10-03;SEB Lux Fund Ethical Sweden;22,921;411
+2003-10-03;SEB Lux Fund Swe Short-Med Term;9,793;408
+2003-10-03;SEB Lux Fund Technology;16,304;403
+2003-10-03;SEB Lux Fund World;11,856;402
+2003-10-03;SEB Life Fund Index Linked Bond;14,322;561
+2003-10-03;SEB Life Fund Europe Equity;9,879;554
+2003-10-03;SEB Life Fund Asia Equity;4,663;557
+2003-10-03;SEB Life Fund Global Equity;7,169;551
+2003-10-03;SEB Life Fund Japan Equity;3,351;556
+2003-10-03;SEB Life Fund Medical;16,153;558
+2003-10-03;SEB Life Fund Ethical Global;4,867;560
+2003-10-03;SEB Life Fund North America Eq;10,805;555
+2003-10-03;SEB Life Fund Ethical Sweden;18,755;553
+2003-10-03;SEB Life Fund Swe Short-Med Term;12,698;552
+2003-10-03;SEB Life Fund Technology;11,774;559
+2003-10-03;SEB Life Fund World;11,201;550
+2003-10-03;SEB Sverige Småbolag Chans/Risk;37,711;106
+2003-10-03;SEB Avkastningsfond;10,186;358
+2003-10-03;SEB Europa Småbolagsfond;13,85;212
+2003-10-03;SEB Fastighetsfond;22,432;216
+2003-10-03;SEB Internationell Penningmark;9,617;203
+2003-10-03;SEB Japanfond;5,612;359
+2003-10-03;SEB Latinamerikafond;7,06;228
+2003-10-03;SEB Likviditetsfond;10,228;360
+2003-10-03;SEB Läkemedelsfond;5,946;388
+2003-10-03;SEB Etisk Globalfond;8;209
+2003-10-03;SEB Nordamerika Medelstora Bolag;694,968;222
+2003-10-03;SEB Obligationsfond;10,299;393
+2003-10-03;SEB Penningmarknadsfond;10,248;392
+2003-10-03;SEB Råvarufond;13,094;208
+2003-10-03;SEB Sverige Småbolagsfond;9,632;364
+2003-10-03;SEB Teknologifond;14,767;389
+2003-10-03;SEB Världenfond;6,884;391
+2003-10-03;SEB Östeuropafond;13,258;227
+2003-10-03;SEB Lux Bond International Acc;153,593;317
+2003-10-03;SEB Lux Bond International Inc;59,138;318
+2003-10-03;SEB Lux Equity Euro Markets 1;19,044;303
+2003-10-03;SEB Lux Bond Fund Euro Acc;9,819;324
+2003-10-03;SEB Lux Bond Fund Euro Inc;4,7;325
+2003-10-03;SEB Lux Bond Fund USD Inc;8,866;321
+2003-10-03;SEB Lux Bond Fund USD Acc;18,776;320
+2003-10-03;SEB Lux Eastern Europe Fund;12,426;302
+2003-10-03;SEB Lux Emerging Markets Fund;7,904;316
+2003-10-03;SEB Lux Bond Fund Europe Inc;8,327;305
+2003-10-03;SEB Lux Bond Fund Europe Acc;21,76;304
+2003-10-03;SEB Lux Asia Fund - ex Japan;28,149;306
+2003-10-03;SEB Lux Equity Fund Global;12,889;327
+2003-10-03;SEB Lux Equity International Acc;161,428;311
+2003-10-03;SEB Lux Equity International Inc;117,939;312
+2003-10-03;SEB Lux Equity Fund Japan;4,3;322
+2003-10-03;SEB Lux Equity Ethical Europe;13,658;319
+2003-10-03;SEB Lux Equity Natural Resources;13,039;313
+2003-10-03;SEB Lux Equity Fund Nordic;30,079;326
+2003-10-03;SEB Lux Norge Rentefond;15,286;329
+2003-10-03;SEB Lux Equity North America;28,964;301
+2003-10-03;SEB Lux Short Bond Fund SEK;19,18;309
+2003-10-03;SEB Lux Short Bond Fund USD;16,977;310
+2003-10-03;SEB Lux Bond Fund SEK Acc;33,344;307
+2003-10-03;SEB Lux Bond Fund SEK Inc;12,166;308
+2003-10-03;SEB Lux Bond SEK Flexible Inc;11,546;315
+2003-10-03;SEB Lux Bond SEK Flexible  Acc;17,772;314
+2003-10-03;SEB Lux Equity United Kingdom;29,051;323
+2003-10-03;SEB Stiftelsefond Sverige;8,527;6004
+2003-10-03;SEB Trygg Placeringsfond;103,527;233
+2003-10-03;SEB Optionsrätter Europafond;617,274;247
+2003-10-02;Fidelity Asian Special;10,21;254
+2003-10-03;JPMF China A;14,91;256
+2003-10-03;Merrill Lynch Japan Opportunitie;36,54;257
+2003-10-03;SEB Nordamerika Småbolagsfond;65,714;705
+2003-10-03;SEB Lux CS Asian Small Co;18,094;950
+2003-10-03;SEB Lux CS Baltic Smaller Comp;13,488;951
+2003-10-03;SEB Lux Equity Euro Markets 2;6,364;258
+2003-10-03;SEB Lux Short Bond Fund Euro;10,293;259
+2003-10-03;SEB/Trygg Scottish Eq American;262,96;6008
+2003-10-03;SEB/Trygg Scottish Cash;139,95;6009
+2003-10-03;SEB/Trygg Scottish Eq Europe;154,94;6010
+2003-10-03;SEB/Trygg Scottish Eq Far East;115,72;6011
+2003-10-03;SEB/Trygg Scottish Europe Bond;167,17;6013
+2003-10-03;SEB Östersjöfond/WWF;9,713;265
+2003-09-17;SEB Multihedge;96,25;0

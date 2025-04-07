@@ -1,0 +1,161 @@
+1999-08-19;SEB A Allemansfond;21,08;700
+1999-08-19;SEB A Obligation;9,5;710
+1999-08-19;FMG/Alterum Gl Quality;87,46;0
+1999-08-19;SEB Nordamerika Chans/Risk;11,2;270
+1999-08-19;SEB Cancerfond;9,88;268
+1999-08-19;SEB Forskningsfond;10,54;264
+1999-08-19;SEB Internetfond;12,07;269
+1999-08-19;SEB Stiftelsefond Obligation;9,68;0
+1999-08-19;SEB Stiftelse Utland;11,09;0
+1999-08-19;SEB Fund Avkastningsfond;11,4;410
+1999-08-19;SEB A Euro Equity (EUR);1000,64;954
+1999-08-19;SEB A F-anknuten Allemansfond;101,35;701
+1999-08-19;SEB Fund Europa;15,63;406
+1999-08-19;SEB Fund Fjärran Östern;6,45;409
+1999-08-19;SEB Fund Global;14,87;404
+1999-08-19;SEB Fund Japan;6,39;407
+1999-08-19;SEB Fund Läkemedel;20,21;412
+1999-08-19;SEB Fund Miljö;9,61;405
+1999-08-19;SEB Fund Nordamerika;23,17;401
+1999-08-19;SEB Fund Sverige;30,19;411
+1999-08-19;SEB Fund Sverige Räntefond;9,99;408
+1999-08-19;SEB Fund Teknologi;31,66;403
+1999-08-19;SEB Fund Världen;15,59;402
+1999-08-19;SEB Life Avkastningsfond;12,94;561
+1999-08-19;SEB Life Europa;14,43;554
+1999-08-19;SEB Life Fjärran Östern;5,95;557
+1999-08-19;SEB Life Global;13,47;551
+1999-08-19;SEB Life Japan;5,76;556
+1999-08-19;SEB Life Läkemedel;17,19;558
+1999-08-19;SEB Life Miljö;9,21;560
+1999-08-19;SEB Life Nordamerika;19,17;555
+1999-08-19;SEB Life Sverige;26,35;553
+1999-08-19;SEB Life Sverige Räntefond;11,75;552
+1999-08-19;SEB Life Teknologi;26,02;559
+1999-08-19;SEB Life Världen;14,77;550
+1999-08-19;SEB Aktiesparfond;21,27;214
+1999-08-19;SEB Allemansfond Aktiespar;12,7;103
+1999-08-19;SEB Allemansfond Chans/Risk;35,34;105
+1999-08-19;SEB Allemansfond Norden;13,89;104
+1999-08-19;SEB Allemansfond Småbolag;31,34;106
+1999-08-19;SEB Allemansfond Sverige 1;13,55;101
+1999-08-19;SEB Allemansfond Sverige 2;13,53;102
+1999-08-19;SEB Avkastningsfond;1069,69;215
+1999-08-19;SEB Emerging Marketsfond;7,72;206
+1999-08-19;SEB Europafond;30,08;211
+1999-08-19;SEB Europeiska Småbolagsfond;15,72;212
+1999-08-19;SEB Fastighetsfond;17,63;216
+1999-08-19;SEB Fjärran Östernfond;17,97;224
+1999-08-19;SEB Horisontfond;9,73;226
+1999-08-19;SEB InterObligationsfond;13,47;217
+1999-08-19;SEB InterPenningmarknadsfond;11,89;203
+1999-08-19;SEB Japanfond;7,97;204
+1999-08-19;SEB Latinamerikafond;7,43;228
+1999-08-19;SEB Likviditetsfond;10,44;0
+1999-08-19;SEB Läkemedelsfond;27,2;223
+1999-08-19;SEB Miljöfond;15,31;209
+1999-08-19;SEB Nordamerikafond;56,47;202
+1999-08-19;SEB Nordamerikanska Småbolag;579,84;222
+1999-08-19;SEB Nordenfond;38,94;201
+1999-08-19;SEB Obligationsfond;9,19;221
+1999-08-19;SEB Penningmarknadsfond;9,26;213
+1999-08-19;SEB Råvarufond;13,2;208
+1999-08-19;SEB Småbolagsfonden;486,42;218
+1999-08-19;SEB Sverigefond;25,88;205
+1999-08-19;SEB Teknologifond;30,4;219
+1999-08-19;SEB Trygghetsfond;650,57;0
+1999-08-19;SEB Utlandsfond;18,4;220
+1999-08-19;SEB Världenfond;18,44;210
+1999-08-19;SEB Östeuropafond;8,63;227
+1999-08-19;SEB/Skandifond Bond Int Acc;134,21;317
+1999-08-19;SEB/Skandifond Bond Int Inc;61,6;318
+1999-08-19;SEB/Skandifond Contin. Europe;27,38;303
+1999-08-19;SEB/Skandifond Bond Euro Acc;7,83;324
+1999-08-19;SEB/Skandifond Bond Euro Inc;4,56;325
+1999-08-19;SEB/Skandifond Dollar Bond Inc;9,17;321
+1999-08-19;SEB/Skandifond Dollar Bond Acc;15,85;320
+1999-08-19;SEB/Skandifond Eastern Europe;7,65;302
+1999-08-19;SEB/Skandifond Emerg. Markets;8,64;316
+1999-08-19;SEB/Skandifond Europe Bond Inc;8,29;305
+1999-08-19;SEB/Skandifond Europe Bond Acc;17,94;304
+1999-08-19;SEB/Skandifond Far East;33,82;306
+1999-08-19;SEB/Skandifond Global;22,89;327
+1999-08-19;SEB/Skandifond Int.Acc;230,09;311
+1999-08-19;SEB/Skandifond Int.Inc;174,42;312
+1999-08-19;SEB/Skandifond Japan;6,9;322
+1999-08-19;SEB/Skandifond Mediterranean;16,55;319
+1999-08-19;SEB/Skandifond Natural Resour.;13,13;313
+1999-08-19;SEB/Skandifond Nordic;33,86;326
+1999-08-19;SEB/Skandifond Norge;11,17;328
+1999-08-19;SEB/Skandifond Norge Räntef.;11,58;329
+1999-08-19;SEB/Skandifond North America;48,69;301
+1999-08-19;SEB/Skandifond Short Bond SEK;16,5;309
+1999-08-19;SEB/Skandifond Short Bond USD;16,29;310
+1999-08-19;SEB/Skandifond Sweden Bond Acc;26,95;307
+1999-08-19;SEB/Skandifond Sweden Bond Inc;11,87;308
+1999-08-19;SEB/Skandifond Swe Flex Inc;11,46;315
+1999-08-19;SEB/Skandifond Swe Flex Acc;14,97;314
+1999-08-19;SEB/Skandifond United Kingdom;41,92;323
+1999-08-19;SEB Nordiska Småbolagsfond;11,26;207
+1999-08-19;SEB Stiftelsefond Sverige;13,38;0
+1999-08-19;Trygg Placeringsfond;115,98;233
+1999-08-19;Trygg Klar Placeringsfond;262,07;234
+1999-08-19;Trygg Offensiv Placeringsfond;155,66;235
+1999-08-19;Trygg Allemansfond;46,17;236
+1999-08-19;Trygg Sverigefond;509,37;237
+1999-08-19;Trygg Småbolagsfond;126,28;238
+1999-08-19;Trygg Nordenfond;537,49;239
+1999-08-19;Trygg Europafond;299,96;240
+1999-08-19;Trygg Schweizfond;451,25;241
+1999-08-19;Trygg Japanfond;101,16;242
+1999-08-19;Trygg Asienfond;147,22;243
+1999-08-19;Trygg Nordamerikafond;371,86;244
+1999-08-19;Trygg Emerging Marketsfond;106,26;245
+1999-08-19;Trygg Läkemedelsfond;151,11;246
+1999-08-19;Trygg Optionsrätter Europafond;1034,36;247
+1999-08-19;Trygg Obligationsfond;124,74;248
+1999-08-19;Trygg Penningmarknadsfond;107,83;249
+1999-08-19;Trygg Mixed Fund;168,99;291
+1999-08-19;Trygg Equity Fund;188,51;292
+1999-08-19;Trygg Bond Fund;138,73;290
+1999-08-19;Trygg Finnish Equity Fund;232,65;293
+1999-08-19;Trygg Fleming Eastern European;114,28;297
+1999-08-19;Trygg Fleming EuroSmallComp;170,22;298
+1999-08-19;Trygg Schroder Japan Smaller;5,27;294
+1999-08-19;Trygg Schroder US Smaller Comp;211,56;295
+1999-08-19;Trygg Schroder UK Equity;28,22;296
+1999-08-19;Trygg F&C Latin America;68,54;0
+1999-08-19;Fidelity Asian Special (USD);9,62;254
+1999-08-19;Fidelity Australia (AUD);22,08;255
+1999-08-19;Fidelity France (EUR);24,54;252
+1999-08-19;Fidelity Germany (EUR);19,79;253
+1999-08-19;Fidelity Iberia (EUR);25,5;251
+1999-08-19;Fidelity Italy (EUR);17,66;250
+1999-08-19;Fleming China(USD);11,33;256
+1999-08-19;Mercury ST Japan Opportunities;38,29;257
+1999-08-19;SEB A Global;26,44;703
+1999-08-19;SEB A Schweiz;61,82;707
+1999-08-19;SEB A Total;16,91;702
+1999-08-19;SEB A Tyskland;13,89;706
+1999-08-19;SEB A USA;60,1;705
+1999-08-19;SEB A Global Obl;9,68;709
+1999-08-19;SEB A Likviditet;9,36;711
+1999-08-19;SEB A Germany B;1065,13;949
+1999-08-19;SEB A US B;3366,08;947
+1999-08-19;SEB A Asien Småbolag;14,62;950
+1999-08-19;SEB A Östersjö Småbolag;9,99;951
+1999-08-19;SEB A Germany A;1024,86;948
+1999-08-19;SEB A Kina Garanti;1137,83;952
+1999-08-19;SEB A US A;3141,21;946
+1999-08-19;SEB A Östeuropa Garanti;988,92;953
+1999-08-19;SEB/Skandifond Equ. Fund Euro;8,39;258
+1999-08-19;SEB/Skandifond Short Bond Euro;8,91;259
+1999-08-19;Trygg Scottish Eq American;347,2;0
+1999-08-19;Trygg Scottish Eq Cash;127,5;0
+1999-08-19;Trygg Scottish Eq Europe;218,3;0
+1999-08-19;Trygg Scottish Eq Far East;125,8;0
+1999-08-19;Trygg Scottish Eq Mixed;216,9;0
+1999-08-19;Trygg Scottish Equity Bond;143,3;0
+1999-08-19;SEB A Sverige;64;708
+1999-08-19;SEB A Asien;10,55;704
+1999-08-19;SEB Östersjöfond/WWF;10,97;265

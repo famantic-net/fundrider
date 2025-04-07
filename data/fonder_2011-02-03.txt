@@ -1,0 +1,207 @@
+2011-02-03;SEB Aktiesparfond;7.9149;387
+2011-02-03;SEB Asset Sel Def Lux ack LTD;78.4978;965
+2011-02-03;SEB Asset Sel Def SEK Lux ack;100.0277;870
+2011-02-03;SEB Asset Sel Opp SEK Lux ack;104.6121;867
+2011-02-03;SEB Asset Selection SEK Lux Ack;142.8601;990
+2011-02-03;SEB Asset Selection SEK Lux Utd;131.7994;829
+2011-02-03;SEB Bioteknikfond  Lux Ack;274.7182;828
+2011-02-03;SEB Bioteknikfond  Lux Utd;274.6293;418
+2011-02-03;SEB Bond Fund HNW SEK -Lux utd;8.7359;878
+2011-02-03;SEB Cancerfonden;8.8113;519
+2011-02-03;SEB Ch Asien x Japan D Lux Utd;9.8644;860
+2011-02-03;SEB Ch Emerging Market Lux Ack;19.2704;925
+2011-02-03;SEB Ch High Yield SEK Lux Ack;133.68;863
+2011-02-03;SEB Ch Nordamerika C/R Lux Ack;30.4928;910
+2011-02-03;SEB Choice Asien Små x J Lux Ack;32.0003;950
+2011-02-03;SEB Choice Asien x Jap Lux Ack;56.182;902
+2011-02-03;SEB Choice Asienfond ex Japan;12.4179;386
+2011-02-03;SEB Choice Emerging Markets;18.9341;385
+2011-02-03;SEB Choice Global Value Lux Ack;78.2292;549
+2011-02-03;SEB Choice Global Value Lux Utd;72.9696;813
+2011-02-03;SEB Choice Japan C/R Lux Ack;4.1606;955
+2011-02-03;SEB Choice Japanfond;4.4569;359
+2011-02-03;SEB Choice Japanfond C Lux Ack;3.9048;907
+2011-02-03;SEB Choice Japanfond D Lux Utd;3.4965;980
+2011-02-03;SEB Choice Latinamerika;26.7391;38
+2011-02-03;SEB Choice NAmer Medelst Bolag;951.8518;12
+2011-02-03;SEB Choice Nordamerik Småbolag;104.0469;705
+2011-02-03;SEB Choice Nordamerikafond;5.2217;384
+2011-02-03;SEB Corporate Bond Eur Lux Ack;11.6519;961
+2011-02-03;SEB Corporate Bond Eur Lux Utd;8.65;962
+2011-02-03;SEB Corporate Bond SEK Lux Ack;13.4057;963
+2011-02-03;SEB Corporate Bond SEK Lux Utd;9.7585;964
+2011-02-01;SEB Credit Multi Strat C SEK;101.148;0
+2010-12-31;SEB EM Eq L/S SEK Lux ack;107.2613;865
+2011-02-03;SEB Etisk Europafond Lux Ack;19.2756;908
+2011-02-03;SEB Etisk Global Index Lux Ack;5.9283;827
+2011-02-03;SEB Etisk Global Index Lux utd;5.7147;934
+2011-02-03;SEB Etisk Globalfond;7.9933;32
+2011-02-03;SEB Etisk Sverigefond Lux Utd;48.3187;935
+2011-02-03;SEB Europa Chans/Risk Lux Ack;10225.33;954
+2011-02-03;SEB Europa Indexfond Lux ack;41.1971;911
+2011-02-03;SEB Europa Småbolag;29.1349;518
+2011-02-03;SEB Europa Småbolag Lux Utd;1231.388;409
+2011-02-03;SEB Europafond;7.1572;383
+2011-02-03;SEB Europafond D - Lux utd;15.0884;872
+2011-02-03;SEB Europafond Lux Ack;28.2285;901
+2011-02-03;SEB Europafond Offensiv;663.8516;43
+2011-02-03;SEB Europe Flex - Lux Inst utd;104.6695;888
+2011-02-03;SEB Europe Flex. - Lux HNW ack;104.67;889
+2011-02-03;SEB Europe Flexible - Lux ack;104.5433;887
+2011-02-03;SEB Fastighetsfond;33.036;506
+2011-02-03;SEB Företagsobl.flex. SEK Ack;112.0679;719
+2011-02-03;SEB Garantifond 80;101.83;466
+2011-02-03;SEB Generationsfond 50-tal;7.4446;63
+2011-02-03;SEB Generationsfond 60-tal;7.0523;65
+2011-02-03;SEB Generationsfond 70-tal;7.0116;67
+2011-02-03;SEB Generationsfond 80-tal - Lux;8.4681;997
+2011-02-03;SEB Global Chans/Risk - Lux Ack;6.5268;958
+2011-02-03;SEB Global D Lux utd;9.1924;862
+2010-12-31;SEB Global Eq L/S SEK LuxAck;99.2687;984
+2011-02-03;SEB Globalfond;5.847;376
+2011-02-03;SEB Globalfond Lux Ack;14.8066;903
+2011-02-03;SEB Internetfond;6.044;390
+2010-12-30;SEB Key Eu Eq L/S SEK Lux Ack;95.286;840
+2010-12-30;SEB Key Hedge SEK - Lux ack;104.1589;852
+2010-12-30;SEB KEY Recovery SEK Lux ack;92.2248;846
+2011-02-03;SEB Key Select SEK-Lux ack;101.1019;994
+2011-02-02;SEB Life Asia ex Japan;8.5825;557
+2011-02-02;SEB Life EM Mkts;13.5711;566
+2011-02-02;SEB Life Ethical Sweden;38.7007;553
+2011-02-02;SEB Life Europa Småbolag;12.0931;567
+2011-02-02;SEB Life Europafond Offensiv;778.265;562
+2011-02-02;SEB Life Europe Equity;13.7888;554
+2011-02-02;SEB Life Global Ethical Index;5.2615;560
+2011-02-02;SEB Life Global Fund;7.4407;551
+2011-02-02;SEB Life Index Linked Bond;18.5816;561
+2011-02-02;SEB Life Internet;6.4492;563
+2011-02-02;SEB Life Japan Equity;2.9988;556
+2011-02-02;SEB Life Latinamerikafond;15.9371;568
+2011-02-02;SEB Life Medical;16.4345;558
+2011-02-02;SEB Life N Amer Medelst Bolag;9.4929;569
+2011-02-02;SEB Life Nordenfond;11.2621;570
+2011-02-02;SEB Life Obligation Flexibel;10.6405;572
+2011-02-02;SEB Life Swe Short-Med Term;13.3414;552
+2011-02-02;SEB Life Sverige Småbolag;13.4384;571
+2011-02-02;SEB Life Technology;12.9135;559
+2011-02-02;SEB Life USA Index Fund;10.5946;555
+2011-02-02;SEB Life World;15.9308;550
+2011-02-02;SEB Life ÖstEuropa;28.3985;564
+2011-02-03;SEB Likviditetsfond SEK;10.0627;360
+2011-02-03;SEB Likviditetsfond SEK Ack;11.7083;395
+2011-02-03;SEB Listed Private Eq Lux ack;1572.504;830
+2011-02-03;SEB Läkemedelsfond;5.6494;388
+2011-02-03;SEB Läkemedelsfond Lux Utd;22.1859;931
+2011-02-03;SEB Multi Asset Def SEK - Lux ac;100.58;880
+2010-12-30;SEB Multihedge;91.515;530
+2011-02-03;SEB Norden Småbolag - Lux ack;1583.571;832
+2011-02-03;SEB Nordenfond;15.3158;382
+2011-02-03;SEB Nordenfond   Lux Ack;62.1483;909
+2011-02-03;SEB Nordic Focus SEK - Lux ack;98.5915;875
+2011-02-03;SEB Oblfond Flex SEK Lux Ack;21.306;926
+2011-02-03;SEB Oblfond Flex SEK Lux Utd;11.3109;927
+2011-02-03;SEB Oblfond Flexibel SEK;9.9372;358
+2011-02-03;SEB Oblfond SEK Lux Ack;42.9291;920
+2011-02-03;SEB Oblfond SEK Lux Utd;12.0239;921
+2011-02-03;SEB Obligationsfond SEK;9.8666;393
+2011-02-03;SEB PB Europeisk Aktieportfölj;86.9354;600
+2011-02-03;SEB PB Portfölj Försiktig;110.8889;603
+2011-02-03;SEB PB Svensk Aktieportfölj;148.5647;602
+2011-02-03;SEB Penningm Eur Lux utd;4.3188;861
+2011-02-03;SEB Penningmark Eur Lux Ack;11.205;944
+2011-02-03;SEB Penningmark SEK 2 Lux Utd;8.5805;938
+2011-02-03;SEB Penningmark SEK Lux Ack;22.0295;923
+2011-02-03;SEB Penningmark USD Lux Ack;16.0151;922
+2011-02-03;SEB Penningmarknadsfond SEK;9.9496;392
+2011-02-03;SEB Real Estate P I Lux utd;106.4586;0
+2011-02-03;SEB Real Estate Portf- Lux ack;104.6393;834
+2011-02-03;SEB Realräntefond SEK Lux Utd;13.4013;939
+2011-02-03;SEB Rysslandfond Lux Ack;113.8149;992
+2011-02-03;SEB Räntehedge Alpha;116.8611;540
+2011-02-03;SEB Schweizfond;13.5598;363
+2011-02-03;SEB Sh Bond HNW SEK - Lux ack;11.1628;876
+2011-02-03;SEB Sh Bond HNW SEK - Lux utd;10.0008;877
+2011-02-03;SEB Special Clients FiF Global;78.0271;727
+2011-02-03;SEB Special Clients Sverige;82.0132;726
+2011-02-03;SEB Stiftelsefond Balanserad;95.8372;0
+2011-02-03;SEB Stiftelsefond Obligation SEK;10.0812;62
+2011-02-03;SEB Stiftelsefond Sverige;17.0349;41
+2011-02-03;SEB Stiftelsefond Utland;5.2788;61
+2011-02-03;SEB Strategi Balanserad Global;9.8828;532
+2011-02-03;SEB Strategi Flexibel-Lux ack;99.1528;879
+2011-02-03;SEB Strategi Global;10.5786;533
+2011-02-03;SEB Strategi Möjlighet-Lux ack;131.2377;837
+2011-02-03;SEB Strategi Offensiv-Lux ack;137.73;839
+2011-02-03;SEB Strategi Tillväxt-Lux Ack;147.4988;838
+2011-02-03;SEB StrategiBalanserad-Lux Ack;124.3977;836
+2011-02-03;SEB Swedish Focus Fund;132.3944;713
+2011-02-03;SEB Swedish Value Fund;128.3361;712
+2011-02-03;SEB Sverige Indexfond;183.0948;736
+2011-02-03;SEB Sverige Småbolag Chans/Risk;93.3615;807
+2011-02-03;SEB Sverigefond;11.2869;372
+2011-02-03;SEB Sverigefond Chans/Risk;10.9027;374
+2011-02-03;SEB Sverigefond Småbolag;20.9919;364
+2011-02-03;SEB Sverigefond Stora Bolag;10.6825;381
+2011-02-03;SEB Teknologifond;16.041;389
+2011-02-03;SEB Teknologifond - Lux ack;1.5412;874
+2011-02-03;SEB Teknologifond Lux Utd;18.4833;937
+2011-02-03;SEB Total Balans;105.7196;601
+2011-02-03;SEB Total Potential;117.1013;604
+2011-02-03;SEB Trygg Placeringsfond;126.5603;44
+2011-02-03;SEB Trygghetsfond Ekorren;134.7397;368
+2011-02-03;SEB USA Indexfond Lux Ack;13.7837;991
+2011-02-03;SEB USA Indexfond Lux Utd;13.6434;936
+2011-02-03;SEB Världenfond;8.9913;391
+2011-02-03;SEB Världenfond - Lux ack;215.8779;873
+2011-02-03;SEB Världenfond Lux Utd;16.0882;932
+2011-02-03;SEB Östersjöfond/WWF;17.8379;60
+2011-02-03;SEB ÖstEurfond Småbo Lux Ack;34.228;951
+2011-02-03;SEB ÖstEurfondxRyssland Lux Ack;27.9989;940
+2011-02-03;SEB ÖstEuropafond;30.4219;39
+2011-02-02;SEB/Trygg Scottish Cash;168.58;0
+2011-02-02;SEB/Trygg Scottish Eq American;315.37;0
+2011-02-02;SEB/Trygg Scottish Eq Europe;271.82;0
+2011-02-02;SEB/Trygg Scottish Eq Far East;229.66;0
+2011-02-02;SEB/Trygg Scottish Eq Mixed;264.09;0
+2011-02-02;SEB/Trygg Scottish Europe Bond;178.3;0
+2011-02-03;SKF Allemansfond;182.1122;396
+2011-02-03;Aberdeen Global Emerg. Market;61.05;486
+2011-02-03;AMF Räntefond kort;106.04;484
+2011-02-03;AMF Räntefond lång;119.92;485
+2011-02-03;BlackRock European;76.75;461
+2011-02-03;BlackRock Latin America A2;96.06;465
+2011-02-03;Carlson Sverige Koncis;144.9;474
+2011-02-03;East Capital Balkanfonden;13.76;449
+2011-02-03;East Capital Rysslandsfonden;1515.67;436
+2011-02-03;East Capital Turkietfonden;9.51;456
+2011-02-02;Eaton Vance Intl PPA Em Mark;11.77;470
+2011-02-02;Eaton Vance Intl US Value A2;16.04;463
+2011-02-03;Enter Select;1116.52;471
+2011-02-03;Enter Select Pro;2269.86;472
+2011-02-03;Ethos Aktiefond;12.6663;542
+2011-02-03;Ethos Räntefond;10.0503;541
+2011-02-02;Fidelity Asian Special;33.97;404
+2011-02-02;Fidelity Euro Small;27.48;429
+2011-02-02;Fidelity Japan Advantage;19062;475
+2011-02-03;First State Asia Pac Lead Fund A;3.526;489
+2011-02-03;First State Asia Pac Lead Fund B;3.6648;487
+2011-02-02;Gartmore GL Focus Fund;6.8647;467
+2011-02-02;Goldman Sachs BRICs Ptf Eur;14.77;459
+2011-02-02;Goldman Sachs Euro CORE Flx;9.05;464
+2011-02-02;HSBC Brazil Equity;39.698;468
+2011-02-03;HSBC GIF Global Macro (M1) SEK;1130.851;491
+2011-02-02;HSBC Indian Equity;176.938;446
+2011-02-03;JOHCM Global Select Fund EUR R;1.326;488
+2011-02-02;JPM GL Natural Resources A Acc;25.51;457
+2011-02-02;JPM Global Focus A Acc.;16.06;476
+2011-02-02;JPM Highb Stat Mt N Aacc SEK H;929.79;490
+2011-02-02;JPM JF China Fund A;50.22;406
+2011-02-03;JRS Growth;128.4642;734
+2011-02-03;JRS Wealth;108.5397;733
+2011-02-02;Pioneer Emeg EUR & Med A;20.5;483
+2011-02-03;Schroder ISF Global Climate Ch;9.36;469
+2011-02-03;SPP AktieIndex Europa;84.5769;478
+2011-02-03;SPP AktieIndex Sverige;160.7719;477
+2011-02-03;SPP AktieIndex USA;75.2918;479
+2011-02-03;SPP Aktieindexfond Glob Sust.;57.9572;482
+2011-02-03;T-Rowe Price US L-Cap Grow. Eq A;14.36;462

@@ -1,0 +1,175 @@
+2001-10-03;Alliance Capital American Growth;29,89;0
+2001-10-04;Alliance Capital Amer Value PtA;8,86;434
+2001-10-03;Alliance Capital Glob Grow Trend;36,32;1
+2001-10-03;Alliance Capital Int Technology;97,66;433
+2001-10-04;FMG/Alterum Gl Quality;74,91;6014
+2001-10-03;Baring North America;55,02;0
+2001-10-03;Fidelity European Growth;6,39;1
+2001-10-03;Fidelity International;22,05;1
+2001-10-03;Fidelity European Small;12,69;429
+2001-10-03;JP Morgan Fleming JF Pacific;32,39;432
+2001-10-03;Goldman Gl Consumer Grow;8,33;426
+2001-10-03;Goldman Gl Financial Services;9,05;427
+2001-10-03;Goldman Sachs Global Eq;18,19;1
+2001-10-03;Goldman Sachs HiYi E Hedge;7,02;428
+2001-10-04;Mercury ST Global Opportunitie;16,84;0
+2001-10-04;Mercury ST Global Equity;78,24;424
+2001-10-04;Merrill Lynch Global Small Cap P;27,46;1
+2001-10-04;Pictet Biotech P;200,08;0
+2001-10-04;SEB Aktiesparfond;7,99;370
+2001-10-04;SEB Nordamerika Chans/Risk;12,13;270
+2001-10-04;SEB Asien (exkl. Japan);6,57;356
+2001-10-03;SEB Invest Concept Biotechnology;256,77;418
+2001-10-04;SEB Cancerfonden;10,72;268
+2001-10-04;SEB Ekorren Trygghetsfond;106,39;368
+2001-10-04;SEB Emerging Marketsfond;7,72;354
+2001-10-04;SEB Europafond;8,69;375
+2001-10-04;SEB Forskningsfond;8,61;264
+2001-10-04;SEB Lux Eq Global Chans/Risk;7,65;958
+2001-10-04;SEB Globalfond;8,35;376
+2001-09-28;SEB Hedgefond;56,02;6016
+2001-10-04;SEB Internetfond;4,77;269
+2001-10-04;SEB Internationell Obligation;12,54;357
+2001-10-04;SEB Lux Equity Japan Chans/Risk;5,39;955
+2001-10-04;SEB Life Internet;4,29;563
+2001-10-03;SEB Invest Neue Märkte;816,94;272
+2001-10-04;SEB Life Option Europa;1226,54;562
+2001-10-04;SEB Life Östeuropa;7,99;564
+2001-10-04;SEB Life Wireless Communication;1,97;565
+2001-10-04;SEB Nordamerikafond;9,39;361
+2001-10-04;SEB Nordenfond;9,53;351
+2001-10-04;SEB Lux Equity Opportun Europe;7,41;957
+2001-10-04;SEB Premiefond 50;7,33;972679
+2001-10-04;SEB Premiefond 55;7,32;936849
+2001-10-04;SEB Premiefond 60;7,33;901017
+2001-10-04;SEB Premiefond 65;7,32;865188
+2001-10-04;SEB Premiefond 70;7,32;829358
+2001-10-04;SEB Premiefond 75;7,32;793521
+2001-10-04;SEB Premiefond Aktiespar;6,75;106674
+2001-10-04;SEB Premiefond Asien;7,2;863357
+2001-10-04;SEB Premiefond Emerging Mkts;6,8;1
+2001-10-04;SEB Premiefond Europa;8,02;970848
+2001-10-04;SEB Premiefond Internet;1,73;1
+2001-10-04;SEB Premiefond Läkemedel;9,58;684209
+2001-10-04;SEB Premiefond Nordamerika;7,89;899187
+2001-10-04;SEB Premiefond Obligation;10,55;648378
+2001-10-04;SEB Premiefond Penningmarknad;10,29;612549
+2001-10-04;SEB Premiefond Sverige;6,53;791699
+2001-10-04;SEB Premiefond Teknologi;3,41;755868
+2001-10-04;SEB Premiefond Världen;7,77;142505
+2001-10-04;SEB Saab Allemansfond;68,23;380
+2001-10-04;SEB Schweizfond;10,28;363
+2001-10-04;SEB Stiftelsefond Obligation;10,19;6003
+2001-10-04;SEB Stiftelsefond Utland;8,64;6002
+2001-10-04;SEB Sverige Aktiefond I;7,68;372
+2001-10-04;SEB Sverige Aktiefond II;7,57;373
+2001-10-04;SEB Sverige Chans/Riskfond;7,35;374
+2001-10-04;SEB Lux (F) Avkastningsfond;11,19;410
+2001-10-04;SEB Lux Eq Wireless Communicat.;2,17;956
+2001-10-04;SEB Lux CS Europe Chance/Risk;9625,28;954
+2001-10-04;Schroders Asian Bond A (USD);6,23;1
+2001-10-04;Schroders Emer. Mark.Dept (USD);11,82;1
+2001-10-04;Schroders Emerging Europe Dis A;5,13;1
+2001-10-04;SEB/Trygg Scottish Eq Mixed;181,12;6015
+2001-10-04;SEB Lux (F) Europafond;16;406
+2001-10-04;SEB Lux (F) Asien (exkl. Japan);4,61;409
+2001-10-04;SEB Lux (F) Globalfond;12,85;404
+2001-10-04;SEB Lux (F) Japanfond;5,22;407
+2001-10-04;SEB Lux (F) Läkemedel/Bioteknik;33,6;412
+2001-10-04;SEB Lux (F) Miljöfond;7,71;405
+2001-10-04;SEB Lux (F) Nordamerikafond;22,31;401
+2001-10-04;SEB Lux (F) Sverige;25,69;411
+2001-10-04;SEB Lux (F) Räntefond;9,71;408
+2001-10-04;SEB Lux (F) Teknologifond;21,89;403
+2001-10-04;SEB Lux (F) Världenfond;14,34;402
+2001-10-04;SEB Life Avkastningsfond;13,89;561
+2001-10-04;SEB Life Europafond;13,69;554
+2001-10-04;SEB Life Asien (exkl. Japan);4,03;557
+2001-10-04;SEB Life Globalfond;10,8;551
+2001-10-04;SEB Life Japanfond;4,44;556
+2001-10-04;SEB Life Läkemedel- & Bioteknik;26;558
+2001-10-04;SEB Life Miljöfond;7,04;560
+2001-10-04;SEB Life Nordamerikafond;17,21;555
+2001-10-04;SEB Life Sverige Offensivfond;20,34;553
+2001-10-04;SEB Life Räntefond;12,38;552
+2001-10-04;SEB Life Teknologifond;14,59;559
+2001-10-04;SEB Life Världenfond;13,01;550
+2001-10-04;SEB Sverige Småbolag Chans/Risk;33,63;106
+2001-10-04;SEB Avkastning;10,07;358
+2001-10-04;SEB Europa Småbolagsfond;15,43;212
+2001-10-04;SEB Fastighetsfond;20,58;216
+2001-10-04;SEB Internationell Penningmark;13,61;203
+2001-10-04;SEB Japanfond;7,95;359
+2001-10-04;SEB Latinamerikafond;8,5;228
+2001-10-04;SEB Likviditetsfond;10,25;360
+2001-10-04;SEB Läkemedelsfond;9,71;371
+2001-10-04;SEB Miljöfond;12,25;209
+2001-10-04;SEB Nordamerika Medelstora Bol;899,24;222
+2001-10-04;SEB Nordenfond (exkl. Sverige);44,89;201
+2001-10-04;SEB Obligationsfond;10,26;378
+2001-10-04;SEB Penningmarknadsfond;10,08;362
+2001-10-04;SEB Råvarufond;14,75;208
+2001-10-04;SEB Sverige Småbolagsfond;8,81;364
+2001-10-04;SEB Teknologifond;19,58;219
+2001-10-04;SEB Trygghetsfond;549,68;6005
+2001-10-04;SEB Världenfond;8,63;377
+2001-10-04;SEB Östeuropafond;7,7;227
+2001-10-04;SEB Lux Bond International Acc;174,04;317
+2001-10-04;SEB Lux Bond International Inc;72,92;318
+2001-10-04;SEB Lux Eq Continental Europe;28,09;303
+2001-10-04;SEB Lux Bond Fund Euro Acc;9,61;324
+2001-10-04;SEB Lux Bond Fund Euro Inc;5,08;325
+2001-10-04;SEB Lux Bond Fund USD Inc;12,26;321
+2001-10-04;SEB Lux Bond Fund USD Acc;23,68;320
+2001-10-04;SEB Lux Eastern Europe Fund;7,09;302
+2001-10-04;SEB Lux Emerging Markets Fund;6,73;316
+2001-10-04;SEB Lux Bond Fund Europe Inc;9,16;305
+2001-10-04;SEB Lux Bond Fund Europe Acc;21,9;304
+2001-10-04;SEB Lux Asia Fund - ex Japan;24,68;306
+2001-10-04;SEB Lux Equity Fund Global;19,53;327
+2001-10-04;SEB Lux Equity International Acc;221,94;311
+2001-10-04;SEB Lux Equity International Inc;165,19;312
+2001-10-04;SEB Lux Equity Fund Japan;5,76;322
+2001-10-04;SEB Lux Equity Mediterranean;17,09;319
+2001-10-04;SEB Lux Equity Natural Resources;14,4;313
+2001-10-04;SEB Lux Equity Fund Nordic;32,04;326
+2001-10-04;SEB Lux Norge Aksjefond;10,41;328
+2001-10-04;SEB Lux Norge Rentefond;14,89;329
+2001-10-04;SEB Lux Equity North America;46,66;301
+2001-10-04;SEB Lux Short Bond Fund (SEK);17,81;309
+2001-10-04;SEB Lux Short Bond Fund USD;22,73;310
+2001-10-04;SEB Lux Bond Fund SEK Acc;30,03;307
+2001-10-04;SEB Lux Bond Fund SEK Inc;12,07;308
+2001-10-04;SEB Lux Bond SEK Flexible Inc;11,53;315
+2001-10-04;SEB Lux Bond SEK Flexible  Acc;16,33;314
+2001-10-04;SEB Lux Equity United Kingdom;40,56;323
+2001-10-04;SEB Norden Småbolagsfond;10,27;207
+2001-10-04;SEB Stiftelsefond Sverige;10,34;6004
+2001-10-04;SEB Trygg Placeringsfond;114,46;233
+2001-10-04;SEB Optionsrätter Europafond;1256,44;247
+2001-10-03;Fidelity Asian Special;6,67;254
+2001-10-03;Fidelity Australia;22,73;255
+2001-10-03;Fidelity France;25,1;252
+2001-10-03;Fidelity Germany;18,8;253
+2001-10-03;Fidelity Iberia;22;251
+2001-10-03;Fidelity Italy;17,11;250
+2001-10-03;JP Morgan Fleming JF China;9,95;256
+2001-10-04;Mercury ST Japan Opportunities;33,34;257
+2001-10-04;SEB Nordamerika Småbolagsfond;80,21;705
+2001-10-04;SEB Lux CS Germany Fund Acc;1097,84;948
+2001-10-04;SEB Lux CS US Fund Acc;3075,51;946
+2001-10-04;SEB Lux CS Asian Small Co;15,36;950
+2001-10-04;SEB Lux CS Baltic Smaller Comp;10,04;951
+2001-10-04;SEB Lux CS Germany Fund Inc;1056,34;949
+2001-10-04;SEB Lux CG China Guaranteed;1284,71;952
+2001-10-04;SEB Lux CS US Fund Inc;2870,05;947
+2001-10-04;SEB Lux CG Emerging Europe Guar;1046,22;953
+2001-10-04;SEB Lux Equity Fund Euroland;8,87;258
+2001-10-04;SEB Lux Short Bond Fund Euro;10,58;259
+2001-10-04;SEB/Trygg Scottish Eq American;321,18;6008
+2001-10-04;SEB/Trygg Scottish Cash;135,63;6009
+2001-10-04;SEB/Trygg Scottish Eq Europe;170,04;6010
+2001-10-04;SEB/Trygg Scottish Eq Far East;93,4;6011
+2001-10-04;SEB/Trygg Scottish Europe Bond;143,74;6013
+2001-10-04;SEB Asienfond;8,01;704
+2001-10-04;SEB Östersjöfond/WWF;10,86;265

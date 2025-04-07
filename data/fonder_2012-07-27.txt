@@ -1,0 +1,335 @@
+2012-07-27;Fondservice Sverige/Världen;73.546;716
+2012-07-27;Fondservice Världen;69.521;715
+2012-07-27;Mobilis Fokus;79.902;735
+2012-07-27;Mobilis Kapital Aktiv;89.958;714
+2012-07-27;Naventi Aktiv Förv Balanserad;92.858;724
+2012-07-27;Naventi Aktiv Förv Offensiv;80.885;725
+2012-07-27;Navigera Aktie 1;104.4722;730
+2012-07-27;Navigera Balans 1;104.2614;731
+2012-07-27;Navigera Tillväxt 1;118.3758;732
+2012-07-27;SEB Aktiesparfond;8.222;387
+2012-07-27;SEB Asienfond ex Japan;12.117;386
+2012-07-27;SEB Asienfond ex Japan Lux ack;55.991;902
+2012-07-27;SEB Asienfond ex Japan Lux utd;9.716;860
+2012-07-27;SEB Asienfond Småb x Jap Lux ack;26.64;950
+2012-07-27;SEB Asset Sel Def Lux ack LTD;78.389;965
+2012-07-27;SEB Asset Sel Def SEK Lux ack;99.796;870
+2012-07-27;SEB Asset Sel Opp ISEK Lux utd;99.295;868
+2012-07-27;SEB Asset Sel Opp SEK Lux ack;98.598;867
+2012-07-27;SEB Asset Selection SEK Lux ack;139.956;990
+2012-07-27;SEB Asset Selection SEK Lux utd;123.984;829
+2012-07-27;SEB Bioteknikfond  Lux ack;389.269;828
+2012-07-27;SEB Bioteknikfond  Lux utd;388.933;418
+2012-07-27;SEB Bond Fund HNW SEK - Lux utd;9.029;878
+2012-07-27;SEB Ch High Yield SEK Lux ack;146.447;863
+2012-07-27;SEB Choice Japanfond;3.91;359
+2012-07-27;SEB Choice NAmer Medelst Bolag;1024.406;12
+2012-07-27;SEB Choice Nordamerik Småbolag;103.737;705
+2012-07-27;SEB Corporate Bond Eur Lux ack;12.173;961
+2012-07-27;SEB Corporate Bond Eur Lux utd;8.396;962
+2012-07-27;SEB Corporate Bond SEK Lux ack;15.235;963
+2012-07-27;SEB Corporate Bond SEK Lux utd;9.951;964
+2012-06-29;SEB Credit Multi Strat C SEK;103.9658;894
+2012-06-29;SEB Credit Multi Strat ID SEK;100.8169;892
+2012-06-29;SEB Credit Multi Strategy HNWC;100.2268;890
+2012-07-27;SEB Emerging Market - Lux ack;17.52;925
+2012-07-27;SEB Emerging Marketsfond;16.681;385
+2012-07-27;SEB Etisk Europafond Lux ack;17.738;908
+2012-07-27;SEB Etisk Global Index Lux ack;5.624;827
+2012-07-27;SEB Etisk Global Index Lux utd;5.186;934
+2012-07-27;SEB Etisk Globalfond;7.935;32
+2012-07-27;SEB Etisk Sverigefond Lux utd;43.79;935
+2012-07-27;SEB Europa Chans/Risk Lux ack;9466.978;954
+2012-07-27;SEB Europa Indexfond Lux ack;36.967;911
+2012-07-27;SEB Europa Småbolag;26.42;518
+2012-07-27;SEB Europa Småbolag Lux utd;1125.541;409
+2012-07-27;SEB Europafond;6.314;383
+2012-07-27;SEB Europafond D - Lux utd;13.652;872
+2012-07-27;SEB Europafond Lux ack;26.173;901
+2012-07-27;SEB Europafond Offensiv;537.452;43
+2012-07-27;SEB Fastighetsfond;35.081;506
+2012-07-27;SEB Företagsobl.flex. SEK ack;123.188;719
+2012-07-26;SEB Garantifond 80;100.76;466
+2012-07-27;SEB Generationsfond 50-tal;7.53;63
+2012-07-27;SEB Generationsfond 60-tal;7.083;65
+2012-07-27;SEB Generationsfond 70-tal;7.031;67
+2012-07-27;SEB Generationsfond 80-tal - Lux;8.272;997
+2012-07-27;SEB Global Chans/Risk - Lux ack;6.502;958
+2012-07-27;SEB Global D Lux utd;10.723;862
+2012-07-27;SEB Global Valuefond Lux ack;64.705;549
+2012-07-27;SEB Global Valuefond Lux utd;56.688;813
+2012-07-27;SEB Globalfond Chans/Risk;5.661;376
+2012-07-27;SEB Globalfond Lux ack;17.605;903
+2012-06-29;SEB Hedge Fixed Income;1659.12;524
+2012-07-27;SEB Japanfond Chans/Risk Lux ack;3.321;955
+2012-07-27;SEB Japanfond Lux ack;3.527;907
+2012-07-27;SEB Japanfond Lux utd;3.121;980
+2012-06-29;SEB Key Eu Eq L/S SEK Lux ack;91.5435;840
+2012-06-29;SEB Key Hedge SEK - Lux ack;100.6206;852
+2012-07-27;SEB Key Select SEK-Lux ack;98.253;994
+2012-07-27;SEB Latinamerikafond;22.401;38
+2012-07-26;SEB Life Asia ex Japan;8.4951;557
+2012-07-26;SEB Life EM Mkts;12.266;566
+2012-07-26;SEB Life Ethical Sweden;36.6184;553
+2012-07-26;SEB Life Europa Småbolag;11.3931;567
+2012-07-26;SEB Life Europafond Offensiv;640.589;562
+2012-07-26;SEB Life Europe Equity;12.8095;554
+2012-07-26;SEB Life Global Ethical Index;5.083;560
+2012-07-26;SEB Life Global Fund;8.6922;551
+2012-07-26;SEB Life Index Linked Bond;20.8716;561
+2012-07-26;SEB Life Japan Equity;2.7166;556
+2012-07-26;SEB Life Latinamerikafond;13.8567;568
+2012-07-26;SEB Life Medical;20.1672;558
+2012-07-26;SEB Life N Amer Medelst Bolag;10.2271;569
+2012-07-26;SEB Life Nordenfond;10.1192;570
+2012-07-26;SEB Life Obligation Flexibel;11.0016;572
+2012-07-26;SEB Life Swe Short-Med Term;13.7587;552
+2012-07-26;SEB Life Sverige Småbolag;12.6699;571
+2012-07-26;SEB Life Technology;13.4625;559
+2012-07-26;SEB Life USA Index Fund;11.99;555
+2012-07-26;SEB Life World;16.7638;550
+2012-07-26;SEB Life ÖstEuropa;22.3991;564
+2012-07-27;SEB Likviditetsfond SEK;10.158;360
+2012-07-27;SEB Likviditetsfond SEK ack;11.92;395
+2012-07-27;SEB Listed PE Lux inst utd;703.537;831
+2012-07-27;SEB Listed Private Eq Lux ack;1230.964;830
+2012-07-27;SEB Lux Fund Extra - Novå;10.623;967
+2012-07-27;SEB Läkemedelsfond;6.948;388
+2012-07-27;SEB Läkemedelsfond Lux utd;27.775;931
+2012-07-27;SEB Multi Asset Def SEK - Lux ac;101.834;880
+2012-06-29;SEB Multihedge;88.2569;530
+2012-07-27;SEB Nordamerikafond;5.64;384
+2012-07-27;SEB Nordamerikafond C/R Lux ack;32.008;910
+2012-07-27;SEB Norden Småbolag - Lux ack;1367.62;832
+2012-07-27;SEB Nordenfond;12.891;382
+2012-07-27;SEB Nordenfond Lux ack;55.028;909
+2012-07-27;SEB Nordic Focus SEK - Lux ack;90.579;875
+2012-07-27;SEB Oblfond Flex SEK Lux ack;21.979;926
+2012-07-27;SEB Oblfond Flex SEK Lux utd;11.227;927
+2012-07-27;SEB Oblfond Flexibel SEK;10.027;358
+2012-07-27;SEB Oblfond SEK Lux ack;47.335;920
+2012-07-27;SEB Oblfond SEK Lux utd;12.263;921
+2012-07-27;SEB Obligationsfond SEK;10.039;393
+2012-07-27;SEB PB Europeisk Aktieportfölj;75.449;600
+2012-07-27;SEB PB Portfölj Försiktig;107.469;603
+2012-07-27;SEB PB Svensk Aktieportfölj;133.983;602
+2012-07-27;SEB Penningm Eur Lux utd;4.161;861
+2012-07-27;SEB Penningmark Eur Lux ack;10.797;944
+2012-07-27;SEB Penningmark SEK 2 Lux utd;8.403;938
+2012-07-27;SEB Penningmark SEK Lux ack;22.711;923
+2012-07-27;SEB Penningmark USD Lux ack;16.891;922
+2012-07-27;SEB Penningmarknadsfond SEK;10.016;392
+2012-07-27;SEB Real Estate P I Lux utd;106.138;835
+2012-07-27;SEB Real Estate Portf- Lux ack;103.806;834
+2012-07-27;SEB Realräntefond SEK Lux utd;14.329;939
+2012-07-27;SEB Rysslandfond Lux ack;80.592;992
+2012-07-27;SEB Räntehedge Alpha;120.931;540
+2012-07-27;SEB Schweizfond;11.721;363
+2012-07-27;SEB Sh Bond HNW SEK - Lux ack;11.551;876
+2012-07-27;SEB Sh Bond HNW SEK - Lux utd;9.882;877
+2012-07-27;SEB Special Clients FiF Global;67.643;727
+2012-07-27;SEB Special Clients Sverige;77.618;726
+2012-07-27;SEB Stiftelsefond Balanserad;84.026;728
+2012-07-27;SEB Stiftelsefond Obligation SEK;9.659;62
+2012-07-27;SEB Stiftelsefond Sverige;13.789;41
+2012-07-27;SEB Stiftelsefond Utland;4.91;61
+2012-07-27;SEB Strategi Balanserad Global;9.648;532
+2012-07-27;SEB Strategi Defensiv -Lux ack;102.181;879
+2012-07-27;SEB Strategi Global;9.689;533
+2012-07-27;SEB Strategi Möjlighet-Lux ack;119.739;837
+2012-07-27;SEB Strategi Offensiv-Lux ack;124.906;839
+2012-07-27;SEB Strategi Tillväxt-Lux Ack;128.473;838
+2012-07-27;SEB StrategiBalanserad-Lux ack;116.997;836
+2012-07-27;SEB Swedish Focus Fund;115.234;713
+2012-07-27;SEB Swedish Value Fund;110.064;712
+2012-07-27;SEB Sverige Indexfond;165.964;736
+2012-07-27;SEB Sverige Småbolag Chans/Risk;78.852;807
+2012-07-27;SEB Sverigefond;10.106;372
+2012-07-27;SEB Sverigefond Chans/Risk;9.817;374
+2012-07-27;SEB Sverigefond Småbolag;18.531;364
+2012-07-27;SEB Sverigefond Stora Bolag;9.651;381
+2012-07-27;SEB Teknologifond;16.859;389
+2012-07-27;SEB Teknologifond - Lux ack;1.607;874
+2012-07-27;SEB Teknologifond - Lux utd;19.274;937
+2012-07-27;SEB Total Balans;99.324;601
+2012-07-27;SEB Total Potential;114.272;604
+2012-07-27;SEB Trygg Placeringsfond;130.309;44
+2012-07-27;SEB Trygghetsfond Ekorren;133.521;368
+2012-07-27;SEB USA Indexfond Lux ack;15.609;991
+2012-07-27;SEB USA Indexfond Lux utd;15.142;936
+2012-07-27;SEB Världenfond;9.106;391
+2012-07-27;SEB Världenfond - Lux ack;227.857;873
+2012-07-27;SEB Världenfond - Lux utd;16.406;932
+2012-07-27;SEB Östersjöfond/WWF;15.165;60
+2012-07-27;SEB ÖstEurfond Småbo Lux ack;21.056;951
+2012-07-27;SEB ÖstEurfondxRyssland Lux ack;21.324;940
+2012-07-27;SEB ÖstEuropafond;23.035;39
+2012-07-26;SEB/Trygg Scottish Cash;167.69;0
+2012-07-26;SEB/Trygg Scottish Eq American;314.95;0
+2012-07-26;SEB/Trygg Scottish Eq Europe;232.45;0
+2012-07-26;SEB/Trygg Scottish Eq Far East;201.24;0
+2012-07-26;SEB/Trygg Scottish Eq Mixed;246.23;0
+2012-07-26;SEB/Trygg Scottish Europe Bond;181.37;0
+2012-07-27;SKF Allemansfond;154.781;396
+2012-07-27;Aberdeen Global Emerg. Market;60.8484;486
+2012-07-27;Alfred Berg Obligationsfond;1008.9;210
+2012-07-27;Alfred Berg Obligationsfond Plus;890.08;211
+2012-07-27;Alfred Berg Ryssland;359.98;212
+2012-07-27;AMF Aktiefond Småbolag;221.17;217
+2012-07-27;AMF Aktiefond Sverige;278.79;218
+2012-07-27;AMF Aktiefond Världen;176.21;219
+2012-07-27;AMF Balansfond;164.09;220
+2012-07-27;AMF Räntefond kort;107.18;484
+2012-07-27;AMF Räntefond lång;125.88;485
+2012-07-27;BlackRock European;73.82;461
+2012-07-27;BlackRock Latin America A2;75.9;465
+2012-07-26;Carnegie Likviditet;1150.676;235
+2012-07-27;Carnegie Medical;451.82;213
+2012-07-26;Carnegie Ryssland;46.2791;236
+2012-07-26;Carnegie Strategi;670.4363;237
+2012-07-27;Carnegie Svensk Kort Ränta;133.35;214
+2012-07-26;Carnegie Sverige;1145.088;238
+2012-07-27;Carnegie World Wide;504.57;215
+2012-07-27;Danske Invest Aktiv Förmögenhet;2121.95;225
+2012-07-27;Danske Invest Balanserad;136.41;226
+2012-07-27;Danske Invest Offensiv;136.97;229
+2012-07-27;Danske Invest Sve Likvid;1109.34;228
+2012-07-27;Danske Invest Sverige;2237.53;230
+2012-07-27;DNB Fund SEK Long Bond A;49.0291;222
+2012-07-27;DNB Fund SEK Short Bond A;26.7318;223
+2012-07-27;DNB Småbolagsfond;1364.6;224
+2012-07-27;DNB Sverige Koncis;112.28;474
+2012-07-27;East Capital Balkanfonden;8.96;449
+2012-07-27;East Capital Rysslandsfonden;1137.7;436
+2012-07-27;East Capital Turkietfonden;8.48;456
+2012-07-27;East Capital ÖstEuropafonden;31.68;448
+2012-07-26;Eaton Vance Intl PPA Em Mark;9.98;470
+2012-07-26;Eaton Vance Intl US Value A2;15.8;463
+2012-07-27;Enter Select;973.32;471
+2012-07-27;Enter Select Pro;1956.71;472
+2012-07-27;Ethos Aktiefond;10.783;542
+2012-07-26;Ethos Global EQT - IC (SEK);95.44;0
+2012-07-26;Ethos Global EQT - ID (SEK);95.73;0
+2012-07-27;Ethos Räntefond;9.859;541
+2012-07-27;Etiskt Urval Global icke-utd;74.3399;612
+2012-07-26;Fidelity Asian Special;28.67;404
+2012-07-26;Fidelity Euro Small;25.11;429
+2012-07-26;Fidelity Japan Advantage;15471;475
+2012-07-27;First State Asia Pac Lead Fund B;3.7982;487
+2012-07-26;Goldman Sachs BRICs EAc;11.92;459
+2012-07-26;Goldman Sachs Euro CORE Flx;7.95;464
+2012-07-26;Goldman Sachs N11 EQ EAc;10.12;422
+2012-07-27;Handelsbanken Flermarknadsfond;167.55;311
+2012-07-27;Handelsbanken Globalfond;215.19;312
+2012-07-27;Handelsbanken Korträntefond;101.3;314
+2012-07-27;Handelsbanken Latinamerikafond;261.1;315
+2012-07-27;Handelsbanken Långräntefond;104.63;316
+2012-07-27;Handelsbanken Nordenfond;512.95;317
+2012-07-27;Handelsbanken NorSmå;336.02;318
+2012-07-27;Handelsbanken Sve Index Etisk;126.3;320
+2012-07-27;Handelsbanken Svenska Småbolag;522;319
+2012-07-27;Handelsbanken Sverige/Världen;163.81;321
+2012-07-27;Handelsbanken Sverigefond;945.47;322
+2012-07-27;Handelsbanken Sverigefond Index;5256.05;323
+2012-07-27;Handelsbanken Östeuropa;360.1;325
+2012-07-26;Henderson Gartmore Glob Focus;6.6032;467
+2012-07-26;HSBC Brazil Equity;28.923;468
+2012-07-27;HSBC GIF Global Macro (M1) SEK;1036.149;491
+2012-07-26;HSBC Indian Equity;116.308;446
+2012-07-26;ING LRenta EmrgMktDb Loc Bd;244;421
+2012-07-27;JOHCM Global Select Fund EUR R;1.336;488
+2012-07-26;JPM GL Natural Resources A Acc;16.69;457
+2012-07-26;JPM Global Focus A Acc.;15.58;476
+2012-07-26;JPM Highb Stat Mt N Aacc SEK H;928.65;490
+2012-07-26;JPM JF China Fund A;36.59;406
+2012-07-27;JRS Growth;120.069;734
+2012-07-27;JRS Wealth;102.089;733
+2012-07-27;Lannebo Likviditet;106.81;326
+2012-07-27;Lannebo Småbolag;32.88;327
+2012-07-27;Lannebo Sverige;16.62;328
+2012-07-27;Länsförs Europafond;237.5497;330
+2012-07-27;Länsförs Fastighetsfond;1258.514;331
+2012-07-27;Länsförs Globalfond;196.974;332
+2012-07-27;Länsförs Obligationsfond;146.01;334
+2012-07-27;Länsförs Penningmarknadsfond;102.2426;335
+2012-07-27;Länsförs Småbolagsfond;275.0825;336
+2012-07-27;Länsförs Sverigefond;727.4331;337
+2012-07-27;Länsförs Tillväxtmarknad;221.0787;338
+2012-07-27;Länsförs Total;21.5222;339
+2012-07-27;Max Matthi. Navigera Dynamica 90;93.229;738
+2012-07-27;Montanaro EU Sm. Comp. EUR Acc;3.106;420
+2012-07-27;Nordea Alfa;561.0405;610
+2012-07-27;Nordea Beta;299.823;611
+2012-07-27;Nordea Europafond;297.8917;613
+2012-07-27;Nordea Futura;362.3305;614
+2012-07-27;Nordea LikvInvest;151.9691;617
+2012-07-27;Nordea Nordamerikafond;408.3232;618
+2012-07-27;Nordea Nordenfond;535.4165;619
+2012-07-27;Nordea Optima;466.2219;621
+2012-07-27;Nordea Realränta;147.8613;622
+2012-07-27;Nordea Rysslandsfond;106.4556;623
+2012-07-27;Nordea Sekura;280.5701;624
+2012-07-27;Nordea Selekta Europa;322.3244;625
+2012-07-27;Nordea Småbolag Norden;48.5022;626
+2012-07-27;Nordea Spektra;404.3783;627
+2012-07-27;Nordea Sverige;701.3086;628
+2012-07-27;Nordea Tillväxtbolagsfond;118.5412;629
+2012-07-27;Obligationsfond icke-utd;114.576;620
+2012-07-27;Odin Europa SMB;151.71;285
+2012-07-27;Odin Finland;4215.93;286
+2012-07-27;Odin Norden;1270.2;287
+2012-07-27;Odin Norge;1968.13;288
+2012-07-27;Odin Sverige;1654.68;289
+2012-07-26;Pimco Unconstrained Bond Fund;106.56;419
+2012-07-26;Pioneer Emeg EUR & Med A;16.82;483
+2012-07-27;Robur Absolutavkastning Ränta;253.55;254
+2012-07-27;Robur Allemansfond Komplett;39.62;258
+2012-07-27;Robur Amerikafond;22.71;260
+2012-07-27;Robur Ethica Sverige;4779.7;232
+2012-07-27;Robur Ethica Sverige Global;137.34;263
+2012-07-27;Robur Europafond;15.17;264
+2012-07-27;Robur Exportfond;58.53;265
+2012-07-27;Robur Kapitalinvest;58.72;266
+2012-07-27;Robur Kinafond;117.92;267
+2012-07-27;Robur Lux Sv Likviditetsfond;137.01;282
+2012-07-27;Robur Medica;8.75;269
+2012-07-27;Robur Mixfond;20.54;270
+2012-07-27;Robur Nordenfond;62.82;271
+2012-07-27;Robur Obligationsfond;122.7;272
+2012-07-27;Robur Pacificfond;24.33;273
+2012-07-27;Robur Penningmarknadsfond;99.99;274
+2012-07-27;Robur Realinvest;20.96;275
+2012-07-27;Robur Realräntefond;133.13;276
+2012-07-27;Robur Rysslandsfond;19.89;277
+2012-07-27;Robur Räntefond Sverige;106.37;278
+2012-07-27;Robur Småbolagsfond Europa;15.94;279
+2012-07-27;Robur Småbolagsfond Norden;69.42;280
+2012-07-27;Robur Småbolagsfond Sverige;42.42;281
+2012-07-27;Robur Sverigefond;233.69;283
+2012-07-27;Robur Technology;95.34;261
+2012-07-27;Robur Östeuropafond;26.05;284
+2012-07-26;Schroder ISF Global Climate Ch;8.72;469
+2012-07-27;Silk - African Lions Fund - AR;103.43;292
+2012-07-27;Skandia Asia;211.49;246
+2012-07-27;Skandia Balanserad;256.76;247
+2012-07-27;Skandia Europa;271.98;244
+2012-07-27;Skandia Kapitalmarknad;169.91;248
+2012-07-27;Skandia Offensiv;240.08;249
+2012-07-27;Skandia Penningmarknad;131.89;250
+2012-07-27;Skandia Realräntefond;144.11;251
+2012-07-27;Skandia Småbolag Sverige;292.16;252
+2012-07-27;Skandia Sverige;682.23;253
+2012-07-27;Skandia Världen;222.37;245
+2012-07-27;SPP Aktiefond Europa;74.0368;478
+2012-07-27;SPP Aktiefond Sverige;151.5192;477
+2012-07-27;SPP Aktiefond Sverige Aktiv;365.6833;216
+2012-07-27;SPP Aktiefond USA;83.7016;479
+2012-07-27;SPP Aktieindexfond Glob Sust.;54.884;482
+2012-07-27;Söderberg Trygghet 75 TL;109.2188;630
+2012-07-27;Söderberg Trygghet 80 TL;107.6;631
+2012-07-27;Söderberg Trygghet 85 TL;105.4287;632
+2012-07-27;Söderberg Trygghet 90 TL;104.0388;633
+2012-07-26;T-Rowe Price US L-Cap Grow. Eq A;14.65;462
+2012-07-26;William Blair Emg Leaders (D);87.06;293
+2012-07-26;William Blair US All Cap G (D);125.05;423
+2012-07-26;Vontobel Belvista Comm. H SEK;975.05;492

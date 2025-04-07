@@ -1,0 +1,182 @@
+2001-05-17;SEB Lång Obligationsfond;10,27;710
+2001-05-16;Alliance Capital American Growth;37,43;0
+2001-05-16;Alliance Capital Glob Grow Trend;44,12;1
+2001-05-17;FMG/Alterum Gl Quality;88,52;6014
+2001-05-17;Baring North America;73,17;0
+2001-05-16;Fidelity European Growth;8,04;1
+2001-05-16;Fidelity International;28,06;1
+2001-05-16;Fidelity European Small;18,89;429
+2001-05-16;Fleming Pacific;39,75;432
+2001-05-17;Goldman Gl Consumer Grow;10,96;426
+2001-05-17;Goldman Gl Financial Services;11,1;427
+2001-05-17;Goldman Sachs Global Eq;22,9;1
+2001-05-17;Goldman Sachs HiYi E Hedge;7,98;428
+2001-05-17;Mercury ST Global Opportunitie;21,4;0
+2001-05-17;Mercury ST Global Equity;96,35;424
+2001-05-16;Merrill Lynch Global Small Cap P;33;1
+2001-05-17;Pictet Biotech P (USD);228,37;0
+2001-05-17;SEB Aktiesparfond;10,58;350
+2001-05-17;SEB Nordamerika Chans/Risk;14,93;270
+2001-05-17;SEB Asien (exkl. Japan);8,25;356
+2001-05-17;SEB Invest Concept Biotechnology;298,45;418
+2001-05-17;SEB Cancerfonden;12,32;268
+2001-05-17;SEB Ekorren Trygghetsfond;121,66;368
+2001-05-17;SEB Emerging Marketsfond;9,8;354
+2001-05-17;SEB Europafond;11,51;355
+2001-05-17;SEB Forskningsfond;10,86;264
+2001-05-17;SEB Lux Eq Global Chans/Risk;9,14;958
+2001-05-15;SEB Hedgefond;57,83;6016
+2001-05-17;SEB Internetfond;9,77;269
+2001-05-17;SEB Internationell Obligation;11,79;357
+2001-05-17;SEB Lux Equity Japan Chans/Risk;6,57;955
+2001-05-17;SEB Life Internet;9,27;563
+2001-05-17;SEB Invest Neue Märkte;1230,93;272
+2001-05-17;SEB Life Option Europa;1599,89;562
+2001-05-17;SEB Life Östeuropa;9,36;564
+2001-05-17;SEB Life Wireless Communication;3,6;565
+2001-05-17;SEB Nordamerikafond;10,79;361
+2001-05-17;SEB Nordenfond;12,76;351
+2001-05-17;SEB Lux Equity Opportun Europe;8,74;1
+2001-05-17;SEB Premiefond 50;8,84;972679
+2001-05-17;SEB Premiefond 55;8,83;936849
+2001-05-17;SEB Premiefond 60;8,86;901017
+2001-05-17;SEB Premiefond 65;8,86;865188
+2001-05-17;SEB Premiefond 70;8,86;829358
+2001-05-17;SEB Premiefond 75;8,87;793521
+2001-05-17;SEB Premiefond Aktieobligation;9,54;757690
+2001-05-17;SEB Premiefond Aktiespar;8,4;106674
+2001-05-17;SEB Premiefond Asien;8,99;863357
+2001-05-17;SEB Premiefond Emerging Mkts;8,89;1
+2001-05-17;SEB Premiefond Europa;9,64;970848
+2001-05-17;SEB Premiefond Internet;3,57;1
+2001-05-17;SEB Premiefond Läkemedel;9,77;684209
+2001-05-17;SEB Premiefond Nordamerika;9,49;899187
+2001-05-17;SEB Premiefond Obligation;10,29;648378
+2001-05-17;SEB Premiefond Penningmarknad;10,23;612549
+2001-05-17;SEB Premiefond Sverige;8,41;791699
+2001-05-17;SEB Premiefond Teknologi;5,5;755868
+2001-05-17;SEB Premiefond Världen;8,89;142505
+2001-05-17;SEB Schweizfond;12,29;363
+2001-05-17;SEB Stiftelsefond Obligation;10,32;6003
+2001-05-17;SEB Stiftelsefond Utland;10,86;6002
+2001-05-17;SEB Sverigefond 1;10,83;352
+2001-05-17;SEB Sverige Chans/Riskfond;10,67;353
+2001-05-17;SEB Sverige Offensivfond;10,78;365
+2001-05-17;SEB Lux (F) Avkastningsfond;10,96;410
+2001-05-17;SEB Lux Eq Wireless Communicat.;3,98;956
+2001-05-17;SEB Lux CS Europe Chance/Risk;11744,8;954
+2001-05-17;SEB ABB F-anknuten Allemansfond;87,98;701
+2001-05-17;Schroders Asian Bond A (USD);5,91;1
+2001-05-17;Schroders Emer. Mark.Dept (USD);11,61;1
+2001-05-17;Schroders Emerging Europe Dis A;6,89;1
+2001-05-17;SEB/Trygg Scottish Eq Mixed;223,58;6015
+2001-05-17;SEB Lux (F) Europafond;18,43;406
+2001-05-17;SEB Lux (F) Asien (exkl. Japan);5,8;409
+2001-05-17;SEB Lux (F) Globalfond;15,37;404
+2001-05-17;SEB Lux (F) Japanfond;6,38;407
+2001-05-17;SEB Lux (F) Läkemedel/Bioteknik;34,3;412
+2001-05-17;SEB Lux (F) Miljöfond;9,38;405
+2001-05-17;SEB Lux (F) Nordamerikafond;25,63;401
+2001-05-17;SEB Lux (F) Sverige;33,38;411
+2001-05-17;SEB Lux (F) Räntefond;9,56;408
+2001-05-17;SEB Lux (F) Teknologifond;35,35;403
+2001-05-17;SEB Lux (F) Världenfond;16,53;402
+2001-05-17;SEB Life Avkastningsfond;13,62;561
+2001-05-17;SEB Life Europafond;16,05;554
+2001-05-17;SEB Life Asien (exkl. Japan);5,12;557
+2001-05-17;SEB Life Globalfond;12,97;551
+2001-05-17;SEB Life Japanfond;5,46;556
+2001-05-17;SEB Life Läkemedel- & Bioteknik;25,97;558
+2001-05-17;SEB Life Miljöfond;8,68;560
+2001-05-17;SEB Life Nordamerikafond;19,7;555
+2001-05-17;SEB Life Sverige Offensivfond;26,67;553
+2001-05-17;SEB Life Räntefond;12,2;552
+2001-05-17;SEB Life Teknologifond;24,52;559
+2001-05-17;SEB Life Världenfond;15,04;550
+2001-05-17;SEB Sverige Småbolag Chans/Risk;50,95;106
+2001-05-17;SEB Sverigefond 2;15,01;102
+2001-05-17;SEB Avkastning;10,26;358
+2001-05-17;SEB Europa Småbolagsfond;20,16;212
+2001-05-17;SEB Fastighetsfond;21,17;216
+2001-05-17;SEB Internationell Penningmark;13,67;203
+2001-05-17;SEB Japanfond;9,57;359
+2001-05-17;SEB Latinamerikafond;10,85;228
+2001-05-17;SEB Likviditetsfond;10,44;360
+2001-05-17;SEB Läkemedels- och Bioteknikf;46,51;223
+2001-05-17;SEB Miljöfond;14,88;209
+2001-05-17;SEB Nordamerika Medelstora Bol;1011,35;222
+2001-05-17;SEB Nordenfond (exkl. Sverige);55,41;201
+2001-05-17;SEB Obligationsfond 1;9,21;221
+2001-05-17;SEB Penningmarknadsfond;10,31;362
+2001-05-17;SEB Råvarufond;16,93;208
+2001-05-17;SEB Sverige Småbolagsfond;12,41;364
+2001-05-17;SEB Teknologifond;31,79;219
+2001-05-17;SEB Trygghetsfond;711,95;6005
+2001-05-17;SEB Utlandsfond;18,58;220
+2001-05-17;SEB Världenfond;10,67;366
+2001-05-17;SEB Östeuropafond;9,1;227
+2001-05-17;SEB Lux Bond International Acc;159,2;317
+2001-05-17;SEB Lux Bond International Inc;66,7;318
+2001-05-17;SEB Lux Eq Continental Europe;32,99;303
+2001-05-17;SEB Lux Bond Fund Euro Acc;8,56;324
+2001-05-17;SEB Lux Bond Fund Euro Inc;4,52;325
+2001-05-17;SEB Lux Bond Fund USD Inc;11,14;321
+2001-05-17;SEB Lux Bond Fund USD Acc;21,53;320
+2001-05-17;SEB Lux Eastern Europe Fund;8,38;302
+2001-05-17;SEB Lux Emerging Markets Fund;8,68;316
+2001-05-17;SEB Lux Bond Fund Europe Inc;8,22;305
+2001-05-17;SEB Lux Bond Fund Europe Acc;19,67;304
+2001-05-17;SEB Lux Asia Fund - ex Japan;31;306
+2001-05-17;SEB Lux Equity Fund Global;23,39;327
+2001-05-17;SEB Lux Equity International Acc;246,33;311
+2001-05-17;SEB Lux Equity International Inc;183,34;312
+2001-05-17;SEB Lux Equity Fund Japan;7,06;322
+2001-05-17;SEB Lux Equity Mediterranean;20,56;319
+2001-05-17;SEB Lux Equity Natural Resources;16,75;313
+2001-05-17;SEB Lux Equity Fund Nordic;43,44;326
+2001-05-17;SEB Lux Norge Aksjefond;13,23;328
+2001-05-17;SEB Lux Norge Rentefond;13,56;329
+2001-05-17;SEB Lux Equity North America;54,02;301
+2001-05-17;SEB Lux Short Bond Fund (SEK);17,5;309
+2001-05-17;SEB Lux Short Bond Fund USD;21,57;310
+2001-05-17;SEB Lux Bond Fund SEK Acc;29,25;307
+2001-05-17;SEB Lux Bond Fund SEK Inc;11,75;308
+2001-05-17;SEB Lux Bond SEK Flexible Inc;11,28;315
+2001-05-17;SEB Lux Bond SEK Flexible  Acc;15,96;314
+2001-05-17;SEB Lux Equity United Kingdom;46,18;323
+2001-05-17;SEB Norden Småbolagsfond;14,21;207
+2001-05-17;SEB Stiftelsefond Sverige;14,11;6004
+2001-05-17;SEB Trygg Placeringsfond;122,74;233
+2001-05-17;SEB Klar Placeringsfond;270,94;234
+2001-05-17;SEB Offensiv Placeringsfond;166,02;235
+2001-05-17;SEB Läkemedelsfond;220,36;246
+2001-05-17;SEB Optionsrätter Europafond;1643,08;247
+2001-05-17;SEB Obligationsfond 2;122,25;248
+2001-05-16;Fidelity Asian Special;9,01;254
+2001-05-16;Fidelity Australia;25,41;255
+2001-05-16;Fidelity France;32,23;252
+2001-05-16;Fidelity Germany;25,82;253
+2001-05-16;Fidelity Iberia;27,83;251
+2001-05-16;Fidelity Italy;22,48;250
+2001-05-16;Fleming China;13,64;256
+2001-05-17;Mercury ST Japan Opportunities;38,41;257
+2001-05-17;SEB Globalfond;27;703
+2001-05-17;SEB Tysklandsfond;17,58;706
+2001-05-17;SEB Nordamerika Småbolagsfond;94,87;705
+2001-05-17;SEB Lux CS Germany Fund Acc;1351,74;948
+2001-05-17;SEB Lux CS US Fund Acc;3826;946
+2001-05-17;SEB Lux CS Asian Small Co;17,79;950
+2001-05-17;SEB Lux CS Baltic Smaller Comp;12,59;951
+2001-05-17;SEB Lux CS Germany Fund Inc;1300,63;949
+2001-05-17;SEB Lux CG China Guaranteed;1375,48;952
+2001-05-17;SEB Lux CS US Fund Inc;3570,4;947
+2001-05-17;SEB Lux CG Emerging Europe Guar;1042,96;953
+2001-05-17;SEB Lux Equity Fund Euroland;10,6;258
+2001-05-17;SEB Lux Short Bond Fund Euro;9,66;259
+2001-05-17;SEB/Trygg Scottish Eq American;397,81;6008
+2001-05-17;SEB/Trygg Scottish Cash;134,35;6009
+2001-05-17;SEB/Trygg Scottish Eq Europe;223,42;6010
+2001-05-17;SEB/Trygg Scottish Eq Far East;125,81;6011
+2001-05-17;SEB/Trygg Scottish Europe Bond;137,95;6013
+2001-05-17;SEB Asienfond;10,06;704
+2001-05-17;SEB Östersjöfond/WWF;14,71;265

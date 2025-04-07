@@ -1,0 +1,159 @@
+2003-12-17;Alliance Capital American Growth;25,65;275
+2003-12-17;ACM Bernstein American Value;8,78;434
+2003-12-17;Alliance Capital Glob Grow Trend;40,57;276
+2003-12-17;Alliance Capital Int Technology;96,98;433
+2003-12-18;Alterum Global Quality Growth;71,74;271
+2003-12-18;Baring North America;56,59;278
+2003-12-18;East Capital Ryssland SEK;411,42;436
+2003-12-17;Fidelity European Growth;6,957;431
+2003-12-17;Fidelity International;22,27;430
+2003-12-17;Fidelity European Small;12,75;429
+2003-12-17;JPMF Pacific Equity A;41,36;432
+2003-12-18;Goldman Gl Consumer Grow;9,41;426
+2003-12-18;Goldman Gl Financial Services;11,93;427
+2003-12-18;Goldman Sachs Global Eq;19,44;425
+2003-12-18;Goldman Sachs HiYi E Hedge;8,27;428
+2003-12-17;Merrill Lynch Global Opportun;19,07;274
+2003-12-17;Merrill Lynch Global Equity;82,09;424
+2003-12-17;Merrill Lynch Global Small Cap P;35,83;273
+2003-12-18;Pictet Biotech P;196,07;277
+2003-12-18;SEB Europa Chans/Risk - Lux Ack;8015,261;954
+2003-12-18;SEB Aktiesparfond;5,845;387
+2003-12-18;SEB Nordamerikafond Chans/Risk;7,372;270
+2003-12-18;SEB Asienfond ex Japan;6,902;386
+2003-12-18;SEB Corporate Bond EUR - Lux Ack;10,167;961
+2003-12-18;SEB Corporate Bond EUR - Lux Utd;9,854;962
+2003-12-18;SEB Corporate Bond SEK - Lux Ack;11,342;963
+2003-12-18;SEB Corporate Bond SEK - Lux Utd;10,983;964
+2003-12-18;SEB Bioteknikfond - Lux Ack;165,68;418
+2003-12-18;SEB Cancerfonden;7,728;268
+2003-12-18;SEB Ekorren Trygghetsfond;98,13;368
+2003-12-18;SEB Emerging Marketsfond;8,587;385
+2003-12-18;SEB Europeisk Aktieportfölj;77,417;1
+2003-12-18;SEB Europafond;5,941;383
+2003-12-18;SEB Fond i fond Balanserad;9,801;1
+2003-12-18;SEB Fond i fond Global;9,503;1
+2003-12-18;SEB Forskningsfond Sv Läk Sällsk;5,312;264
+2003-12-18;SEB Global Chans/Risk - Lux Ack;4,743;958
+2003-12-18;SEB Globalfond;5,189;376
+2003-12-15;SEB Hedgefond Equity;41,983;6016
+2003-12-18;SEB Internetfond;4,603;390
+2003-12-18;SEB Oblfond Global SEK;9,524;357
+2003-12-18;SEB Japan Chans/Risk - Lux Ack;3,889;955
+2003-12-18;SEB Likviditetsfond SEK Ack;10,345;395
+2003-12-18;SEB Life Internetfond;4,852;563
+2003-12-18;SEB Europa Småbolag - Lux Ack;563,14;272
+2003-12-18;SEB Life Optionsrätter Europafnd;702,467;562
+2003-12-18;SEB Life Östeuropafond;12,029;564
+2003-12-18;SEB Life Wireless Communication;1,262;565
+2003-12-18;SEB Modellportfölj;84,596;1
+2003-12-18;SEB Nordamerikafond;5,322;384
+2003-12-18;SEB Nordenfond;8,759;382
+2003-12-18;SEB Optionsrätter Eur - Lux Ack;5,798;957
+2003-12-18;SEB Premiefond 50;5,312;972679
+2003-12-18;SEB Premiefond 55;5,298;936849
+2003-12-18;SEB Premiefond 60;5,319;901017
+2003-12-18;SEB Premiefond 65;5,321;865188
+2003-12-18;SEB Premiefond 70;5,307;829358
+2003-12-18;SEB Premiefond 75;5,272;793521
+2003-12-18;SEB Schweizfond;7,802;363
+2003-12-18;SKF Allemansfond;94,534;1
+2003-12-18;SEB Stiftelsefond Obligation SEK;10,51;6003
+2003-12-18;SEB Stiftelsefond Utland;5,52;6002
+2003-12-18;SEB Sverigefond I;6,638;372
+2003-12-18;SEB Sverigefond II;6,5;381
+2003-12-18;SEB Sverige Chans/Risk;6,637;374
+2003-12-18;SEB Svensk Aktieportfölj;85,846;1
+2003-12-18;SEB Realräntefond SEK - Lux Utd;11,195;410
+2003-12-18;SEB Wirelessfond - Lux Ack;1,322;956
+2003-12-18;Selector Global Value A1;1115,1;437
+2003-12-18;Schroder Emerging Mkt Debt A Acc;17,45;280
+2003-12-18;Schroder Emerging Europe A Acc;8,85;279
+2003-12-18;SEB/Trygg Scottish Eq Mixed;175,54;6015
+2003-12-18;SEB Europafond - Lux Utd;11,918;406
+2003-12-18;SEB Asienfond ex Japan - Lux Utd;5,121;409
+2003-12-18;SEB Globalfond - Lux Utd;8,418;404
+2003-12-18;SEB Japanfond - Lux Utd;3,647;407
+2003-12-18;SEB Läkemedelsfond - Lux Utd;20,808;412
+2003-12-18;SEB Etisk Globalfond - Lux Utd;5,218;405
+2003-12-18;SEB Nordamerikafond - Lux Utd;13,688;401
+2003-12-18;SEB Etisk Sverigefond - Lux Utd;24,4;411
+2003-12-18;SEB Penningmark SEK 2 - Lux Utd;9,843;408
+2003-12-18;SEB Teknologifond - Lux Utd;16,111;403
+2003-12-18;SEB Världenfond - Lux Utd;12,152;402
+2003-12-18;SEB Life Fund Index Linked Bond;14,48;561
+2003-12-18;SEB Life Fund Europe Equity;10,481;554
+2003-12-18;SEB Life Fund Asia Equity;4,587;557
+2003-12-18;SEB Life Fund Global Equity;7,18;551
+2003-12-18;SEB Life Fund Japan Equity;3,164;556
+2003-12-18;SEB Life Fund Medical;16,053;558
+2003-12-18;SEB Life Fund Ethical Global;4,892;560
+2003-12-18;SEB Life Fund North America Eq;10,713;555
+2003-12-18;SEB Life Fund Ethical Sweden;19,898;553
+2003-12-18;SEB Life Fund Swe Short-Med Term;12,727;552
+2003-12-18;SEB Life Fund Technology;11,765;559
+2003-12-18;SEB Life Fund World;11,449;550
+2003-12-18;SEB Sverige Småbolag Chans/Risk;41,176;106
+2003-12-18;SEB Oblfond Flexibel SEK;10,271;358
+2003-12-18;SEB Europafond Småbolag;14,577;212
+2003-12-18;SEB Fastighetsfond;22,629;216
+2003-12-18;SEB Penningmark Global SEK;9,462;203
+2003-12-18;SEB Japanfond;5,13;359
+2003-12-18;SEB Latinamerikafond;7,05;228
+2003-12-18;SEB Likviditetsfond SEK;10,28;360
+2003-12-18;SEB Läkemedelsfond;5,72;388
+2003-12-18;SEB Etisk Globalfond;7,74;209
+2003-12-18;SEB Nordamerika Medelstora Bolag;696,304;222
+2003-12-18;SEB Oblfond SEK;10,411;393
+2003-12-18;SEB Penningmark SEK;10,309;392
+2003-12-18;SEB Råvarufond;13,451;208
+2003-12-18;SEB Sverigefond Småbolag;10,535;364
+2003-12-18;SEB Teknologifond;14,415;389
+2003-12-18;SEB Världenfond;6,916;391
+2003-12-18;SEB Östeuropafond;12,263;227
+2003-12-18;SEB Oblfond Global USD - Lux Ack;151,815;317
+2003-12-18;SEB Oblfond Global USD - Lux Utd;58,453;318
+2003-12-18;SEB Euro Marketsfond 1- Lux Ack;20,608;303
+2003-12-18;SEB Oblfond EUR - Lux Ack;9,978;324
+2003-12-18;SEB Oblfond EUR - Lux Utd;4,776;325
+2003-12-18;SEB Oblfond USD - Lux Utd;8,479;321
+2003-12-18;SEB Oblfond USD - Lux Ack;17,958;320
+2003-12-18;SEB Östeuropafond - Lux Ack;11,598;302
+2003-12-18;SEB Emerging Markets - Lux Ack;8,123;316
+2003-12-18;SEB Oblfond Europa USD - Lux Utd;8,458;305
+2003-12-18;SEB Oblfond Europa USD - Lux Ack;22,101;304
+2003-12-18;SEB Asienfond ex Japan - Lux Ack;27,806;306
+2003-12-18;SEB Globalfond - Lux Ack;12,81;327
+2003-12-18;SEB Internat Blandfond - Lux Ack;160,901;311
+2003-12-18;SEB Internat Blandfond - Lux Utd;117,554;312
+2003-12-18;SEB Japanfond - Lux Ack;3,982;322
+2003-12-18;SEB Etisk Europafond - Lux Ack;14,625;319
+2003-12-18;SEB Råvarufond - Lux Ack;13,751;313
+2003-12-18;SEB Nordenfond - Lux Ack;31,312;326
+2003-12-18;SEB Norge Rente NOK - Lux Ack;15,163;329
+2003-12-18;SEB Nordamerikafond - Lux Ack;28,641;301
+2003-12-18;SEB Penningmark SEK - Lux Ack;19,291;309
+2003-12-18;SEB Penningmark USD - Lux Ack;16,149;310
+2003-12-18;SEB Oblfond SEK - Lux Ack;33,691;307
+2003-12-18;SEB Oblfond SEK - Lux Utd;12,293;308
+2003-12-18;SEB Oblfond Flex SEK - Lux Utd;11,637;315
+2003-12-18;SEB Oblfond Flex SEK - Lux Ack;17,912;314
+2003-12-18;SEB UK - Lux Ack;30,038;323
+2003-12-18;SEB Stiftelsefond Sverige;9,064;6004
+2003-12-18;SEB Trygg Placeringsfond;105,159;233
+2003-12-18;SEB Optionsrätter Europa;640,635;247
+2003-12-17;Fidelity Asian Special;10,69;254
+2003-12-17;JPMF China A;18,42;256
+2003-12-17;Merrill Lynch Japan Opportunitie;35,7;257
+2003-12-18;SEB Nordamerikafond Småbolag;64,872;705
+2003-12-18;SEB Asien ex Jap Småb - Lux Ack;18,291;950
+2003-12-18;SEB Baltikumfond - Lux Ack;13,263;951
+2003-12-18;SEB Euro Marketsfond 2 - Lux Ack;6,883;258
+2003-12-18;SEB Penningmark EUR - Lux Ack;10,433;259
+2003-12-18;SEB/Trygg Scottish Eq American;263,45;6008
+2003-12-18;SEB/Trygg Scottish Cash;140,38;6009
+2003-12-18;SEB/Trygg Scottish Eq Europe;168,19;6010
+2003-12-18;SEB/Trygg Scottish Eq Far East;115,2;6011
+2003-12-18;SEB/Trygg Scottish Europe Bond;166,91;6013
+2003-12-18;SEB Östersjöfond/WWF;10,111;265
+2003-12-17;SEB Multihedge;98,186;0

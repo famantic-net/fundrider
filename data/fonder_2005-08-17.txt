@@ -1,0 +1,154 @@
+2005-08-16;ACM American Growth A $;29,3;275
+2005-08-16;ACM Bernstein American Value;9,99;434
+2005-08-16;ACM Global Growth Trends A $;50,46;276
+2005-08-16;ACM International Tech Fund A$;104,57;433
+2005-08-17;ABN AMRO Amerika;537,75;1
+2005-08-17;Baring North America;65,47;278
+2005-08-17;East Capital Ryssland SEK;714,21;436
+2005-08-16;Fidelity European Growth;9,759;431
+2005-08-16;Fidelity International;28,66;430
+2005-08-16;Fidelity European Small;20,64;429
+2005-08-16;JPMF Pacific Equity A;52,89;432
+2005-08-16;Goldman Gl Financial Services;15,55;427
+2005-08-16;Goldman Sachs Global Eq;23;425
+2005-08-16;Goldman Sachs HiYi E Hedge;8,91;428
+2005-08-17;HSBC Indian Equity;86,066;446
+2005-08-16;Merrill Lynch Global Opportun;26,36;274
+2005-08-16;Merrill Lynch Global Equity;100,29;424
+2005-08-16;Merrill Lynch Global Small Cap P;45,24;273
+2005-08-17;Pictet Biotech P;237,27;277
+2005-08-17;SEB Europa Chans/Risk - Lux Ack;11355,7;954
+2005-08-17;SEB Aktiesparfond;7,732;387
+2005-08-17;SEB Asienfond ex Japan;9,238;386
+2005-08-17;SEB Corporate Bond EUR - Lux Ack;11,213;961
+2005-08-17;SEB Corporate Bond EUR - Lux Utd;10,045;962
+2005-08-17;SEB Corporate Bond SEK - Lux Ack;12,197;963
+2005-08-17;SEB Corporate Bond SEK - Lux Utd;10,955;964
+2005-08-16;SEB Bioteknikfond - Lux Ack;213,62;418
+2005-08-17;SEB Cancerfonden;10,74;268
+2005-08-17;SEB Trygghetsfond Ekorren;119,43;368
+2005-08-17;SEB Emerging Marketsfond;12,193;385
+2005-08-17;EB Europeisk Aktieportfölj;109,357;1
+2005-08-17;SEB Europafond;8,419;383
+2005-08-17;SEB Fond i fond Balanserad;11,469;1
+2005-08-17;SEB Fond i fond Global;11,9;1
+2005-08-17;SEB Generationsfond 50-tal;7,013;1
+2005-08-17;SEB Generationsfond 60-tal;7,03;1
+2005-08-17;SEB Generationsfond 70-tal;7,004;1
+2005-08-17;SEB Global Chans/Risk - Lux Ack;6,192;958
+2005-08-17;SEB Global Hedge - Lux Ack;105,001;1
+2005-08-17;SEB Globalfond;6,581;376
+2005-08-17;SEB Internetfond;5,143;390
+2005-08-17;SEB Oblfond Global;10,408;357
+2005-08-17;SEB Japan Chans/Risk - Lux Ack;4,951;955
+2005-08-17;SEB Likviditetsfond SEK Ack;10,646;395
+2005-08-16;SEB Life Internetfond;5,532;563
+2005-08-16;SEB Europa Småbolag - Lux Ack;889,08;272
+2005-08-16;SEB Life Optionsrätter Europafnd;863,852;562
+2005-08-16;SEB Life Östeuropafond;20,382;564
+2005-08-16;SEB Life Wireless Communication;1,384;565
+2005-08-17;EB Portfölj Balanserad;105,796;1
+2005-08-17;SEB Nordamerikafond;6,078;384
+2005-08-17;SEB Nordenfond;13,79;382
+2005-08-17;SEB Optionsrätter Eur - Lux Ack;7,191;957
+2005-08-17;EB Portfölj Försiktig;112,79;1
+2005-08-17;EB Portfölj Möjlighet;116,344;1
+2005-08-17;SEB Schweizfond;10,539;363
+2005-08-17;SKF Allemansfond;133,188;1
+2005-08-17;SEB Stiftelsefond Obligation SEK;10,598;6003
+2005-08-17;SEB Stiftelsefond Utland;6,603;6002
+2005-08-17;SEB Sverigefond I;9,152;372
+2005-08-17;SEB Sverigefond II;8,955;381
+2005-08-17;SEB Sverige Chans/Risk;9,192;374
+2005-08-17;EB Svensk Aktieportfölj;121,229;1
+2005-08-17;SEB Realräntefond SEK - Lux Utd;12,603;410
+2005-08-17;SEB Wirelessfond - Lux Ack;1,416;956
+2005-08-12;Selector Global Value A1;1384,87;437
+2005-08-17;Schroder Emerging Mkt Debt A Acc;19,14;280
+2005-08-17;Schroder Emerging Europe A Acc;15,04;279
+2005-08-16;SEB/Trygg Scottish Eq Mixed;208,23;6015
+2005-08-17;SEB Europafond - Lux Utd;16,83;406
+2005-08-17;SEB Asienfond ex Japan - Lux Utd;6,848;409
+2005-08-17;SEB Globalfond - Lux Utd;10,518;404
+2005-08-17;SEB Japanfond - Lux Utd;4,401;407
+2005-08-17;SEB Läkemedelsfond - Lux Utd;25,107;412
+2005-08-17;SEB Etisk Globalfond - Lux Utd;6,367;405
+2005-08-17;SEB Nordamerikafond - Lux Utd;15,551;401
+2005-08-17;SEB Etisk Sverigefond - Lux Utd;33,246;411
+2005-08-17;SEB Penningmark SEK 2 - Lux Utd;9,342;408
+2005-08-17;SEB Teknologifond - Lux Utd;16,896;403
+2005-08-17;SEB Världenfond - Lux Utd;14,945;402
+2005-08-16;SEB Life Fund Index Linked Bond;16,738;561
+2005-08-16;SEB Life Fund Europe Equity;14,697;554
+2005-08-16;SEB Life Fund Asia Equity;6,135;557
+2005-08-16;SEB Life Fund Global Equity;8,836;551
+2005-08-16;SEB Life Fund Japan Equity;3,788;556
+2005-08-16;SEB Life Fund Medical;19,277;558
+2005-08-16;SEB Life Fund Ethical Global;5,901;560
+2005-08-16;SEB Life Fund North America Eq;12,238;555
+2005-08-16;SEB Life Fund Ethical Sweden;26,81;553
+2005-08-16;SEB Life Fund Swe Short-Med Term;13,008;552
+2005-08-16;SEB Life Fund Technology;12,552;559
+2005-08-16;SEB Life Fund World;14,247;550
+2005-08-17;SEB Sverige Småbolag Chans/Risk;67,475;106
+2005-08-17;SEB Oblfond Flexibel SEK;10,16;358
+2005-08-17;SEB Europafond Småbolag;22,638;212
+2005-08-17;SEB Fastighetsfond;38,073;216
+2005-08-17;SEB Penningmark Global;9,735;203
+2005-08-17;SEB Japanfond;6,161;359
+2005-08-17;SEB Latinamerikafond;13,354;228
+2005-08-17;SEB Likviditetsfond SEK;10,079;360
+2005-08-17;SEB Läkemedelsfond;6,792;388
+2005-08-17;SEB Etisk Globalfond;9,648;209
+2005-08-17;SEB Nordamerika Medelstora Bolag;899,331;222
+2005-08-17;SEB Oblfond SEK;10,28;393
+2005-08-17;SEB Penningmark SEK;10,028;392
+2005-08-17;SEB Sverigefond Småbolag;15,977;364
+2005-08-17;SEB Teknologifond;15,202;389
+2005-08-17;SEB Världenfond;8,644;391
+2005-08-17;SEB Östeuropafond;21,72;227
+2005-08-17;SEB Oblfond Global - Lux Ack;166,205;317
+2005-08-17;SEB Oblfond Global - Lux Utd;60,249;318
+2005-08-17;SEB Europafond 1- Lux Ack;29,117;303
+2005-08-17;SEB Oblfond EUR - Lux Ack;11,377;324
+2005-08-17;SEB Oblfond EUR - Lux Utd;5,058;325
+2005-08-17;SEB Oblfond USD - Lux Utd;8,476;321
+2005-08-17;SEB Oblfond USD - Lux Ack;19,305;320
+2005-08-17;SEB Östeuropafond - Lux Ack;20,55;302
+2005-08-17;SEB Emerging Markets - Lux Ack;11,744;316
+2005-08-17;SEB Oblfond Europa - Lux Utd;8,99;305
+2005-08-17;SEB Oblfond Europa - Lux Ack;25,138;304
+2005-08-17;SEB Asienfond ex Japan - Lux Ack;37,868;306
+2005-08-17;SEB Globalfond - Lux Ack;16,117;327
+2005-08-17;SEB Internat Blandfond - Lux Ack;193,314;311
+2005-08-17;SEB Internat Blandfond - Lux Utd;139,197;312
+2005-08-17;SEB Japanfond - Lux Ack;4,84;322
+2005-08-17;SEB Etisk Europafond - Lux Ack;20,594;319
+2005-08-17;SEB Nordenfond - Lux Ack;49,386;326
+2005-08-17;SEB Penningmark NOK - Lux Ack;16,886;329
+2005-08-17;SEB Nordamerikafond - Lux Ack;32,674;301
+2005-08-17;SEB Penningmark SEK - Lux Ack;19,958;309
+2005-08-17;SEB Penningmark USD - Lux Ack;16,906;310
+2005-08-17;SEB Oblfond SEK - Lux Ack;37,356;307
+2005-08-17;SEB Oblfond SEK - Lux Utd;12,597;308
+2005-08-17;SEB Oblfond Flex SEK - Lux Utd;11,758;315
+2005-08-17;SEB Oblfond Flex SEK - Lux Ack;19,101;314
+2005-08-17;SEB Europafond 3 - Lux Ack;42,752;323
+2005-08-17;SEB Stiftelsefond Sverige;11,724;6004
+2005-08-17;SEB Trygg Placeringsfond;122,544;233
+2005-08-17;SEB Optionsrätter Europa;775,134;247
+2005-08-16;Fidelity Asian Special;14,82;254
+2005-08-16;JPMF China A;19,07;256
+2005-08-16;Merrill Lynch Japan Opportunitie;50,91;257
+2005-08-17;SEB Nordamerikafond Småbolag;84,961;705
+2005-08-17;SEB Asien ex Jap Småb - Lux Ack;21,495;950
+2005-08-17;SEB Baltikumfond - Lux Ack;22,909;951
+2005-08-17;SEB Europafond 2 - Lux Ack;9,701;258
+2005-08-17;SEB Penningmark EUR - Lux Ack;11,024;259
+2005-08-16;SEB/Trygg Scottish Eq American;291,66;6008
+2005-08-16;SEB/Trygg Scottish Cash;145,79;6009
+2005-08-16;SEB/Trygg Scottish Eq Europe;209,14;6010
+2005-08-16;SEB/Trygg Scottish Eq Far East;145,61;6011
+2005-08-16;SEB/Trygg Scottish Europe Bond;174,83;6013
+2005-08-17;SEB Östersjöfond/WWF;14,9;265
+2005-08-17;SEB Multihedge;89,758;0
