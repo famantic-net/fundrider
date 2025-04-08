@@ -1,479 +1,477 @@
----
-"0\r\n": 1
-'Aberdeen Standard - American Focused Equity Fund A': 2022-10-06
-'Aberdeen Standard - Select Euro High Yield Bond A': 2022-10-06
-'Aberdeen Standard SICAV I - European Sustainable Equity Fund A': 2022-10-06
-'Aberdeen Standard SICAV I - Europé ex UK Sustainable Equity Fund A': 2022-10-06
-'Aberdeen Standard SICAV I - Global Innovation Equity Fund A ': 2022-10-06
-'Aberdeen Standard SICAV I - Japanese Smaller Companies Sustainable Equity Fund A': 2022-10-06
-'Aberdeen Standard SICAV I - Japanese Sustainable Equity Fund A': 2022-10-06
-'AGCM Fund- Asia Growth Sub- Fund RC': 2022-10-05
-'AIFM Proethos fond': 2022-10-06
-'Aktia Capital Placeringsfond B': 2022-10-06
-'Aktia Nordic Small Cap Placeringsfond B': 2022-10-06
-'Aktie-Ansvar Avkastningsfond A': 2022-10-06
-'Aktie-Ansvar Sverige A': 2022-10-06
-'Aktiespararna Direktavkastning': 2022-10-06
-'Aktiespararna Topp Sverige Hållbar': 2022-10-06
-'Alfred Berg Aktiv C': 2022-10-06
-'Alfred Berg Norge C': 2022-10-06
-'Alfred Berg Obligasjon C': 2022-10-06
-'Allianz China A-shares AT': 2022-09-30
-'Allianz China Equity A': 2022-10-06
-'Allianz Emerging Asia Equity A': 2022-10-06
-'Allianz Euro High Yield Bond A': 2022-10-06
-'Allianz Europe Small Cap Equity AT': 2022-10-06
-'Allianz Global Equity Growth AT': 2022-10-06
-'Allianz Global Metals and Mining A': 2022-10-06
-'Allianz Global Water AT': 2022-10-06
-'Allianz Pet and Animal Wellbeing AT': 2022-10-06
-'Allianz Thailand Equity A': 2022-10-06
-'AMF Aktiefond Asien Stilla Havet': 2022-10-06
-'AMF Aktiefond Europa': 2022-10-06
-'AMF Aktiefond Global': 2022-10-06
-'AMF Aktiefond Nordamerika': 2022-10-06
-'AMF Aktiefond Småbolag': 2022-10-06
-'AMF Aktiefond Sverige': 2022-10-06
-'AMF Aktiefond Världen': 2022-10-06
-'AMF Balansfond': 2022-10-06
-'AMF Räntefond Kort': 2022-10-06
-'AMF Räntefond Lång': 2022-10-06
-'AMF Räntefond Mix': 2022-10-06
-'Amundi Funds Global Equity Conservative A2': 2022-10-05
-'Amundi Funds Japan Equity Value A2': 2022-10-05
-'Amundi Funds Latin America Equity A2': 2022-10-05
-'Amundi Funds SBI FM India Equity A2': 2022-10-04
-'Amundi Funds Volatility World A2': 2022-10-05
-'AP7 Aktiefond': 2022-10-06
-'AP7 Räntefond': 2022-10-06
-'Avanza Emerging Markets': 2022-10-05
-'Avanza Global': 2022-10-05
-'Avanza Zero ': 2022-10-06
-'AXA IM Globlal Equity QI B': 2022-10-05
-'AXA IM Pacific Ex-Japan Equity QI B': 2022-10-05
-'AXA IM US Equity QI B': 2022-10-05
-'Axa Rosenberg Japan Small Cap Alpha Fund B': 2022-06-28
-'Baring Asia Growth A': 2022-10-06
-'Baring Eastern Europe A': 2022-02-28
-'Baring Global Emerging Markets A': 2022-10-06
-'Baring Global Resources A': 2022-10-06
-'Baring Hong Kong China A': 2022-10-06
-'Baring Latin America A': 2022-10-06
-'BL - American Small & Mid Caps B': 2022-10-05
-'BL - Bond Dollar B': 2022-10-05
-'BL - Bond Emerging Markets Euro B': 2022-10-05
-'BL - Emerging Markets B': 2022-10-05
-'BL - Equities America B': 2022-10-05
-'BL - Equities Asia B': 2022-10-05
-'BL - Equities Dividend B': 2022-10-05
-'BL - Equities Europe B': 2022-10-05
-'BL - Equities Japan B': 2022-10-05
-'BL - European Small & Mid Caps B': 2022-10-05
-'BL - Global 30 B': 2022-10-05
-'BL - Global 50 B': 2022-10-05
-'BL - Global 75 B': 2022-10-05
-'BL - Global Bond Opportunities B': 2022-10-05
-'BL - Global Equities B': 2022-10-05
-'BL - Global Flexible B': 2022-10-05
-'BL - Global Flexible USD B': 2022-10-05
-'BL - Sustainable Horizon B': 2022-10-05
-'BlackRock - Asian Dragon Fund A2': 2022-10-06
-'BlackRock - China A2': 2022-10-06
-'BlackRock - Emerging Europe A2': 2022-03-01
-'BlackRock - Emerging Markets A2': 2022-10-06
-'BlackRock - Euro Markets A2': 2022-10-06
-'BlackRock - European Value A2': 2022-10-06
-'BlackRock - Global Allocation A2': 2022-10-06
-'BlackRock - Global High Yield Bond Fund A2': 2022-10-06
-'BlackRock - Global Natural Resources Growth & Income Fund A2': 2022-10-06
-'BlackRock - India A2': 2022-10-06
-'BlackRock - Japan Small & MidCap A2': 2022-10-06
-'BlackRock - Latin American A2': 2022-10-06
-'BlackRock - Sustainable Energy A2': 2022-10-06
-'BlackRock - US Basic Value A2': 2022-10-06
-'BlackRock - US Flexible Equity A2': 2022-10-06
-'BlackRock - US Mid-Cap Value Fund A2': 2022-10-06
-'BlackRock - World Energy A2': 2022-10-06
-'BlackRock - World Financials A2': 2022-10-06
-'BlackRock - World Gold A2': 2022-10-06
-'BlackRock - World Healthscience A2': 2022-10-06
-'BlackRock - World Mining A2': 2022-10-06
-'BlackRock - World Real Estate Securities Fund A2': 2022-10-06
-'BlackRock - World Technology A2': 2022-10-06
-'C WorldWide Asia 1A': 2022-10-06
-'C WorldWide Global Equities 1A': 2022-10-06
-'C WorldWide Global Equities Ethical 1A': 2022-10-06
-'C WorldWide Healthcare Select 1A': 2022-10-06
-'C WorldWide Sweden 1A': 2022-10-06
-'C WorldWide Sweden Small Cap 1A': 2022-10-06
-'Captor Dahlia Green Bond A': 2022-10-06
-'Captor Iris Bond A': 2022-10-06
-'Carnegie Asia A': 2022-10-06
-'Carnegie Corporate Bond A': 2022-10-05
-'Carnegie Fastighetsfond Norden A': 2022-10-06
-'Carnegie Indienfond A': 2022-10-06
-'Carnegie Likviditetsfond A': 2022-10-06
-'Carnegie Listed Private Equity A': 2022-10-06
-'Carnegie Obligationsfond A': 2022-10-06
-'Carnegie Rysslandsfond A': 2022-06-16
-'Carnegie Småbolagsfond A': 2022-10-06
-'Carnegie Strategifond A': 2022-10-06
-'Carnegie Sverigefond A': 2022-10-06
-'CB European Quality Fund A Cap': 2022-10-05
-'CB Save Earth Fund RC': 2022-10-05
-'Celina Avkastningsfond A': 2022-05-31
-'Celina Småbolagsfond A': 2022-08-22
-'Celina Sverige Aktiv Hållbarhet A': 2022-08-22
-'Celina Sverige Hållbart Beta A': 2022-06-07
-'Cicero Avkastning A': 2022-10-06
-'Cicero Hållbar Mix A': 2022-10-06
-'Coeli  - Global Select Fund R': 2022-10-06
-'Coeli - Nordic Corporate Bond Fund R': 2022-10-06
-'CPR Invest Global Gold Mines A2': 2022-10-05
-'CPR Invest Global Lifestyles A2': 2022-10-05
-'Danske Invest  SICAV - Global Index Restricted': 2022-10-05
-'Danske Invest SICAV - Aktiv Förmögenhetsförvaltning SI': 2022-10-06
-'Danske Invest SICAV - Euro Investment Grade Corporate Bond A': 2022-10-05
-'Danske Invest SICAV - Europe SI': 2022-10-06
-'Danske Invest SICAV - Global Index SI': 2022-10-05
-'Danske Invest SICAV - Sverige Kort Ränta SI': 2022-10-06
-'Danske Invest SICAV - Sverige Ränta SI': 2022-10-06
-'Danske Invest SICAV - Sverige SI': 2022-10-06
-'Delphi Europe Acc': 2022-10-05
-'Delphi Global A2': 2022-10-05
-'Delphi Nordic Acc': 2022-10-05
-'Didner & Gerge Aktiefond': 2022-10-06
-'Didner & Gerge Global': 2022-10-06
-'Didner & Gerge Småbolag': 2022-10-06
-'DNB Europa Indeks A': 2022-10-05
-'DNB Fund - Asian Mid Cap Retail A': 2022-10-03
-'DNB Fund - Nordic Equities Retail A': 2022-10-05
-'DNB Fund - Renewable Energy Retail A': 2022-10-05
-'DNB Global Emerging Markets A': 2022-10-05
-'DNB Global Indeks A': 2022-10-05
-'DNB Grönt Norden A': 2022-10-05
-'DNB Health Care A': 2022-10-05
-'DNB SMB A': 2022-10-05
-'DNB Teknologi A': 2022-10-05
-'East Capital China A-shares A': 2022-09-30
-'East Capital Eastern Europe A SEK': 2022-02-25
-'East Capital Global Emerging Markets Sustainable A': 2022-10-06
-'East Capital Global Frontier Markets A': 2022-10-06
-'East Capital Russian A SEK': 2022-06-16
-'Enter Cross Credit A': 2022-10-06
-'Enter Select A': 2022-10-06
-'Enter Sverige A': 2022-10-06
-'Evli Corporate Bond Placeringsfonden B ': 2022-10-05
-'Evli Emerging Markets Credit Placeringsfonden B': 2022-10-05
-'Evli Europa Placeringsfonden B': 2022-10-05
-'Evli Finland Select Placeringsfonden B': 2022-10-05
-'Evli GEM Placeringsfonden B': 2022-10-05
-'Evli Global Placeringsfonden B': 2022-10-05
-'Evli High Yield Placeringsfonden B': 2022-10-05
-'Evli Likviditet Placeringsfonden B': 2022-10-05
-'Evli Nordic Placeringsfonden B': 2022-10-05
-'Evli Short Corporate Bond Placeringsfonden B': 2022-10-05
-'Evli Sverige Aktieindex B': 2022-10-05
-'Evli Sverige Småbolag': 2022-10-05
-'Fidelity - America Fund A': 2022-10-06
-'Fidelity - Asian Pacific Opportunities Fund A': 2022-10-06
-'Fidelity - Asian Special Situations Fund A': 2022-10-06
-'Fidelity - China Consumer  Fund A': 2022-10-06
-'Fidelity - China Focus Fund A': 2022-10-06
-'Fidelity - Emerging Asia Fund A': 2022-10-06
-'Fidelity - Emerging Markets Funds A': 2022-10-06
-'Fidelity - European Dynamic Growth Fund A': 2022-10-06
-'Fidelity - Global High  Yield Fund A': 2022-10-06
-'Folksam LO Sverige': 2022-10-06
-'Folksam LO Världen': 2022-10-06
-'Fondita European Small Cap Placeringsfond B': 2022-10-06
-'Fondita Global Megatrends Placeringsfond B': 2022-10-06
-'Fondita Healthcare Placeringsfond B': 2022-10-06
-'Fondita Nordic Micro Cap Placeringsfond B': 2022-10-06
-'Fondita Nordic Small Cap Placeringsfond B': 2022-10-06
-'Fondita Sustainable Europe Placeringfond': 2022-10-06
-'Franklin Biotechnology Discovery Fund': 2022-10-05
-'Franklin India Fund A ': 2022-10-05
-'Franklin Mutual Global Discovery Fund A': 2022-10-05
-'Franklin Natural Resources Fund A': 2022-10-05
-'Franklin Technology Fund A': 2022-10-05
-'Franklin U.S. Opportunities Fund A': 2022-10-05
-'GodFond Sverige & Världen': 2022-10-06
-'Handelsbanken  USA Index Criteria A1': 2022-10-06
-'Handelsbanken Amerika Tema A1': 2022-10-06
-'Handelsbanken Asien Tema A1': 2022-10-06
-'Handelsbanken Emerging Markets Index A1': 2022-10-06
-'Handelsbanken Europa Index Criteria A1': 2022-10-06
-'Handelsbanken Global Index Criteria A1': 2022-10-06
-'Handelsbanken Global Småbolag Index Criteria A1': 2022-10-06
-'Handelsbanken Global Tema A1': 2022-10-06
-'Handelsbanken Hälsovård Tema A1': 2022-10-06
-'Handelsbanken Hållbar Energi A1': 2022-10-06
-'Handelsbanken Kina Tema A1': 2022-10-06
-'Handelsbanken Kortränta A1': 2022-10-06
-'Handelsbanken Latinamerika Impact Tema A1': 2022-10-06
-'Handelsbanken Långränta A1': 2022-10-06
-'Handelsbanken Norden Tema A1': 2022-10-06
-'Handelsbanken Nordiska Småbolag A1': 2022-10-06
-'Handelsbanken Pension 40 A12': 2022-10-05
-'Handelsbanken Pension 50 A12': 2022-10-05
-'Handelsbanken Pension 60 A12': 2022-10-05
-'Handelsbanken Pension 70 A12': 2022-10-05
-'Handelsbanken Pension 80 A12': 2022-10-05
-'Handelsbanken Svenska Småbolag A1': 2022-10-06
-'Handelsbanken Sverige 100 Index Criteria A1': 2022-10-06
-'Handelsbanken Sverige Tema A1': 2022-10-06
-'Handelsbanken Tillväxtmarknad Tema A1': 2022-10-06
-'HealthInvest Alpha Fund': 2022-10-05
-'Holberg Global A': 2022-10-06
-'Holberg Kreditt ': 2022-10-06
-'Holberg Norden': 2022-10-06
-'Holberg Norge': 2022-10-06
-'Humle Småbolagsfond A': 2022-10-06
-'Indecap Guide 1 C': 2022-10-05
-'Indecap Guide 2 C': 2022-10-05
-'Indecap Guide Sverige C': 2022-10-05
-'JPMorgan China A': 2022-10-06
-'JPMorgan Emerging Markets Equity A ': 2022-10-06
-'KPA Etisk Blandfond 2': 2022-10-06
-'Lannebo Europa Småbolag A': 2022-10-06
-'Lannebo Mixfond': 2022-10-06
-'Lannebo Mixfond Offensiv A': 2022-10-06
-'Lannebo Räntefond Kort': 2022-10-06
-'Lannebo Småbolag': 2022-10-06
-'Lannebo Sverige': 2022-10-06
-'Lannebo Sverige Hållbar A': 2022-10-06
-'Lannebo Sverige Plus': 2022-10-06
-'Lannebo Teknik': 2022-10-06
-'Länsförsäkringar Asienfond A': 2022-10-06
-'Länsförsäkringar Europa Aktiv A': 2022-10-06
-'Länsförsäkringar Europa Indexnära': 2022-10-06
-'Länsförsäkringar Fastighetsfond A': 2022-10-06
-'Länsförsäkringar Företagsobligation Vision ': 2022-10-06
-'Länsförsäkringar Global Indexnära': 2022-10-06
-'Länsförsäkringar Global Vision A': 2022-10-06
-'Länsförsäkringar Japan Indexnära': 2022-10-06
-'Länsförsäkringar Kort Räntefond': 2022-10-06
-'Länsförsäkringar Lång Räntefond A': 2022-10-06
-'Länsförsäkringar Mix Vision A': 2022-10-06
-'Länsförsäkringar Småbolag Sverige Vision A': 2022-10-06
-'Länsförsäkringar Sparmål 2015': 2022-10-05
-'Länsförsäkringar Sparmål 2020': 2022-10-05
-'Länsförsäkringar Sparmål 2025': 2022-10-05
-'Länsförsäkringar Sparmål 2030': 2022-10-05
-'Länsförsäkringar Sparmål 2035': 2022-10-05
-'Länsförsäkringar Sparmål 2040': 2022-10-05
-'Länsförsäkringar Sparmål 2045': 2022-10-05
-'Länsförsäkringar Sverige Indexnära': 2022-10-06
-'Länsförsäkringar Sverige Vision A': 2022-10-06
-'Länsförsäkringar Tillväxtmarknad Aktiv A': 2022-10-06
-'Länsförsäkringar Tillväxtmarknad Indexnära A': 2022-10-06
-'Länsförsäkringar USA Aktiv A': 2022-10-06
-'Länsförsäkringar USA Indexnära': 2022-10-06
-'Lärarfond 21-44 år': 2022-10-06
-'Lärarfond 45-58 år': 2022-10-06
-'Lärarfond 59+': 2022-10-06
-'Naventi Balanserad Flex': 2022-10-06
-'Naventi Defensiv Flex': 2022-10-06
-'Naventi Offensiv Flex': 2022-10-06
-'NN (L) Asia Income P ': 2022-10-06
-'NN (L) EURO Equity P ': 2022-10-06
-'NN (L) European Equity P ': 2022-10-06
-'NN (L) European Sustainable Equity P': 2022-10-06
-'NN (L) First Class Protection P': 2022-10-06
-'NN (L) Global Convertible Opportunities P': 2022-10-06
-'NN (L) Global Equity Impact Opportunities P': 2022-10-06
-'NN (L) Greater China Equity P': 2022-10-06
-'NN (L) Green Bond P': 2022-10-06
-'NN (L) Japan Equity P ': 2022-10-06
-'NN (L) Smart Connectivity P': 2022-10-06
-'Nordea Asian Stars': 2022-10-06
-'Nordea European Stars': 2022-10-06
-'Nordea Generationsfond 50-tal': 2022-10-06
-'Nordea Generationsfond 60-tal': 2022-10-06
-'Nordea Generationsfond 70-tal': 2022-10-06
-'Nordea Generationsfond 80-tal': 2022-10-06
-'Nordea Generationsfond 90-tal': 2022-10-06
-'Nordea Generationsfond Senior': 2022-10-06
-'Nordea Global': 2022-10-06
-'Nordea Globala Tillväxtmarknader ': 2022-10-06
-'Nordea Indienfond': 2022-10-06
-'Nordea Kinafond': 2022-10-06
-'Nordea Nordic': 2022-10-06
-'Nordea Obligationsfond': 2022-10-06
-'Nordea Realräntefond': 2022-10-06
-'Nordea Rysslandsfond': 2022-06-16
-'Nordea Småbolagsfond Norden': 2022-10-06
-'Nordea Stratega Ränta': 2022-10-06
-'Nordea Swedish Bond Stars': 2022-10-06
-'Nordea Swedish Stars': 2022-10-06
-'Odin Emerging Markets C': 2022-10-06
-'Odin Europa C': 2022-10-06
-'Odin Fastighet C': 2022-10-06
-'Odin Global C': 2022-10-06
-'Odin Norden C': 2022-10-06
-'Odin Norge C ': 2022-10-06
-'Odin Sverige C': 2022-10-06
-'Pareto Aksje Norge B': 2022-10-05
-'Pareto ESG Global Corporate Bond A': 2022-10-05
-'Pareto Global B': 2022-10-05
-'Pareto Nordic Corporate Bond C': 2022-10-05
-'Pictet Asian  Equities Ex Japan R': 2022-10-06
-'Pictet Biotech R': 2022-10-06
-'Pictet China Equities R': 2022-09-30
-'Pictet Clean Energy R': 2022-10-06
-'Pictet Digital R': 2022-10-06
-'Pictet Emerging Markets R': 2022-10-06
-'Pictet EUR Bonds R': 2022-10-05
-'Pictet Global Bonds R': 2022-10-05
-'Pictet Global Emerging Debt R': 2022-10-05
-'Pictet Global Megatrend Selection R': 2022-10-06
-'Pictet Health R': 2022-10-06
-'Pictet Indian Equities R': 2022-10-06
-'Pictet Japanese Equity Opportunities R': 2022-10-06
-'Pictet Premium Brands R': 2022-10-06
-'Pictet Quest Europe Sustainable Equities R': 2022-10-06
-'Pictet Security R': 2022-10-06
-'Pictet Timber R': 2022-10-06
-'Pictet Water R': 2022-10-06
-'Pictet-Emerging Corporate Bonds R ': 2022-10-05
-'PLUS Småbolag Sverige Index ': 2022-10-06
-'Prior & Nilsson Realinvest A': 2022-10-06
-'Prior & Nilsson Sverige Aktiv A': 2022-10-06
-'S-Banken Emerging Markets ESG Aktie A': 2022-10-06
-'S-Banken Europa Aktie A': 2022-10-06
-'S-Banken Fenno Aktie A': 2022-10-06
-'S-Banken USA Aktie A': 2022-10-06
-'SEB Aktiesparfond': 2022-10-06
-'SEB Asienfond ex Japan': 2022-10-06
-'SEB Asset Selection Fund C': 2022-10-06
-'SEB Dynamic Bond Fund C': 2022-10-06
-'SEB Dynamisk Aktiefond': 2022-10-06
-'SEB Emerging Marketsfond': 2022-10-05
-'SEB Europafond': 2022-10-06
-'SEB Europafond Småbolag': 2022-10-06
-'SEB Global Aktiefond': 2022-10-06
-'SEB Global High Yield Fund C': 2022-10-05
-'SEB Green Bond Fund C': 2022-10-05
-'SEB Läkemedelsfond': 2022-10-06
-'SEB Nordamerikafond Små och Medelstora Bolag A': 2022-10-06
-'SEB Nordenfond': 2022-10-06
-'SEB Pension Fund C': 2022-10-05
-'SEB Realräntefond D': 2022-10-06
-'SEB Sverige Expanderad': 2022-10-06
-'SEB Sweden Equity Fund C': 2022-10-06
-'SEB Teknologifond ': 2022-10-05
-'SEB Världenfond': 2022-10-05
-'SEB Östeuropafond': 2022-06-08
-'SEB Östeuropafond Små och Medelstora Bolag C': 2022-10-05
-'Seligson & Co Euroobligation A': 2022-10-06
-'Seligson & Co Global Top 25 Brands A': 2022-10-06
-'Seligson & Co Global Top 25 Pharmaceuticals A': 2022-10-06
-'Sensor Sverige Select': 2022-10-06
-'Simplicity Företagsobligationer A': 2022-10-06
-'Simplicity Global Corporate Bond A': 2022-10-06
-'Simplicity Likviditet A': 2022-10-06
-'Simplicity Norden ': 2022-10-06
-'SKAGEN Focus D': 2022-10-06
-'SKAGEN Global E': 2022-10-06
-'SKAGEN Kon-Tiki F': 2022-10-06
-'SKAGEN m2 C': 2022-10-06
-'SKAGEN Vekst C': 2022-10-06
-'Skandia Balanserad': 2022-10-06
-'Skandia Europa Exponering': 2022-10-06
-'Skandia Försiktig': 2022-10-06
-'Skandia Global Exponering A': 2022-10-06
-'Skandia Japan Exponering': 2022-10-06
-'Skandia Korträntefond': 2022-10-06
-'Skandia Nordamerika Exponering': 2022-10-06
-'Skandia Obligationsfond': 2022-10-06
-'Skandia Realräntefond': 2022-10-06
-'Skandia Småbolag Sverige': 2022-10-06
-'Skandia Sverige Exponering A': 2022-10-06
-'Skandia Sverige Hållbar': 2022-10-06
-'Skandia Time Global': 2022-10-06
-'Skandia USA': 2022-10-06
-'Skandia Världen': 2022-10-06
-'Spiltan Aktiefond Småland': 2022-10-06
-'Spiltan Aktiefond Stabil ': 2022-10-06
-'Spiltan Globalfond Investmentbolag': 2022-10-06
-'Spiltan Högräntefond': 2022-10-06
-'Spiltan Räntefond Sverige': 2022-10-06
-'Spiltan Småbolagsfond': 2022-10-06
-'SPP Generation 40-tal': 2022-10-06
-'SPP Generation 50-tal': 2022-10-06
-'SPP Generation 60-tal': 2022-10-06
-'SPP Generation 70-tal': 2022-10-06
-'SPP Generation 80-tal': 2022-10-06
-'Storebrand Emerging Markets A': 2022-10-06
-'Storebrand Emerging Markets Plus A': 2022-10-06
-'Storebrand Europa A': 2022-10-06
-'Storebrand FRN Företagsobligation A': 2022-10-06
-'Storebrand Global All Countries A': 2022-10-06
-'Storebrand Global Företagsobligation A': 2022-10-06
-'Storebrand Global Low Volatility A': 2022-10-06
-'Storebrand Global Multifactor A': 2022-10-06
-'Storebrand Global Plus A': 2022-10-06
-'Storebrand Global Solutions A': 2022-10-06
-'Storebrand Grön Obligation A': 2022-10-06
-'Storebrand Japan A': 2022-10-06
-'Storebrand Kortränta A': 2022-10-06
-'Storebrand Obligation A': 2022-10-06
-'Storebrand Sverige A': 2022-10-06
-'Storebrand Sverige Plus A': 2022-10-06
-'Storebrand USA A': 2022-10-06
-'Swedbank Robur Access Asien A': 2022-10-06
-'Swedbank Robur Access Europa A': 2022-10-06
-'Swedbank Robur Access Global A': 2022-10-06
-'Swedbank Robur Access Sverige A': 2022-10-06
-'Swedbank Robur Access USA A': 2022-10-06
-'Swedbank Robur Aktiefond Pension': 2022-10-06
-'Swedbank Robur Fastighet A': 2022-10-06
-'Swedbank Robur Healthcare A': 2022-10-06
-'Swedbank Robur Mixfond Pension': 2022-10-06
-'Swedbank Robur Nordenfond': 2022-10-06
-'Swedbank Robur Obligation A': 2022-10-06
-'Swedbank Robur Rysslandsfond A': 2022-06-16
-'Swedbank Robur Räntefond Kort A': 2022-10-06
-'Swedbank Robur Småbolagsfond Europa A': 2022-10-06
-'Swedbank Robur Småbolagsfond Sverige A': 2022-10-06
-'Swedbank Robur Technology A': 2022-10-06
-'Swedbank Robur Transfer 50': 2022-10-06
-'Swedbank Robur Transfer 60': 2022-10-06
-'Swedbank Robur Transfer 70': 2022-10-06
-'Swedbank Robur Transfer 80': 2022-10-06
-'Swedbank Robur Transfer 90': 2022-10-06
-'Swedbank Robur Östeuropafond A': 2022-10-06
-'Söderberg & Partners Proaktiv 75 PM A': 2022-10-06
-'Söderberg & Partners Proaktiv 80 PM A': 2022-10-06
-'Tellus Globala Investmentbolag': 2022-08-30
-'Templeton Emerging Markets Fund A': 2022-10-05
-'Templeton European Opportunities Fund A': 2022-10-05
-'Templeton Global Bond Fund A': 2022-10-05
-'TRIGON - New Europe Fund E': 2022-10-06
-'Tundra Sustainable Frontier Fund A': 2022-10-06
-'UB Europa REIT Placeringsfond A': 2022-10-06
-'UB Global REIT Placeringsfond A': 2022-10-06
-'UB Infra Placeringsfond A': 2022-10-06
-'Ålandsbanken Euro Bond S Placeringsfond': 2022-10-05
-'Ålandsbanken Euro High Yield B Placeringsfond': 2022-10-05
-'Ålandsbanken Europa Aktie B Placeringsfond': 2022-10-05
-'Ålandsbanken Global Aktie B Placeringsfond': 2022-10-05
-'Ålandsbanken Kapitalförvaltning Placeringsfond': 2022-10-05
-'Ålandsbanken Norden Aktie S Placeringsfond': 2022-10-05
-'Öhman Emerging Markets A': 2022-10-06
-'Öhman Etisk Index Sverige A': 2022-10-06
-'Öhman FRN A': 2022-10-06
-'Öhman Företagsobligationsfond A': 2022-10-06
-'Öhman Global A': 2022-10-06
-'Öhman Global Growth A': 2022-10-06
-'Öhman Kort Ränta A': 2022-10-06
-'Öhman Marknad Europa A': 2022-10-06
-'Öhman Marknad Global A': 2022-10-06
-'Öhman Marknad Pacific A': 2022-10-06
-'Öhman Marknad USA A': 2022-10-06
-'Öhman Obligationsfond A': 2022-10-06
-'Öhman Realräntefond A': 2022-10-06
-'Öhman Småbolagsfond A': 2022-10-06
-'Öhman Sverige A': 2022-10-06
-'Öhman Sweden Micro Cap': 2022-10-06
+Aberdeen Standard - American Focused Equity Fund A: 2022-10-06
+Aberdeen Standard - Select Euro High Yield Bond A: 2022-10-06
+Aberdeen Standard SICAV I - European Sustainable Equity Fund A: 2022-10-06
+Aberdeen Standard SICAV I - EuropÃ© ex UK Sustainable Equity Fund A: 2022-10-06
+Aberdeen Standard SICAV I - Global Innovation Equity Fund A : 2022-10-06
+Aberdeen Standard SICAV I - Japanese Smaller Companies Sustainable Equity Fund A: 2022-10-06
+Aberdeen Standard SICAV I - Japanese Sustainable Equity Fund A: 2022-10-06
+AGCM Fund- Asia Growth Sub- Fund RC: 2022-10-05
+AIFM Proethos fond: 2022-10-06
+Aktia Capital Placeringsfond B: 2022-10-06
+Aktia Nordic Small Cap Placeringsfond B: 2022-10-06
+Aktie-Ansvar Avkastningsfond A: 2022-10-06
+Aktie-Ansvar Sverige A: 2022-10-06
+Aktiespararna Direktavkastning: 2022-10-06
+Aktiespararna Topp Sverige HÃ¥llbar: 2022-10-06
+Alfred Berg Aktiv C: 2022-10-06
+Alfred Berg Norge C: 2022-10-06
+Alfred Berg Obligasjon C: 2022-10-06
+Allianz China A-shares AT: 2022-09-30
+Allianz China Equity A: 2022-10-06
+Allianz Emerging Asia Equity A: 2022-10-06
+Allianz Euro High Yield Bond A: 2022-10-06
+Allianz Europe Small Cap Equity AT: 2022-10-06
+Allianz Global Equity Growth AT: 2022-10-06
+Allianz Global Metals and Mining A: 2022-10-06
+Allianz Global Water AT: 2022-10-06
+Allianz Pet and Animal Wellbeing AT: 2022-10-06
+Allianz Thailand Equity A: 2022-10-06
+AMF Aktiefond Asien Stilla Havet: 2022-10-06
+AMF Aktiefond Europa: 2022-10-06
+AMF Aktiefond Global: 2022-10-06
+AMF Aktiefond Nordamerika: 2022-10-06
+AMF Aktiefond SmÃ¥bolag: 2022-10-06
+AMF Aktiefond Sverige: 2022-10-06
+AMF Aktiefond VÃ¤rlden: 2022-10-06
+AMF Balansfond: 2022-10-06
+AMF RÃ¤ntefond Kort: 2022-10-06
+AMF RÃ¤ntefond LÃ¥ng: 2022-10-06
+AMF RÃ¤ntefond Mix: 2022-10-06
+Amundi Funds Global Equity Conservative A2: 2022-10-05
+Amundi Funds Japan Equity Value A2: 2022-10-05
+Amundi Funds Latin America Equity A2: 2022-10-05
+Amundi Funds SBI FM India Equity A2: 2022-10-04
+Amundi Funds Volatility World A2: 2022-10-05
+AP7 Aktiefond: 2022-10-06
+AP7 RÃ¤ntefond: 2022-10-06
+Avanza Emerging Markets: 2022-10-05
+Avanza Global: 2022-10-05
+Avanza Zero : 2022-10-06
+AXA IM Globlal Equity QI B: 2022-10-05
+AXA IM Pacific Ex-Japan Equity QI B: 2022-10-05
+AXA IM US Equity QI B: 2022-10-05
+Axa Rosenberg Japan Small Cap Alpha Fund B: 2022-06-28
+Baring Asia Growth A: 2022-10-06
+Baring Eastern Europe A: 2022-02-28
+Baring Global Emerging Markets A: 2022-10-06
+Baring Global Resources A: 2022-10-06
+Baring Hong Kong China A: 2022-10-06
+Baring Latin America A: 2022-10-06
+BL - American Small & Mid Caps B: 2022-10-05
+BL - Bond Dollar B: 2022-10-05
+BL - Bond Emerging Markets Euro B: 2022-10-05
+BL - Emerging Markets B: 2022-10-05
+BL - Equities America B: 2022-10-05
+BL - Equities Asia B: 2022-10-05
+BL - Equities Dividend B: 2022-10-05
+BL - Equities Europe B: 2022-10-05
+BL - Equities Japan B: 2022-10-05
+BL - European Small & Mid Caps B: 2022-10-05
+BL - Global 30 B: 2022-10-05
+BL - Global 50 B: 2022-10-05
+BL - Global 75 B: 2022-10-05
+BL - Global Bond Opportunities B: 2022-10-05
+BL - Global Equities B: 2022-10-05
+BL - Global Flexible B: 2022-10-05
+BL - Global Flexible USD B: 2022-10-05
+BL - Sustainable Horizon B: 2022-10-05
+BlackRock - Asian Dragon Fund A2: 2022-10-06
+BlackRock - China A2: 2022-10-06
+BlackRock - Emerging Europe A2: 2022-03-01
+BlackRock - Emerging Markets A2: 2022-10-06
+BlackRock - Euro Markets A2: 2022-10-06
+BlackRock - European Value A2: 2022-10-06
+BlackRock - Global Allocation A2: 2022-10-06
+BlackRock - Global High Yield Bond Fund A2: 2022-10-06
+BlackRock - Global Natural Resources Growth & Income Fund A2: 2022-10-06
+BlackRock - India A2: 2022-10-06
+BlackRock - Japan Small & MidCap A2: 2022-10-06
+BlackRock - Latin American A2: 2022-10-06
+BlackRock - Sustainable Energy A2: 2022-10-06
+BlackRock - US Basic Value A2: 2022-10-06
+BlackRock - US Flexible Equity A2: 2022-10-06
+BlackRock - US Mid-Cap Value Fund A2: 2022-10-06
+BlackRock - World Energy A2: 2022-10-06
+BlackRock - World Financials A2: 2022-10-06
+BlackRock - World Gold A2: 2022-10-06
+BlackRock - World Healthscience A2: 2022-10-06
+BlackRock - World Mining A2: 2022-10-06
+BlackRock - World Real Estate Securities Fund A2: 2022-10-06
+BlackRock - World Technology A2: 2022-10-06
+C WorldWide Asia 1A: 2022-10-06
+C WorldWide Global Equities 1A: 2022-10-06
+C WorldWide Global Equities Ethical 1A: 2022-10-06
+C WorldWide Healthcare Select 1A: 2022-10-06
+C WorldWide Sweden 1A: 2022-10-06
+C WorldWide Sweden Small Cap 1A: 2022-10-06
+Captor Dahlia Green Bond A: 2022-10-06
+Captor Iris Bond A: 2022-10-06
+Carnegie Asia A: 2022-10-06
+Carnegie Corporate Bond A: 2022-10-05
+Carnegie Fastighetsfond Norden A: 2022-10-06
+Carnegie Indienfond A: 2022-10-06
+Carnegie Likviditetsfond A: 2022-10-06
+Carnegie Listed Private Equity A: 2022-10-06
+Carnegie Obligationsfond A: 2022-10-06
+Carnegie Rysslandsfond A: 2022-06-16
+Carnegie SmÃ¥bolagsfond A: 2022-10-06
+Carnegie Strategifond A: 2022-10-06
+Carnegie Sverigefond A: 2022-10-06
+CB European Quality Fund A Cap: 2022-10-05
+CB Save Earth Fund RC: 2022-10-05
+Celina Avkastningsfond A: 2022-05-31
+Celina SmÃ¥bolagsfond A: 2022-08-22
+Celina Sverige Aktiv HÃ¥llbarhet A: 2022-08-22
+Celina Sverige HÃ¥llbart Beta A: 2022-06-07
+Cicero Avkastning A: 2022-10-06
+Cicero HÃ¥llbar Mix A: 2022-10-06
+Coeli  - Global Select Fund R: 2022-10-06
+Coeli - Nordic Corporate Bond Fund R: 2022-10-06
+CPR Invest Global Gold Mines A2: 2022-10-05
+CPR Invest Global Lifestyles A2: 2022-10-05
+Danske Invest  SICAV - Global Index Restricted: 2022-10-05
+Danske Invest SICAV - Aktiv FÃ¶rmÃ¶genhetsfÃ¶rvaltning SI: 2022-10-06
+Danske Invest SICAV - Euro Investment Grade Corporate Bond A: 2022-10-05
+Danske Invest SICAV - Europe SI: 2022-10-06
+Danske Invest SICAV - Global Index SI: 2022-10-05
+Danske Invest SICAV - Sverige Kort RÃ¤nta SI: 2022-10-06
+Danske Invest SICAV - Sverige RÃ¤nta SI: 2022-10-06
+Danske Invest SICAV - Sverige SI: 2022-10-06
+Delphi Europe Acc: 2022-10-05
+Delphi Global A2: 2022-10-05
+Delphi Nordic Acc: 2022-10-05
+Didner & Gerge Aktiefond: 2022-10-06
+Didner & Gerge Global: 2022-10-06
+Didner & Gerge SmÃ¥bolag: 2022-10-06
+DNB Europa Indeks A: 2022-10-05
+DNB Fund - Asian Mid Cap Retail A: 2022-10-03
+DNB Fund - Nordic Equities Retail A: 2022-10-05
+DNB Fund - Renewable Energy Retail A: 2022-10-05
+DNB Global Emerging Markets A: 2022-10-05
+DNB Global Indeks A: 2022-10-05
+DNB GrÃ¶nt Norden A: 2022-10-05
+DNB Health Care A: 2022-10-05
+DNB SMB A: 2022-10-05
+DNB Teknologi A: 2022-10-05
+East Capital China A-shares A: 2022-09-30
+East Capital Eastern Europe A SEK: 2022-02-25
+East Capital Global Emerging Markets Sustainable A: 2022-10-06
+East Capital Global Frontier Markets A: 2022-10-06
+East Capital Russian A SEK: 2022-06-16
+Enter Cross Credit A: 2022-10-06
+Enter Select A: 2022-10-06
+Enter Sverige A: 2022-10-06
+Evli Corporate Bond Placeringsfonden B : 2022-10-05
+Evli Emerging Markets Credit Placeringsfonden B: 2022-10-05
+Evli Europa Placeringsfonden B: 2022-10-05
+Evli Finland Select Placeringsfonden B: 2022-10-05
+Evli GEM Placeringsfonden B: 2022-10-05
+Evli Global Placeringsfonden B: 2022-10-05
+Evli High Yield Placeringsfonden B: 2022-10-05
+Evli Likviditet Placeringsfonden B: 2022-10-05
+Evli Nordic Placeringsfonden B: 2022-10-05
+Evli Short Corporate Bond Placeringsfonden B: 2022-10-05
+Evli Sverige Aktieindex B: 2022-10-05
+Evli Sverige SmÃ¥bolag: 2022-10-05
+Fidelity - America Fund A: 2022-10-06
+Fidelity - Asian Pacific Opportunities Fund A: 2022-10-06
+Fidelity - Asian Special Situations Fund A: 2022-10-06
+Fidelity - China Consumer  Fund A: 2022-10-06
+Fidelity - China Focus Fund A: 2022-10-06
+Fidelity - Emerging Asia Fund A: 2022-10-06
+Fidelity - Emerging Markets Funds A: 2022-10-06
+Fidelity - European Dynamic Growth Fund A: 2022-10-06
+Fidelity - Global High  Yield Fund A: 2022-10-06
+Folksam LO Sverige: 2022-10-06
+Folksam LO VÃ¤rlden: 2022-10-06
+Fondita European Small Cap Placeringsfond B: 2022-10-06
+Fondita Global Megatrends Placeringsfond B: 2022-10-06
+Fondita Healthcare Placeringsfond B: 2022-10-06
+Fondita Nordic Micro Cap Placeringsfond B: 2022-10-06
+Fondita Nordic Small Cap Placeringsfond B: 2022-10-06
+Fondita Sustainable Europe Placeringfond: 2022-10-06
+Franklin Biotechnology Discovery Fund: 2022-10-05
+Franklin India Fund A : 2022-10-05
+Franklin Mutual Global Discovery Fund A: 2022-10-05
+Franklin Natural Resources Fund A: 2022-10-05
+Franklin Technology Fund A: 2022-10-05
+Franklin U.S. Opportunities Fund A: 2022-10-05
+GodFond Sverige & VÃ¤rlden: 2022-10-06
+Handelsbanken  USA Index Criteria A1: 2022-10-06
+Handelsbanken Amerika Tema A1: 2022-10-06
+Handelsbanken Asien Tema A1: 2022-10-06
+Handelsbanken Emerging Markets Index A1: 2022-10-06
+Handelsbanken Europa Index Criteria A1: 2022-10-06
+Handelsbanken Global Index Criteria A1: 2022-10-06
+Handelsbanken Global SmÃ¥bolag Index Criteria A1: 2022-10-06
+Handelsbanken Global Tema A1: 2022-10-06
+Handelsbanken HÃ¤lsovÃ¥rd Tema A1: 2022-10-06
+Handelsbanken HÃ¥llbar Energi A1: 2022-10-06
+Handelsbanken Kina Tema A1: 2022-10-06
+Handelsbanken KortrÃ¤nta A1: 2022-10-06
+Handelsbanken Latinamerika Impact Tema A1: 2022-10-06
+Handelsbanken LÃ¥ngrÃ¤nta A1: 2022-10-06
+Handelsbanken Norden Tema A1: 2022-10-06
+Handelsbanken Nordiska SmÃ¥bolag A1: 2022-10-06
+Handelsbanken Pension 40 A12: 2022-10-05
+Handelsbanken Pension 50 A12: 2022-10-05
+Handelsbanken Pension 60 A12: 2022-10-05
+Handelsbanken Pension 70 A12: 2022-10-05
+Handelsbanken Pension 80 A12: 2022-10-05
+Handelsbanken Svenska SmÃ¥bolag A1: 2022-10-06
+Handelsbanken Sverige 100 Index Criteria A1: 2022-10-06
+Handelsbanken Sverige Tema A1: 2022-10-06
+Handelsbanken TillvÃ¤xtmarknad Tema A1: 2022-10-06
+HealthInvest Alpha Fund: 2022-10-05
+Holberg Global A: 2022-10-06
+Holberg Kreditt : 2022-10-06
+Holberg Norden: 2022-10-06
+Holberg Norge: 2022-10-06
+Humle SmÃ¥bolagsfond A: 2022-10-06
+Indecap Guide 1 C: 2022-10-05
+Indecap Guide 2 C: 2022-10-05
+Indecap Guide Sverige C: 2022-10-05
+JPMorgan China A: 2022-10-06
+JPMorgan Emerging Markets Equity A : 2022-10-06
+KPA Etisk Blandfond 2: 2022-10-06
+Lannebo Europa SmÃ¥bolag A: 2022-10-06
+Lannebo Mixfond: 2022-10-06
+Lannebo Mixfond Offensiv A: 2022-10-06
+Lannebo RÃ¤ntefond Kort: 2022-10-06
+Lannebo SmÃ¥bolag: 2022-10-06
+Lannebo Sverige: 2022-10-06
+Lannebo Sverige HÃ¥llbar A: 2022-10-06
+Lannebo Sverige Plus: 2022-10-06
+Lannebo Teknik: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Asienfond A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Europa Aktiv A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Europa IndexnÃ¤ra: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Fastighetsfond A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar FÃ¶retagsobligation Vision : 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Global IndexnÃ¤ra: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Global Vision A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Japan IndexnÃ¤ra: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Kort RÃ¤ntefond: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar LÃ¥ng RÃ¤ntefond A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Mix Vision A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar SmÃ¥bolag Sverige Vision A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2015: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2020: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2025: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2030: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2035: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2040: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar SparmÃ¥l 2045: 2022-10-05
+LÃ¤nsfÃ¶rsÃ¤kringar Sverige IndexnÃ¤ra: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar Sverige Vision A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar TillvÃ¤xtmarknad Aktiv A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar TillvÃ¤xtmarknad IndexnÃ¤ra A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar USA Aktiv A: 2022-10-06
+LÃ¤nsfÃ¶rsÃ¤kringar USA IndexnÃ¤ra: 2022-10-06
+LÃ¤rarfond 21-44 Ã¥r: 2022-10-06
+LÃ¤rarfond 45-58 Ã¥r: 2022-10-06
+LÃ¤rarfond 59+: 2022-10-06
+Naventi Balanserad Flex: 2022-10-06
+Naventi Defensiv Flex: 2022-10-06
+Naventi Offensiv Flex: 2022-10-06
+NN (L) Asia Income P : 2022-10-06
+NN (L) EURO Equity P : 2022-10-06
+NN (L) European Equity P : 2022-10-06
+NN (L) European Sustainable Equity P: 2022-10-06
+NN (L) First Class Protection P: 2022-10-06
+NN (L) Global Convertible Opportunities P: 2022-10-06
+NN (L) Global Equity Impact Opportunities P: 2022-10-06
+NN (L) Greater China Equity P: 2022-10-06
+NN (L) Green Bond P: 2022-10-06
+NN (L) Japan Equity P : 2022-10-06
+NN (L) Smart Connectivity P: 2022-10-06
+Nordea Asian Stars: 2022-10-06
+Nordea European Stars: 2022-10-06
+Nordea Generationsfond 50-tal: 2022-10-06
+Nordea Generationsfond 60-tal: 2022-10-06
+Nordea Generationsfond 70-tal: 2022-10-06
+Nordea Generationsfond 80-tal: 2022-10-06
+Nordea Generationsfond 90-tal: 2022-10-06
+Nordea Generationsfond Senior: 2022-10-06
+Nordea Global: 2022-10-06
+Nordea Globala TillvÃ¤xtmarknader : 2022-10-06
+Nordea Indienfond: 2022-10-06
+Nordea Kinafond: 2022-10-06
+Nordea Nordic: 2022-10-06
+Nordea Obligationsfond: 2022-10-06
+Nordea RealrÃ¤ntefond: 2022-10-06
+Nordea Rysslandsfond: 2022-06-16
+Nordea SmÃ¥bolagsfond Norden: 2022-10-06
+Nordea Stratega RÃ¤nta: 2022-10-06
+Nordea Swedish Bond Stars: 2022-10-06
+Nordea Swedish Stars: 2022-10-06
+Odin Emerging Markets C: 2022-10-06
+Odin Europa C: 2022-10-06
+Odin Fastighet C: 2022-10-06
+Odin Global C: 2022-10-06
+Odin Norden C: 2022-10-06
+Odin Norge C : 2022-10-06
+Odin Sverige C: 2022-10-06
+Pareto Aksje Norge B: 2022-10-05
+Pareto ESG Global Corporate Bond A: 2022-10-05
+Pareto Global B: 2022-10-05
+Pareto Nordic Corporate Bond C: 2022-10-05
+Pictet Asian  Equities Ex Japan R: 2022-10-06
+Pictet Biotech R: 2022-10-06
+Pictet China Equities R: 2022-09-30
+Pictet Clean Energy R: 2022-10-06
+Pictet Digital R: 2022-10-06
+Pictet Emerging Markets R: 2022-10-06
+Pictet EUR Bonds R: 2022-10-05
+Pictet Global Bonds R: 2022-10-05
+Pictet Global Emerging Debt R: 2022-10-05
+Pictet Global Megatrend Selection R: 2022-10-06
+Pictet Health R: 2022-10-06
+Pictet Indian Equities R: 2022-10-06
+Pictet Japanese Equity Opportunities R: 2022-10-06
+Pictet Premium Brands R: 2022-10-06
+Pictet Quest Europe Sustainable Equities R: 2022-10-06
+Pictet Security R: 2022-10-06
+Pictet Timber R: 2022-10-06
+Pictet Water R: 2022-10-06
+Pictet-Emerging Corporate Bonds R : 2022-10-05
+PLUS SmÃ¥bolag Sverige Index : 2022-10-06
+Prior & Nilsson Realinvest A: 2022-10-06
+Prior & Nilsson Sverige Aktiv A: 2022-10-06
+S-Banken Emerging Markets ESG Aktie A: 2022-10-06
+S-Banken Europa Aktie A: 2022-10-06
+S-Banken Fenno Aktie A: 2022-10-06
+S-Banken USA Aktie A: 2022-10-06
+SEB Aktiesparfond: 2022-10-06
+SEB Asienfond ex Japan: 2022-10-06
+SEB Asset Selection Fund C: 2022-10-06
+SEB Dynamic Bond Fund C: 2022-10-06
+SEB Dynamisk Aktiefond: 2022-10-06
+SEB Emerging Marketsfond: 2022-10-05
+SEB Europafond: 2022-10-06
+SEB Europafond SmÃ¥bolag: 2022-10-06
+SEB Global Aktiefond: 2022-10-06
+SEB Global High Yield Fund C: 2022-10-05
+SEB Green Bond Fund C: 2022-10-05
+SEB LÃ¤kemedelsfond: 2022-10-06
+SEB Nordamerikafond SmÃ¥ och Medelstora Bolag A: 2022-10-06
+SEB Nordenfond: 2022-10-06
+SEB Pension Fund C: 2022-10-05
+SEB RealrÃ¤ntefond D: 2022-10-06
+SEB Sverige Expanderad: 2022-10-06
+SEB Sweden Equity Fund C: 2022-10-06
+SEB Teknologifond : 2022-10-05
+SEB VÃ¤rldenfond: 2022-10-05
+SEB Ã–steuropafond: 2022-06-08
+SEB Ã–steuropafond SmÃ¥ och Medelstora Bolag C: 2022-10-05
+Seligson & Co Euroobligation A: 2022-10-06
+Seligson & Co Global Top 25 Brands A: 2022-10-06
+Seligson & Co Global Top 25 Pharmaceuticals A: 2022-10-06
+Sensor Sverige Select: 2022-10-06
+Simplicity FÃ¶retagsobligationer A: 2022-10-06
+Simplicity Global Corporate Bond A: 2022-10-06
+Simplicity Likviditet A: 2022-10-06
+Simplicity Norden : 2022-10-06
+SKAGEN Focus D: 2022-10-06
+SKAGEN Global E: 2022-10-06
+SKAGEN Kon-Tiki F: 2022-10-06
+SKAGEN m2 C: 2022-10-06
+SKAGEN Vekst C: 2022-10-06
+Skandia Balanserad: 2022-10-06
+Skandia Europa Exponering: 2022-10-06
+Skandia FÃ¶rsiktig: 2022-10-06
+Skandia Global Exponering A: 2022-10-06
+Skandia Japan Exponering: 2022-10-06
+Skandia KortrÃ¤ntefond: 2022-10-06
+Skandia Nordamerika Exponering: 2022-10-06
+Skandia Obligationsfond: 2022-10-06
+Skandia RealrÃ¤ntefond: 2022-10-06
+Skandia SmÃ¥bolag Sverige: 2022-10-06
+Skandia Sverige Exponering A: 2022-10-06
+Skandia Sverige HÃ¥llbar: 2022-10-06
+Skandia Time Global: 2022-10-06
+Skandia USA: 2022-10-06
+Skandia VÃ¤rlden: 2022-10-06
+Spiltan Aktiefond SmÃ¥land: 2022-10-06
+Spiltan Aktiefond Stabil : 2022-10-06
+Spiltan Globalfond Investmentbolag: 2022-10-06
+Spiltan HÃ¶grÃ¤ntefond: 2022-10-06
+Spiltan RÃ¤ntefond Sverige: 2022-10-06
+Spiltan SmÃ¥bolagsfond: 2022-10-06
+SPP Generation 40-tal: 2022-10-06
+SPP Generation 50-tal: 2022-10-06
+SPP Generation 60-tal: 2022-10-06
+SPP Generation 70-tal: 2022-10-06
+SPP Generation 80-tal: 2022-10-06
+Storebrand Emerging Markets A: 2022-10-06
+Storebrand Emerging Markets Plus A: 2022-10-06
+Storebrand Europa A: 2022-10-06
+Storebrand FRN FÃ¶retagsobligation A: 2022-10-06
+Storebrand Global All Countries A: 2022-10-06
+Storebrand Global FÃ¶retagsobligation A: 2022-10-06
+Storebrand Global Low Volatility A: 2022-10-06
+Storebrand Global Multifactor A: 2022-10-06
+Storebrand Global Plus A: 2022-10-06
+Storebrand Global Solutions A: 2022-10-06
+Storebrand GrÃ¶n Obligation A: 2022-10-06
+Storebrand Japan A: 2022-10-06
+Storebrand KortrÃ¤nta A: 2022-10-06
+Storebrand Obligation A: 2022-10-06
+Storebrand Sverige A: 2022-10-06
+Storebrand Sverige Plus A: 2022-10-06
+Storebrand USA A: 2022-10-06
+Swedbank Robur Access Asien A: 2022-10-06
+Swedbank Robur Access Europa A: 2022-10-06
+Swedbank Robur Access Global A: 2022-10-06
+Swedbank Robur Access Sverige A: 2022-10-06
+Swedbank Robur Access USA A: 2022-10-06
+Swedbank Robur Aktiefond Pension: 2022-10-06
+Swedbank Robur Fastighet A: 2022-10-06
+Swedbank Robur Healthcare A: 2022-10-06
+Swedbank Robur Mixfond Pension: 2022-10-06
+Swedbank Robur Nordenfond: 2022-10-06
+Swedbank Robur Obligation A: 2022-10-06
+Swedbank Robur Rysslandsfond A: 2022-06-16
+Swedbank Robur RÃ¤ntefond Kort A: 2022-10-06
+Swedbank Robur SmÃ¥bolagsfond Europa A: 2022-10-06
+Swedbank Robur SmÃ¥bolagsfond Sverige A: 2022-10-06
+Swedbank Robur Technology A: 2022-10-06
+Swedbank Robur Transfer 50: 2022-10-06
+Swedbank Robur Transfer 60: 2022-10-06
+Swedbank Robur Transfer 70: 2022-10-06
+Swedbank Robur Transfer 80: 2022-10-06
+Swedbank Robur Transfer 90: 2022-10-06
+Swedbank Robur Ã–steuropafond A: 2022-10-06
+SÃ¶derberg & Partners Proaktiv 75 PM A: 2022-10-06
+SÃ¶derberg & Partners Proaktiv 80 PM A: 2022-10-06
+Tellus Globala Investmentbolag: 2022-08-30
+Templeton Emerging Markets Fund A: 2022-10-05
+Templeton European Opportunities Fund A: 2022-10-05
+Templeton Global Bond Fund A: 2022-10-05
+TRIGON - New Europe Fund E: 2022-10-06
+Tundra Sustainable Frontier Fund A: 2022-10-06
+UB Europa REIT Placeringsfond A: 2022-10-06
+UB Global REIT Placeringsfond A: 2022-10-06
+UB Infra Placeringsfond A: 2022-10-06
+Ã…landsbanken Euro Bond S Placeringsfond: 2022-10-05
+Ã…landsbanken Euro High Yield B Placeringsfond: 2022-10-05
+Ã…landsbanken Europa Aktie B Placeringsfond: 2022-10-05
+Ã…landsbanken Global Aktie B Placeringsfond: 2022-10-05
+Ã…landsbanken KapitalfÃ¶rvaltning Placeringsfond: 2022-10-05
+Ã…landsbanken Norden Aktie S Placeringsfond: 2022-10-05
+Ã–hman Emerging Markets A: 2022-10-06
+Ã–hman Etisk Index Sverige A: 2022-10-06
+Ã–hman FRN A: 2022-10-06
+Ã–hman FÃ¶retagsobligationsfond A: 2022-10-06
+Ã–hman Global A: 2022-10-06
+Ã–hman Global Growth A: 2022-10-06
+Ã–hman Kort RÃ¤nta A: 2022-10-06
+Ã–hman Marknad Europa A: 2022-10-06
+Ã–hman Marknad Global A: 2022-10-06
+Ã–hman Marknad Pacific A: 2022-10-06
+Ã–hman Marknad USA A: 2022-10-06
+Ã–hman Obligationsfond A: 2022-10-06
+Ã–hman RealrÃ¤ntefond A: 2022-10-06
+Ã–hman SmÃ¥bolagsfond A: 2022-10-06
+Ã–hman Sverige A: 2022-10-06
+Ã–hman Sweden Micro Cap: 2022-10-06
