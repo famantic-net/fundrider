@@ -1,913 +1,479 @@
 ---
 "0\r\n": 1
-ab american growth a $: 2010-12-02
-ab american value a $: 2010-06-25
-ab global growth trends a $: 2010-12-02
-ab international tech fund a $: 2010-12-02
-ab us thematic research pf a $: 2010-12-02
-aberdeen global emerg market: 2013-03-21
-abn amro amerika: 2009-02-05
-absolute insight currency fund: 2013-03-22
-acm american growth portfolio: 2003-12-18
-acm bernstein american value a: 2003-12-18
-'acm gi - global growth trends': 2003-12-18
-akelius europe fund (eur): 2001-02-21
-aktiespararna topp sverige: 2003-01-08
-alfred berg amerika: 2009-03-02
-alfred berg obligationsfond: 2013-02-15
-alfred berg obligationsfond plus: 2013-03-22
-alfred berg ryssland: 2013-03-22
-alfred berg ränteallokeringp a: 2013-03-21
-alliance capital amer value pta: 2001-10-05
-alliancebernstein amer val a usd: 2009-03-19
-alterum global quality growth: 2005-01-28
-amf aktiefond småbolag: 2013-03-22
-amf aktiefond sverige: 2013-03-22
-amf aktiefond världen: 2013-03-22
-amf balansfond: 2013-03-22
-amf räntefond kort: 2013-03-22
-amf räntefond lång: 2013-03-22
-archipel dynamic: 2013-03-21
-atcm i (sek-r): 2012-09-03
-atcm i-dynamic manager alpha r: 2012-09-05
-banco amerika: 2010-12-03
-baring north america: 2006-01-31
-baring north america (usd): 2003-12-19
-blackrock european: 2013-03-22
-blackrock global equity: 2010-12-03
-blackrock global opportun: 2010-12-03
-blackrock global small cap p: 2010-12-03
-blackrock japan sm&mid cap op: 2010-12-03
-blackrock latin america a2: 2013-03-22
-brummer archipel dynamic: 2012-10-02
-carlson sverige koncis: 2011-11-09
-carnegie east european: 2010-12-03
-carnegie indienfond: 2012-02-29
-carnegie kinafond: 2012-02-29
-carnegie likviditet: 2013-03-22
-carnegie medical: 2013-03-22
-carnegie ryssland: 2013-03-22
-carnegie strategi: 2012-09-21
-carnegie strategi a: 2013-03-22
-carnegie svensk kort ränta: 2013-03-22
-carnegie sverige: 2013-03-22
-carnegie world wide: 2013-03-22
-danske invest aktiv förmögenhet: 2013-03-22
-danske invest balanserad: 2012-10-31
-danske invest gl em mark: 2012-02-28
-danske invest horisont aktie: 2013-03-22
-danske invest horisont balansera: 2013-03-22
-danske invest offensiv: 2012-10-31
-danske invest sve likvid: 2013-03-22
-danske invest sverige: 2013-03-22
-dnb fund sek long bond a: 2013-03-22
-dnb fund sek short bond a: 2013-03-22
-dnb småbolagsfond: 2013-03-22
-dnb sverige koncis: 2013-03-22
-east capital balkanfonden: 2013-03-22
-east capital ryssland: 2010-12-03
-east capital rysslandsfonden: 2013-03-22
-east capital turkietfonden: 2013-03-22
-east capital Östeuropafonden: 2013-03-22
-eastspring china equity a: 2013-03-22
-eaton emerald us value fund a2$: 2007-09-12
-eaton vance emerald us value a2: 2010-04-28
-eaton vance intl ppa em mark: 2013-03-21
-eaton vance intl us value a2: 2013-03-21
-eaton vance ppa emerg mrkts: 2010-04-28
-em leaders growth fund class d: 2012-05-24
-emerging markets equity b usd: 2013-03-21
-enter select: 2013-03-22
-enter select pro: 2013-03-22
-ethos aktiefond: 2013-02-15
-ethos aktiefond utd: 2013-03-22
-'ethos global eqt - ic (sek)': 2013-03-21
-'ethos global eqt - id (sek)': 2013-03-21
-ethos räntefond: 2013-02-15
-ethos räntefond utd: 2013-03-22
-etiskt urval global icke-utd: 2012-09-18
-fidel asian spec: 1999-09-15
-fidel australia: 1999-09-15
-fidel france frf: 1999-09-15
-fidel germany eur: 1999-09-15
-fidel iberia esp: 1999-09-15
-fidel italy itl: 1999-09-15
-fidelity asian special: 2013-03-21
-fidelity australia: 2003-02-14
-fidelity euro growth: 2010-12-02
-fidelity euro small: 2013-03-21
-fidelity european growth (eur): 2003-12-18
-fidelity european small (eur): 2003-12-18
-fidelity france: 2003-02-14
-fidelity germany: 2003-02-14
-fidelity iberia: 2003-02-14
-fidelity international: 2010-12-02
-fidelity international (usd): 2003-12-18
-fidelity italy: 2003-02-14
-fidelity japan advantage: 2013-03-21
-first state asia pac lead fund a: 2012-06-25
-first state asia pac lead fund b: 2013-03-22
-fleming pacific: 2001-07-19
-fondservice sverige världen: 2013-03-22
-fondservice världen: 2013-03-22
-gartmore gl focus fund: 2011-08-10
-goldman gl consumer grow: 2004-07-21
-goldman gl financial services: 2009-04-17
-goldman sachs brics eac: 2013-03-21
-goldman sachs brics portfolio: 2006-08-16
-goldman sachs brics ptf eur: 2011-12-07
-goldman sachs euro core flx: 2012-12-13
-goldman sachs gl consumer grow: 2003-12-18
-goldman sachs gl eq: 2010-12-02
-goldman sachs gl high yield: 2010-12-02
-goldman sachs global eq (usd): 2003-12-18
-goldman sachs global hiyie: 2001-04-30
-goldman sachs hiyi e hedge (eur: 2003-12-18
-goldman sachs n11 eq eac: 2013-03-21
-gs india equity base acc: 2013-03-21
-gs india equity ptf b cap: 2012-11-07
-gs n-11 sm eq pf e cap: 2011-12-07
-handelsbanken amerikafond: 2013-03-22
-handelsbanken asienfond: 2012-03-05
-handelsbanken brasilienfond: 2013-03-22
-handelsbanken europa index: 2013-03-22
-handelsbanken europafond: 2013-03-22
-handelsbanken flermarknadsfond: 2013-03-22
-handelsbanken global etisk: 2013-03-22
-handelsbanken globalfond: 2013-03-22
-handelsbanken indienfonden: 2012-03-05
-handelsbanken korträntefond: 2013-03-22
-handelsbanken latinamerikafond: 2013-03-22
-handelsbanken lux korträntefond: 2013-03-22
-handelsbanken långräntefond: 2013-03-22
-handelsbanken msci usa index: 2013-03-22
-handelsbanken norden aggressiv: 2013-03-22
-handelsbanken nordenfond: 2013-03-22
-handelsbanken norsmå: 2013-03-22
-handelsbanken realräntefond: 2013-03-22
-handelsbanken rysslandsfond: 2013-03-22
-handelsbanken sve index etisk: 2013-03-22
-handelsbanken svenska småbolag: 2013-03-22
-handelsbanken sverige världen: 2013-03-22
-handelsbanken sverigefond: 2013-03-22
-handelsbanken sverigefond index: 2013-03-22
-handelsbanken tillväxtmarknad: 2012-03-05
-handelsbanken Östeuropa: 2013-03-22
-henderson gartmore glob focus: 2013-03-21
-hsbc brazil equity: 2013-03-21
-hsbc gif global macro (m1) sek: 2013-03-22
-hsbc indian equity: 2013-03-21
-'ikc - fbp 0 - 100': 2013-03-21
-'ikc - fbp 0 - 80': 2013-03-21
-'ikc fbp 0 - 40': 2013-03-21
-ikc world wide opportunities: 2013-03-21
-ing lrenta emrgmktdb loc bd: 2013-03-21
-jf china a: 2003-12-18
-jf pacific eq a: 2003-12-18
-johcm european select eur x: 2013-03-22
-johcm global select fund eur b: 2013-03-22
-johcm global select fund eur r: 2013-02-15
-jpm gl natural resources a acc: 2013-03-21
-jpm global focus a acc: 2013-03-21
-jpm highb stat mt n aacc sek h: 2013-03-21
-jpm jf china fund a: 2013-02-06
-jpm pacific equity a: 2009-11-30
-jpmorgan china adist usd: 2013-03-21
-jrs growth: 2013-03-22
-jrs wealth: 2013-03-22
-lannebo likviditet: 2013-03-22
-lannebo småbolag: 2013-03-22
-lannebo sverige: 2013-03-22
-länsförs asienfond: 2012-03-05
-länsförs europa aktiv: 2013-03-22
-länsförs europafond: 2013-02-28
-länsförs fastighetsfond: 2013-03-22
-länsförs globalfond: 2013-03-22
-länsförs japanfond: 2012-03-05
-länsförs kort räntefond: 2013-03-22
-länsförs lång räntefond: 2013-03-22
-länsförs obligationsfond: 2013-02-28
-länsförs penningmarknadsfond: 2013-02-28
-länsförs småbolagsfond: 2013-03-22
-länsförs sverige & världen: 2013-03-22
-länsförs sverige aktiv: 2013-03-22
-länsförs sverigefond: 2013-02-28
-länsförs tillväxtmarknad: 2013-03-22
-länsförs total: 2013-02-28
-macquarie asia new stars a sek: 2013-03-21
-max matthi navigera dynamica 90: 2013-03-22
-merrill lynch gl eq diversified: 2006-09-29
-merrill lynch global opp: 2003-12-19
-mobilis aktiv: 2013-03-22
-mobilis fokus: 2013-03-22
-mobilis kapital aktiv: 2012-09-26
-montanaro eu sm comp eur acc: 2013-03-22
-naventi aktiv förv balanserad: 2013-03-22
-naventi aktiv förv offensiv: 2013-03-22
-navigera aktie 1: 2013-03-22
-navigera balans 1: 2013-03-22
-navigera tillväxt 1: 2013-03-22
-nordea alfa: 2013-03-22
-nordea beta: 2012-08-31
-nordea etiskt urval global: 2012-02-29
-nordea europafond: 2013-03-22
-nordea futura: 2013-03-22
-nordea global: 2013-03-22
-nordea likvinvest: 2013-03-22
-nordea nordamerikafond: 2013-02-15
-nordea nordenfond: 2013-03-22
-nordea north america fund: 2013-03-22
-nordea obligationsfond: 2012-02-29
-nordea optima: 2013-03-22
-nordea realränta: 2013-03-22
-nordea rysslandsfond: 2013-03-22
-nordea sekura: 2013-03-22
-nordea selekta europa: 2013-03-22
-nordea småbolag norden: 2013-03-22
-nordea spektra: 2013-03-22
-nordea sverige: 2013-03-22
-nordea tillväxtbolagsfond: 2012-10-04
-obligationsfond icke-utd: 2013-03-22
-odin europa smb: 2013-03-22
-odin finland: 2013-03-22
-odin norden: 2013-03-22
-odin norge: 2013-03-22
-odin sverige: 2013-03-22
-partngroup-listedinfrastr p: 2013-03-22
-pictet biotech p: 2009-11-20
-pimco unconstrained bond fund: 2013-03-21
-pioneer emeg eur & med a: 2013-03-21
-robur absolutavkastning ränta: 2013-03-22
-robur allemansfond i: 2012-03-05
-robur allemansfond ii: 2012-03-05
-robur allemansfond iii: 2012-03-05
-robur allemansfond iv: 2012-03-05
-robur allemansfond komplett: 2013-03-22
-robur allemansfond v: 2012-03-05
-robur amerikafond: 2013-03-22
-robur asienfond: 2013-03-22
-robur bas mix: 2013-03-21
-robur contura: 2012-02-23
-robur ethica sverige: 2013-03-22
-robur ethica sverige global: 2013-03-22
-robur europafond: 2013-03-22
-robur exportfond: 2013-03-22
-robur kapitalinvest: 2013-03-22
-robur kinafond: 2013-03-22
-robur kommunikationsfond: 2012-02-23
-robur lux sv likviditetsfond: 2013-03-22
-robur medica: 2013-03-22
-robur mixfond: 2012-10-05
-robur nordenfond: 2013-03-22
-robur obligationsfond: 2013-03-22
-robur pacificfond: 2012-09-18
-robur penningmarknadsfond: 2013-03-22
-robur realinvest: 2013-03-22
-robur realräntefond: 2013-03-22
-robur rysslandsfond: 2013-03-22
-robur räntefond sverige: 2012-09-05
-robur småbolagsfond europa: 2013-03-22
-robur småbolagsfond norden: 2013-03-22
-robur småbolagsfond sverige: 2013-03-22
-robur sverigefond: 2013-03-22
-robur technology: 2013-03-22
-robur Östeuropafond: 2013-03-22
-schroder asian bond a: 2002-08-21
-schroder em europe a acc: 2009-12-01
-schroder em mkt debt a acc: 2009-12-01
-schroder emerging mkts debt a ac: 2003-12-19
-schroder isf global climate ch: 2013-03-22
-schroders emerging mark (usd): 2000-12-22
-seb a allemansfond: 1999-09-20
-seb a asien: 2000-05-08
-seb a f-anknuten allemansfond: 2001-05-18
-seb a global obl: 1999-09-20
-seb a schweiz: 1999-09-20
-seb a sverige: 1999-09-20
-seb a total: 1999-09-20
-seb a usa: 2000-05-08
-seb a ÖstersjÖ småbolagsfond: 2000-03-02
-seb aktiefond sverige i: 2001-05-21
-seb aktiefond sverige ii: 2001-05-21
-seb aktiefonder cont europe: 1999-09-14
-seb aktiefonder east europe: 1999-09-14
-seb aktiefonder emerg markets: 1999-09-14
-seb aktiefonder equity fund e: 1999-09-14
-seb aktiefonder far east: 1999-09-14
-seb aktiefonder global: 1999-09-14
-seb aktiefonder intern a: 1999-09-14
-seb aktiefonder intern b: 1999-09-14
-seb aktiefonder japan acc: 1999-09-14
-seb aktiefonder japanfond: 1999-09-14
-seb aktiefonder mediterranean: 1999-09-14
-seb aktiefonder naturresurs: 1999-09-14
-seb aktiefonder nordic: 1999-09-14
-seb aktiefonder norge: 1999-09-14
-seb aktiefonder north america: 1999-09-14
-seb aktiefonder uk: 1999-09-14
-seb aktiespar: 2013-03-22
-seb allemansf chans risk: 1999-09-14
-seb allemansf småbolag: 1999-09-14
-seb allemansfond aktier: 1999-09-20
-seb allemansfond norden: 1999-09-20
-seb allemansfond småbolag: 1999-09-17
-seb alpha bond sek a inst: 2009-10-22
-seb alpha bond sek b inst: 2009-10-22
-'seb alpha bond sek c - lux ack': 2009-10-22
-'seb alpha bond sek d - lux utd': 2009-10-22
-seb alpha bond sek e inst: 2006-01-26
-seb alpha bond sek f inst: 2006-01-26
-seb alpha bond sek g inst: 2006-01-31
-seb alpha bond sek h inst: 2006-01-31
-seb alpha sh bond sek a inst: 2009-10-22
-seb alpha sh bond sek b inst: 2009-10-22
-seb alpha sh bond sek c-lux ack: 2009-10-22
-seb alpha sh bond sek d-lux utd: 2009-10-22
-seb alpha sh bond sek e inst: 2006-01-31
-seb alpha sh bond sek f inst: 2006-01-26
-seb alpha sh bond sek g inst: 2006-01-31
-seb alpha sh bond sek h inst: 2006-01-31
-'seb alphabond sek c - lux ack': 2005-09-23
-'seb alphashbond sek c - lux ack': 2005-09-23
-seb asien (exkl japan): 2002-10-04
-seb asien ex jap småb lux ack: 2003-12-19
-seb asien ex japan: 2003-12-19
-'seb asien ex japan - lux': 2013-03-22
-seb asien ex japan lux ack: 2003-12-19
-seb asien ex japan lux utd: 2003-12-19
-'seb asien småbol ex jap - lux': 2013-03-22
-seb asienfond: 2002-02-04
-seb asienfond (exkl japan): 2003-10-14
-seb asienfond ex japan: 2013-03-22
-seb asienfond ex japan lux ack: 2013-02-15
-seb asienfond ex japan lux utd: 2013-03-22
-seb asienfond småb x jap lux ack: 2013-02-15
-'seb asset sel def - lux ltd': 2013-03-22
-seb asset sel def c (eur): 2009-09-30
-seb asset sel def lux ack ltd: 2013-02-15
-'seb asset sel def sek - lux': 2013-03-22
-seb asset sel def sek lux ack: 2013-02-15
-seb asset sel opp isek lux utd: 2013-03-22
-'seb asset sel opp sek - lux': 2013-03-22
-seb asset selection c eur: 2012-02-22
-'seb asset selection sek - lux': 2013-03-22
-seb asset selection sek lux utd: 2013-03-22
-seb avkastningsfon: 1999-09-15
-seb avkastningsfond: 2003-10-14
-seb avkfonder $ currency: 1999-09-14
-seb avkfonder bond accum: 1999-09-14
-seb avkfonder bond euro acc: 1999-09-14
-seb avkfonder bond euro inc: 1999-09-14
-seb avkfonder bond income: 1999-09-14
-seb avkfonder bond sweden acc: 1999-09-14
-seb avkfonder bond sweden inc: 1999-09-14
-seb avkfonder bond usd accum: 1999-09-14
-seb avkfonder bond usd income: 1999-09-14
-seb avkfonder europa accum: 1999-09-14
-seb avkfonder europa income: 1999-09-14
-seb avkfonder short bond euro: 1999-09-14
-seb avkfonder swe curr: 1999-09-14
-seb avkfonder swe flex acc: 1999-09-14
-seb avkfonder swe flex inc: 1999-09-14
-seb baltikumfond lux ack: 2003-12-19
-'seb bioteknikfond - lux': 2013-03-22
-seb bioteknikfond lux ack: 2013-02-15
-seb bioteknikfond lux utd: 2013-03-22
-seb bond euro acc: 1999-09-15
-seb bond euro inc: 1999-09-15
-'seb bond fund hnw sek - lux utd': 2013-03-22
-seb bond fund hnw sek -lux utd: 2013-03-22
-seb bond int acc: 1999-09-15
-seb bond int inc: 1999-09-15
-seb cancerfond: 2011-02-08
-'seb ch asien x jap - lux utd': 2008-11-21
-seb ch asien x japan d lux utd: 2011-12-29
-seb ch emerging market lux ack: 2011-12-29
-'seb ch high yield sek - lux': 2013-02-27
-seb ch high yield sek lux ack: 2013-02-15
-seb ch nordamerika c lux ack: 2009-03-13
-seb ch nordamerika c r lux ack: 2011-12-29
-'seb ch nordamerika d - lux utd': 2009-03-13
-seb chans risk alf: 1999-09-15
-seb choice asien små x j lux ack: 2011-12-29
-seb choice asien x jap lux ack: 2011-12-29
-seb choice asienfond ex japan: 2011-12-29
-seb choice emerging markets: 2013-03-22
-seb choice global value lux ack: 2011-12-29
-seb choice global value lux utd: 2011-12-29
-seb choice japan c r lux ack: 2011-12-29
-seb choice japanfond: 2013-03-22
-seb choice japanfond c lux ack: 2011-12-29
-seb choice japanfond d lux utd: 2011-12-29
-seb choice latinamerika: 2013-03-22
-seb choice namer medelst bolag: 2013-02-27
-seb choice nordamerik småbolag: 2013-03-22
-seb choice nordamerikafond: 2013-03-22
-seb choice sverigefond 1: 2009-12-01
-seb choice sverigefond 2: 2009-11-19
-seb choise global value lux ack: 2009-03-26
-seb choise global value lux utd: 2009-03-26
-seb cont europe: 1999-09-15
-'seb corporate bond eur - lux': 2013-03-22
-seb corporate bond eur lux ack: 2013-02-15
-seb corporate bond eur lux utd: 2013-03-22
-'seb corporate bond sek - lux': 2013-03-22
-seb corporate bond sek lux ack: 2013-02-15
-seb corporate bond sek lux utd: 2013-03-22
-seb credit multi strat c sek: 2013-01-31
-seb credit multi strat id sek: 2013-02-28
-'seb credit multi strategy - lux': 2013-02-28
-seb credit multi strategy hnwc: 2013-01-31
-seb credit multistr hnw sek lux: 2013-02-28
-seb currency alpha sek-lux ack: 2010-10-07
-seb danish mortgage bond c sek: 2013-03-22
-seb danish mortgage bond id sek: 2013-03-22
-seb dollar bo acc: 1999-09-15
-seb dollar bo inc: 1999-09-15
-seb dynamic mgr alpha r atcm i: 2013-03-20
-seb east europe: 1999-09-15
-seb em eq l s sek lux ack: 2011-11-30
-seb em mkts eq l s sek luxinutd: 2010-10-31
-'seb emerging market - lux ack': 2013-02-15
-seb emerging markets lux ack: 2003-12-19
-'seb emerging marketsfond - lux': 2013-03-22
-seb equity fund: 1999-09-15
-seb ethos aktiefond: 2010-04-16
-seb ethos räntefond: 2010-04-16
-'seb etisk europa - lux': 2013-03-22
-seb etisk europafond lux ack: 2013-02-15
-seb etisk europafond lux uck: 2012-01-13
-'seb etisk global index - lux': 2013-03-22
-seb etisk global index lux ack: 2013-02-15
-seb etisk global index lux uck: 2012-01-13
-seb etisk global index lux utd: 2013-03-22
-'seb etisk global indexfond - lux': 2008-10-31
-seb etisk globalfond: 2013-03-22
-seb etisk globalfond lux utd: 2003-12-19
-seb etisk globalfond utd: 2013-03-22
-seb etisk sverigefond lux utd: 2013-03-22
-'seb etiskglobalindex - lux utd': 2008-09-01
-seb euro marketsfond 1 lux ack: 2003-12-19
-seb euro marketsfond 2 lux ack: 2003-12-19
-'seb euroland gratis - lux': 2013-03-22
-'seb euroland gratis - lux ack': 2013-02-19
-seb europa: 2013-03-22
-'seb europa chans risk - lux': 2013-03-22
-seb europa chans risk lux ack: 2013-02-15
-'seb europa indexfond - lux': 2013-03-22
-seb europa indexfond lux ack: 2013-02-15
-seb europa lux utd: 2003-12-19
-seb europa småbolag lux ack: 2003-12-19
-seb europa småbolag lux utd: 2013-03-22
-'seb europafond - lux': 2013-03-22
-seb europafond 1 lux ack: 2009-06-17
-seb europafond 2 lux ack: 2009-06-12
-'seb europafond 3 - lux ack': 2009-03-12
-'seb europafond d - lux utd': 2013-03-22
-seb europafond lux ack: 2013-02-15
-seb europafond offensiv: 2013-03-22
-seb europafond småbolag: 2013-03-22
-seb europe bond ac: 1999-09-15
-seb europe bond in: 1999-09-15
-'seb europe flex - lux hnw ack': 2012-05-07
-'seb europe flex - lux inst utd': 2012-05-07
-'seb europe flexible - lux ack': 2012-05-07
-seb europe flexible fund c-sek: 2010-12-21
-seb europe flexible hnw-sek: 2010-12-21
-seb europe flexible id sek: 2010-12-21
-seb europeiska aktportfölj: 2003-12-19
-seb far east: 1999-09-15
-seb fastighetsfond: 2013-03-22
-seb fjärran Östern: 1999-09-20
-'seb fond i fond - balanserad': 2003-10-14
-'seb fond i fond - global': 2003-10-14
-seb fond i fond balanserad: 2008-11-05
-seb fond i fond global: 2008-11-05
-seb fondservice sverige världen: 2012-01-05
-seb fondservice världen: 2012-01-05
-seb forskning sv läk sällsk: 2003-12-19
-seb forskningsfond sv läk sällsk: 2004-09-29
-seb fund sv räntef: 1999-09-15
-seb företagsobl flexibel sek: 2013-03-22
-seb företagsoblflex sek ack: 2013-02-15
-seb företagsoblfond sek ack: 2010-05-24
-seb garantifond 80: 2013-03-21
-'seb generation 80-tal - lux': 2013-03-22
-seb generationsfond 50-tal: 2013-03-22
-seb generationsfond 60-tal: 2013-03-22
-seb generationsfond 70-tal: 2013-03-22
-seb generationsfond 80-tal: 2009-01-21
-'seb generationsfond 80-tal - lux': 2013-02-15
-seb global: 2011-02-18
-'seb global - lux': 2013-03-22
-'seb global chans risk - lux': 2013-03-22
-'seb global chans risk - lux ack': 2013-02-15
-seb global chans risk lux ack: 2003-12-19
-seb global d lux utd: 2013-03-22
-seb global eq l s sek luxack: 2012-02-29
-seb global hedge lux ack: 2009-06-04
-seb global lux ack: 2003-12-19
-seb global lux utd: 2003-12-19
-'seb global value - lux': 2013-03-22
-seb global valuefond lux ack: 2013-02-15
-seb global valuefond lux utd: 2013-03-22
-'seb globalfond - lux utd': 2008-11-21
-seb globalfond chans risk: 2013-03-22
-seb globalfond chans risk utd: 2013-03-22
-seb globalfond lux ack: 2013-02-15
-seb guarantee fund 80: 2010-12-03
-seb hedge fixed income: 2013-01-31
-seb hedge fixed income utd: 2013-02-28
-'seb hedge sek - lux': 2013-01-31
-'seb hedge sek - lux ack': 2012-12-28
-seb hedgefond: 2005-06-13
-seb hedgefond fixed income: 2011-03-31
-'seb high yield sek - lux': 2013-03-22
-seb horisontfond: 1999-09-20
-seb intacc: 1999-09-15
-seb internat blandfond lux ack: 2009-06-12
-seb internat blandfond lux utd: 2009-06-12
-seb internet: 2011-05-26
-seb intinc: 1999-09-15
-seb ireland bond fund: 2000-12-20
-seb ireland equity fund: 2000-12-20
-seb ireland finnish global eq: 2000-12-20
-seb ireland mixed fund: 2000-12-20
-'seb japan chans risk - lux': 2013-03-22
-seb japan chans risk lux ack: 2003-12-19
-seb japan lux ack: 2003-12-19
-seb japan lux utd: 2003-12-19
-'seb japanfond - lux': 2013-03-22
-seb japanfond chans risk lux ack: 2013-02-15
-seb japanfond lux ack: 2013-02-15
-seb japanfond lux utd: 2013-03-22
-seb key eu eq l s sek lux ack: 2012-12-28
-seb key hedge rc h sek: 2010-01-29
-'seb key hedge sek - lux ack': 2012-10-31
-seb key recovery sek lux ack: 2011-11-30
-'seb key select sek - lux': 2013-03-22
-seb key select sek-lux ack: 2013-02-15
-seb klar placeringsfond: 2001-05-18
-'seb life - asia equity': 2008-11-20
-'seb life - ethical global': 2008-10-27
-'seb life - global equity': 2008-11-26
-'seb life - internet': 2011-05-24
-'seb life - latinamerikafond': 2013-03-21
-'seb life - nordenfond': 2013-03-21
-'seb life - optionsrätter europa': 2008-12-05
-'seb life - Östeuropa': 2013-03-21
-seb life asia ex japan: 2013-03-21
-seb life em mkts: 2013-03-21
-seb life ethical global: 2003-12-19
-seb life ethical sweden: 2013-03-21
-seb life europa småbolag: 2013-03-21
-seb life europafond offensiv: 2013-03-21
-seb life europe equity: 2013-03-21
-seb life global equity: 2003-12-19
-seb life global ethical index: 2013-03-21
-seb life global fund: 2013-03-21
-seb life index linked bond: 2013-03-21
-seb life japan equity: 2013-03-21
-seb life medical: 2013-03-21
-seb life n amer medelst bolag: 2013-03-21
-seb life n america equity: 2010-11-05
-seb life north america eq: 2003-12-19
-seb life obligation flexibel: 2013-03-21
-seb life sverige småbolag: 2013-03-21
-seb life swe short-med term: 2013-03-21
-seb life technology: 2013-03-21
-seb life usa index fund: 2013-03-21
-seb life wireless communicat: 2009-05-14
-seb life world: 2013-03-21
-seb likviditetsfond sek: 2013-03-22
-seb likviditetsfond sek ack: 2013-03-22
-seb likviditetsfond sek utd: 2013-03-22
-seb list private eq lux in utd: 2012-05-21
-seb listed pe lux inst utd: 2013-03-22
-'seb listed private eq - lux': 2013-03-22
-seb listed private eq lux ack: 2013-02-15
-seb lux (f) räntefond: 2002-11-29
-seb lux cg china guaranteed: 2002-12-06
-seb lux cg emerging europe guar: 2002-02-01
-seb lux cs germany fund acc: 2002-10-17
-seb lux cs germany fund inc: 2002-10-17
-seb lux cs us fund acc: 2002-10-17
-seb lux cs us fund inc: 2002-10-17
-seb lux equity fund: 1999-09-20
-seb lux equity fund global fund: 2000-05-09
-seb lux flexible bond fund acc: 1999-09-23
-seb lux flexible bond fund inc: 1999-09-23
-'seb lux fund extra - novå': 2013-03-22
-seb lux norge aksjefond: 2003-01-29
-seb lux norge räntefond: 1999-09-20
-seb lux short bond fund: 2000-12-27
-'seb läkemedels- och bioteknikf': 2001-05-23
-seb läkemedelsfond: 2013-03-22
-seb läkemedelsfond lux utd: 2013-03-22
-seb lång obligationsfond: 2001-05-18
-seb mediterranean: 1999-09-15
-seb mul-mgr cur def sek-l a: 2012-01-19
-'seb mul-mgr cur sek- lux ack': 2012-01-19
-'seb multi asset def sek - lux': 2013-03-22
-'seb multi asset def sek - lux ac': 2013-02-15
-seb multihedge: 2013-01-31
-seb natural resour: 1999-09-15
-seb naventi aktiv för balanserad: 2012-01-05
-seb naventi aktiv förv offensiv: 2012-01-05
-seb nordame ch rsk: 1999-09-15
-seb nordamer medelst bolag: 2013-03-22
-'seb nordamerika c r - lux': 2013-03-22
-seb nordamerika lux ack: 2003-12-19
-seb nordamerika lux utd: 2003-12-19
-'seb nordamerikafond - lux ack': 2006-11-27
-seb nordamerikafond c r lux ack: 2013-02-15
-seb nordamerikafond chans risk: 2004-10-14
-'seb norden småbolag - lux': 2013-03-22
-'seb norden småbolag - lux ack': 2013-02-15
-seb norden småbolagsfond: 2002-11-14
-seb nordenfond: 2013-03-22
-seb nordenfond (exkl sverige): 2002-11-14
-seb nordenfond (fd sbp): 1999-09-14
-'seb nordenfond - lux': 2013-03-22
-seb nordenfond lux ack: 2013-02-15
-seb nordenfond utd: 2013-03-22
-seb nordic: 1999-09-15
-seb nordic eq l s sek-lux ack: 2008-10-31
-'seb nordic focus sek - lux': 2013-03-22
-'seb nordic focus sek - lux ack': 2013-02-15
-seb norge: 1999-09-15
-seb norge rente nok lux ack: 2003-12-19
-seb norge ränte: 1999-09-15
-seb norsmåbol: 1999-09-15
-seb north america: 1999-09-15
-'seb oblfond eur - lux ack': 2008-11-21
-'seb oblfond eur - lux utd': 2008-11-21
-seb oblfond eur lux ack: 2003-12-19
-seb oblfond eur lux utd: 2003-12-19
-'seb oblfond europa - lux ack': 2005-09-22
-seb oblfond europa usd lux ack: 2003-12-19
-seb oblfond europa usd lux utd: 2003-12-19
-seb oblfond flex sek lux ack: 2013-02-15
-seb oblfond flex sek lux atd: 2012-03-19
-seb oblfond flexibel sek: 2013-03-22
-seb oblfond flexibel sek lux ack: 2003-12-19
-seb oblfond flexibel sek lux utd: 2003-12-19
-seb oblfond global: 2007-04-24
-'seb oblfond global - lux ack': 2007-04-24
-'seb oblfond global - lux utd': 2007-04-24
-seb oblfond global usd lux ack: 2003-12-19
-seb oblfond global usd lux utd: 2003-12-19
-seb oblfond sek lux ack: 2013-02-15
-seb oblfond sek lux utd: 2013-03-22
-'seb oblfond usd - lux ack': 2005-09-22
-'seb oblfond usd - lux utd': 2005-09-22
-seb oblfond usd lux ack: 2003-12-19
-seb oblfond usd lux utd: 2003-12-19
-'seb oblig flexibel sek - lux': 2013-03-22
-seb obligationsfond 2: 2001-05-18
-seb obligationsfond sek: 2013-03-22
-'seb obligationsfond sek - lux': 2013-03-22
-seb obligationsfond sek utd: 2013-03-22
-seb offensiv placeringsfond: 2001-05-18
-'seb optionsrätter eur - lux ack': 2005-09-22
-seb optionsrätter eur lux ack: 2003-12-19
-seb optionsrätter europa: 2008-09-24
-seb pacificfond: 2002-11-14
-seb pb europeisk aktieportfölj: 2013-03-22
-seb pb portfölj balanserad: 2010-07-21
-seb pb portfölj försiktig: 2012-09-28
-seb pb portfölj möjlighet: 2010-07-21
-seb pb svensk aktieportfölj: 2013-03-22
-seb penningm eur lux utd: 2012-10-31
-'seb penningm usd - lux': 2013-03-22
-seb penningmark eur lux ack: 2012-10-31
-'seb penningmark nok - lux ack': 2007-11-19
-seb penningmark sek 2 lux utd: 2013-03-22
-seb penningmark sek lux ack: 2013-02-15
-seb penningmark usd lux ack: 2013-02-15
-seb penningmarkfond sek utd: 2013-03-22
-seb penningmarknad global: 2007-04-24
-'seb penningmarknad sek - lux': 2013-03-22
-seb penningmarknadsfond sek: 2013-03-22
-seb portfölj balanserad: 2005-05-16
-seb premiefond 50: 2004-02-06
-seb premiefond 55: 2004-02-06
-seb premiefond 60: 2004-02-06
-seb premiefond 65: 2004-02-06
-seb premiefond 70: 2004-02-06
-seb premiefond 75: 2004-02-06
-seb premiefond aktieobligation: 2001-07-03
-seb premiefond aktiespar: 2002-11-14
-seb premiefond asien: 2002-11-14
-seb premiefond emerging mkts: 2002-11-14
-seb premiefond europa: 2002-11-14
-seb premiefond internet: 2002-11-14
-seb premiefond läkemedel: 2002-11-14
-seb premiefond nordamerika: 2002-11-14
-seb premiefond obligation: 2002-11-14
-seb premiefond penningmarknad: 2002-11-14
-seb premiefond sverige: 2002-11-14
-seb premiefond teknologi: 2002-11-14
-seb premiefond världen: 2002-11-14
-seb private banking global: 2013-03-22
-seb real estate p i lux utd: 2013-03-22
-'seb real estate portf - lux': 2013-03-22
-'seb real estate portf- lux ack': 2013-02-15
-seb realräntefond sek lux utd: 2013-03-22
-'seb rysslandfond - lux': 2013-03-22
-seb rysslandfond lux ack: 2013-02-15
-seb räntefonder norge: 1999-09-14
-seb räntehedge alpha: 2013-03-22
-seb råvarufond: 2005-04-14
-'seb råvarufond - lux ack': 2005-04-15
-seb råvarufond lux ack: 2003-12-19
-seb saab allemansfond: 2002-11-15
-seb schweizfond: 2013-03-22
-seb scottish eq american: 1999-09-20
-seb scottish eq cash: 1999-09-20
-seb scottish eq europe: 1999-09-20
-seb scottish equity bond: 1999-09-20
-'seb short bond eur - lux ack': 2013-02-15
-'seb short bond eur - lux utd': 2013-03-22
-'seb short bond fund eur - lux': 2013-03-22
-'seb short bond hnw sek - lux': 2013-03-22
-seb short bond usd: 1999-09-15
-seb skandifond japan chans risk: 2000-05-26
-seb skf allemansfond: 2013-03-22
-seb småbolag: 1999-09-17
-seb special clients fif global: 2012-09-28
-seb special clients sverige: 2013-03-22
-seb stiftelse obl: 1999-09-15
-seb stiftelse obl sek utd: 2013-03-22
-seb stiftelsef balanserad utd: 2013-03-22
-seb stiftelsefond balanserad: 2013-02-15
-seb stiftelsefond obligation sek: 2013-02-15
-seb stiftelsefond sverige: 2013-02-15
-seb stiftelsefond sverige utd: 2013-03-22
-seb stiftelsefond utland: 2013-02-15
-seb stiftelsefond utland utd: 2013-03-22
-'seb strategi balanserad - lux': 2013-03-22
-seb strategi balanserad global: 2013-03-22
-'seb strategi defensiv - lux': 2013-03-22
-seb strategi defensiv -lux ack: 2013-02-15
-seb strategi flexibel-lux ack: 2011-09-29
-seb strategi global: 2013-03-22
-'seb strategi möjlighet - lux': 2013-03-22
-seb strategi möjlighet-lux ack: 2013-02-15
-'seb strategi offensiv - lux': 2013-03-22
-seb strategi offensiv-lux ack: 2013-02-15
-'seb strategi tillväxt - lux': 2013-03-22
-seb strategi tillväxt-lux ack: 2013-02-15
-seb strategibalanserad-lux ack: 2013-02-15
-seb sv läksäll forskningsfond: 1999-09-14
-seb sverige: 1999-09-15
-seb sverige 1: 1999-09-15
-seb sverige 2: 1999-09-15
-seb sverige indexfond: 2013-03-22
-seb sverige indexfond utd: 2013-03-22
-seb sverige obligationsfond: 1999-09-14
-seb sverige offensivfond: 2001-05-23
-seb sverige penningmarknadsfond: 1999-09-14
-seb sverige småbol c r utd: 2013-03-22
-seb sverige småbol chans risk: 2003-12-19
-seb sverige småbolag chans risk: 2013-03-22
-seb sverige småbolagsfond utd: 2013-03-05
-seb sverigefond: 2013-03-22
-seb sverigefond chans risk: 2013-03-22
-seb sverigefond chans risk utd: 2013-03-22
-seb sverigefond i: 2007-12-07
-seb sverigefond ii: 2007-12-07
-seb sverigefond småbolag: 2013-03-22
-seb sverigefond småbolag utd: 2013-03-22
-seb sverigefond stora bolag: 2013-03-22
-seb swe bond acc: 1999-09-15
-seb swe bond inc: 1999-09-15
-seb swe flex acc: 1999-09-15
-seb swe flex inc: 1999-09-15
-seb swedish focus fund: 2013-03-22
-seb swedish focus fund utd: 2013-03-22
-seb swedish value fund: 2013-03-22
-seb teknologifond: 2013-03-22
-'seb teknologifond - lux': 2013-03-22
-'seb teknologifond - lux ack': 2013-02-15
-seb teknologifond lux utd: 2013-03-22
-seb total balans: 2012-09-28
-seb total expansiv: 2013-03-22
-seb total försiktig: 2013-03-22
-seb total potential: 2013-03-22
-seb trygg eastern european: 1999-09-21
-seb trygg european small comp: 1999-09-21
-seb trygg f&c latin america: 2001-03-23
-seb trygg flem eastern europe: 2001-03-26
-seb trygg flem european small co: 2001-03-26
-seb trygg japanese small comp: 1999-09-29
-seb trygg latin america: 1999-09-21
-seb trygg life eastern european: 1999-09-20
-seb trygg life eurosmallcomp: 1999-09-20
-seb trygg life japanese small c: 1999-09-20
-seb trygg life latin america: 1999-09-20
-seb trygg life smaller comp: 1999-09-20
-seb trygg life uk equity: 1999-09-20
-seb trygg läkemedelsfond: 2000-05-05
-seb trygg placeringsfond: 2013-03-22
-seb trygg schroder jap small co: 2001-03-26
-seb trygg schroder uk equity: 2001-03-26
-seb trygg schroder us smaller co: 2001-03-26
-seb trygg scottish ?ope bond: 2009-03-23
-seb trygg scottish cash: 2013-03-21
-seb trygg scottish eq american: 2013-03-21
-seb trygg scottish eq europe: 2013-03-21
-seb trygg scottish eq far east: 2013-03-21
-seb trygg scottish eq mixed: 2013-03-21
-seb trygg scottish equitable mix: 2003-12-19
-seb trygg scottish equity bond: 2013-03-21
-seb trygg scottish eu bond: 2003-12-19
-seb trygg trygg obligation: 1999-09-21
-seb trygghetsfond: 2002-11-14
-seb trygghetsfond ekorren: 2013-03-22
-seb tysklandsfond: 2001-05-18
-seb uk: 1999-09-15
-seb uk lux ack: 2003-12-19
-'seb usa indexfond - lux': 2013-03-22
-seb usa indexfond lux ack: 2013-02-15
-seb usa indexfond lux utd: 2013-03-22
-seb usd bond fund acc: 1999-09-20
-seb usd bond fund inc: 1999-09-20
-seb utlandsfond: 2001-05-23
-seb världen: 2013-03-22
-'seb världenfond - lux': 2013-03-22
-'seb världenfond - lux ack': 2013-02-15
-seb världenfond lux utd: 2013-03-22
-seb wirelessfond lux ack: 2009-06-12
-seb ÖstersjÖ wwf: 2000-03-02
-seb Östersjöfond wwf: 2013-03-22
-'seb Östeur ex ryssland - lux': 2013-03-22
-seb Östeurfond småbo lux ack: 2013-02-15
-seb Östeurfondxryssland lux ack: 2013-02-15
-seb Östeuropa: 2013-03-22
-seb Östeuropa lux ack: 2003-12-19
-'seb Östeuropa småbolag - lux': 2013-03-22
-seblikviditetsfond: 1999-09-15
-selector global value a1: 2010-06-15
-shb msci usa index: 2012-10-15
-'silk - african lions fund - ar': 2013-03-22
-skandia asia: 2013-03-22
-skandia balanserad: 2013-03-22
-skandia europa: 2013-03-22
-skandia kapitalmarknad: 2013-03-22
-skandia offensiv: 2013-03-22
-skandia penningmarknad: 2013-03-22
-skandia realräntefond: 2013-03-22
-skandia småbolag sverige: 2013-03-22
-skandia sverige: 2013-03-22
-skandia världen: 2013-03-22
-sky harbor us hy fh sekc: 2013-03-21
-sky harbor us sdhy fh sekc: 2013-03-21
-spp aktiefond europa: 2013-03-22
-spp aktiefond global: 2013-03-22
-spp aktiefond sverige: 2013-03-22
-spp aktiefond sverige aktiv: 2013-03-22
-spp aktiefond usa: 2013-03-22
-spp aktieindex europa: 2012-01-25
-spp aktieindex sverige: 2012-01-25
-spp aktieindex usa: 2012-01-25
-spp aktieindexfond glob sust: 2012-09-13
-swedbank robur asienfond: 2012-10-24
-swedbank robur bas mix: 2012-10-30
-söderberg trygghet 75 tl: 2013-03-22
-söderberg trygghet 80 tl: 2013-03-22
-söderberg trygghet 85 tl: 2013-03-22
-söderberg trygghet 90 tl: 2013-03-22
-t-rowe price us l-cap grow eq a: 2013-03-22
-treetop global opp r eur: 2013-03-22
-trygg allemansfond: 1999-09-20
-trygg asien: 1999-09-15
-trygg asienfond: 1999-09-20
-trygg emerg mark: 1999-09-15
-trygg europa: 1999-09-20
-trygg fonder läkemedelsfond: 1999-09-14
-trygg fonder småbolagsfond: 1999-09-14
-trygg fri placering norden: 1999-09-14
-trygg fri placering opträtt eu: 1999-09-14
-trygg japan fond: 1999-09-20
-trygg nordamerika: 1999-09-20
-trygg nordenfond: 1999-09-20
-trygg optr euro: 1999-09-15
-trygg sc america: 1999-09-15
-trygg sc cash: 1999-09-15
-trygg sc eurobond: 1999-09-15
-trygg sc europa: 1999-09-15
-trygg sc far east: 1999-09-15
-trygg sc mixed: 1999-09-15
-trygg sch japsmall: 1999-09-15
-trygg sch uk eq: 1999-09-15
-trygg sch us small: 1999-09-15
-trygg schweizfond: 1999-09-20
-trygg scottish eq european bond: 1999-09-14
-trygg sverige: 1999-09-20
-us all cap growth fund cls d: 2012-05-24
-us short duration hy fh sekc: 2012-09-04
-vontobel belvista comm h sek: 2013-03-21
-vontobel belvista commodity h(hd: 2011-03-18
-william blair emg leaders (d): 2013-03-21
-william blair us all cap g (d): 2013-03-21
+'Aberdeen Standard - American Focused Equity Fund A': 2022-10-06
+'Aberdeen Standard - Select Euro High Yield Bond A': 2022-10-06
+'Aberdeen Standard SICAV I - European Sustainable Equity Fund A': 2022-10-06
+'Aberdeen Standard SICAV I - Europé ex UK Sustainable Equity Fund A': 2022-10-06
+'Aberdeen Standard SICAV I - Global Innovation Equity Fund A ': 2022-10-06
+'Aberdeen Standard SICAV I - Japanese Smaller Companies Sustainable Equity Fund A': 2022-10-06
+'Aberdeen Standard SICAV I - Japanese Sustainable Equity Fund A': 2022-10-06
+'AGCM Fund- Asia Growth Sub- Fund RC': 2022-10-05
+'AIFM Proethos fond': 2022-10-06
+'Aktia Capital Placeringsfond B': 2022-10-06
+'Aktia Nordic Small Cap Placeringsfond B': 2022-10-06
+'Aktie-Ansvar Avkastningsfond A': 2022-10-06
+'Aktie-Ansvar Sverige A': 2022-10-06
+'Aktiespararna Direktavkastning': 2022-10-06
+'Aktiespararna Topp Sverige Hållbar': 2022-10-06
+'Alfred Berg Aktiv C': 2022-10-06
+'Alfred Berg Norge C': 2022-10-06
+'Alfred Berg Obligasjon C': 2022-10-06
+'Allianz China A-shares AT': 2022-09-30
+'Allianz China Equity A': 2022-10-06
+'Allianz Emerging Asia Equity A': 2022-10-06
+'Allianz Euro High Yield Bond A': 2022-10-06
+'Allianz Europe Small Cap Equity AT': 2022-10-06
+'Allianz Global Equity Growth AT': 2022-10-06
+'Allianz Global Metals and Mining A': 2022-10-06
+'Allianz Global Water AT': 2022-10-06
+'Allianz Pet and Animal Wellbeing AT': 2022-10-06
+'Allianz Thailand Equity A': 2022-10-06
+'AMF Aktiefond Asien Stilla Havet': 2022-10-06
+'AMF Aktiefond Europa': 2022-10-06
+'AMF Aktiefond Global': 2022-10-06
+'AMF Aktiefond Nordamerika': 2022-10-06
+'AMF Aktiefond Småbolag': 2022-10-06
+'AMF Aktiefond Sverige': 2022-10-06
+'AMF Aktiefond Världen': 2022-10-06
+'AMF Balansfond': 2022-10-06
+'AMF Räntefond Kort': 2022-10-06
+'AMF Räntefond Lång': 2022-10-06
+'AMF Räntefond Mix': 2022-10-06
+'Amundi Funds Global Equity Conservative A2': 2022-10-05
+'Amundi Funds Japan Equity Value A2': 2022-10-05
+'Amundi Funds Latin America Equity A2': 2022-10-05
+'Amundi Funds SBI FM India Equity A2': 2022-10-04
+'Amundi Funds Volatility World A2': 2022-10-05
+'AP7 Aktiefond': 2022-10-06
+'AP7 Räntefond': 2022-10-06
+'Avanza Emerging Markets': 2022-10-05
+'Avanza Global': 2022-10-05
+'Avanza Zero ': 2022-10-06
+'AXA IM Globlal Equity QI B': 2022-10-05
+'AXA IM Pacific Ex-Japan Equity QI B': 2022-10-05
+'AXA IM US Equity QI B': 2022-10-05
+'Axa Rosenberg Japan Small Cap Alpha Fund B': 2022-06-28
+'Baring Asia Growth A': 2022-10-06
+'Baring Eastern Europe A': 2022-02-28
+'Baring Global Emerging Markets A': 2022-10-06
+'Baring Global Resources A': 2022-10-06
+'Baring Hong Kong China A': 2022-10-06
+'Baring Latin America A': 2022-10-06
+'BL - American Small & Mid Caps B': 2022-10-05
+'BL - Bond Dollar B': 2022-10-05
+'BL - Bond Emerging Markets Euro B': 2022-10-05
+'BL - Emerging Markets B': 2022-10-05
+'BL - Equities America B': 2022-10-05
+'BL - Equities Asia B': 2022-10-05
+'BL - Equities Dividend B': 2022-10-05
+'BL - Equities Europe B': 2022-10-05
+'BL - Equities Japan B': 2022-10-05
+'BL - European Small & Mid Caps B': 2022-10-05
+'BL - Global 30 B': 2022-10-05
+'BL - Global 50 B': 2022-10-05
+'BL - Global 75 B': 2022-10-05
+'BL - Global Bond Opportunities B': 2022-10-05
+'BL - Global Equities B': 2022-10-05
+'BL - Global Flexible B': 2022-10-05
+'BL - Global Flexible USD B': 2022-10-05
+'BL - Sustainable Horizon B': 2022-10-05
+'BlackRock - Asian Dragon Fund A2': 2022-10-06
+'BlackRock - China A2': 2022-10-06
+'BlackRock - Emerging Europe A2': 2022-03-01
+'BlackRock - Emerging Markets A2': 2022-10-06
+'BlackRock - Euro Markets A2': 2022-10-06
+'BlackRock - European Value A2': 2022-10-06
+'BlackRock - Global Allocation A2': 2022-10-06
+'BlackRock - Global High Yield Bond Fund A2': 2022-10-06
+'BlackRock - Global Natural Resources Growth & Income Fund A2': 2022-10-06
+'BlackRock - India A2': 2022-10-06
+'BlackRock - Japan Small & MidCap A2': 2022-10-06
+'BlackRock - Latin American A2': 2022-10-06
+'BlackRock - Sustainable Energy A2': 2022-10-06
+'BlackRock - US Basic Value A2': 2022-10-06
+'BlackRock - US Flexible Equity A2': 2022-10-06
+'BlackRock - US Mid-Cap Value Fund A2': 2022-10-06
+'BlackRock - World Energy A2': 2022-10-06
+'BlackRock - World Financials A2': 2022-10-06
+'BlackRock - World Gold A2': 2022-10-06
+'BlackRock - World Healthscience A2': 2022-10-06
+'BlackRock - World Mining A2': 2022-10-06
+'BlackRock - World Real Estate Securities Fund A2': 2022-10-06
+'BlackRock - World Technology A2': 2022-10-06
+'C WorldWide Asia 1A': 2022-10-06
+'C WorldWide Global Equities 1A': 2022-10-06
+'C WorldWide Global Equities Ethical 1A': 2022-10-06
+'C WorldWide Healthcare Select 1A': 2022-10-06
+'C WorldWide Sweden 1A': 2022-10-06
+'C WorldWide Sweden Small Cap 1A': 2022-10-06
+'Captor Dahlia Green Bond A': 2022-10-06
+'Captor Iris Bond A': 2022-10-06
+'Carnegie Asia A': 2022-10-06
+'Carnegie Corporate Bond A': 2022-10-05
+'Carnegie Fastighetsfond Norden A': 2022-10-06
+'Carnegie Indienfond A': 2022-10-06
+'Carnegie Likviditetsfond A': 2022-10-06
+'Carnegie Listed Private Equity A': 2022-10-06
+'Carnegie Obligationsfond A': 2022-10-06
+'Carnegie Rysslandsfond A': 2022-06-16
+'Carnegie Småbolagsfond A': 2022-10-06
+'Carnegie Strategifond A': 2022-10-06
+'Carnegie Sverigefond A': 2022-10-06
+'CB European Quality Fund A Cap': 2022-10-05
+'CB Save Earth Fund RC': 2022-10-05
+'Celina Avkastningsfond A': 2022-05-31
+'Celina Småbolagsfond A': 2022-08-22
+'Celina Sverige Aktiv Hållbarhet A': 2022-08-22
+'Celina Sverige Hållbart Beta A': 2022-06-07
+'Cicero Avkastning A': 2022-10-06
+'Cicero Hållbar Mix A': 2022-10-06
+'Coeli  - Global Select Fund R': 2022-10-06
+'Coeli - Nordic Corporate Bond Fund R': 2022-10-06
+'CPR Invest Global Gold Mines A2': 2022-10-05
+'CPR Invest Global Lifestyles A2': 2022-10-05
+'Danske Invest  SICAV - Global Index Restricted': 2022-10-05
+'Danske Invest SICAV - Aktiv Förmögenhetsförvaltning SI': 2022-10-06
+'Danske Invest SICAV - Euro Investment Grade Corporate Bond A': 2022-10-05
+'Danske Invest SICAV - Europe SI': 2022-10-06
+'Danske Invest SICAV - Global Index SI': 2022-10-05
+'Danske Invest SICAV - Sverige Kort Ränta SI': 2022-10-06
+'Danske Invest SICAV - Sverige Ränta SI': 2022-10-06
+'Danske Invest SICAV - Sverige SI': 2022-10-06
+'Delphi Europe Acc': 2022-10-05
+'Delphi Global A2': 2022-10-05
+'Delphi Nordic Acc': 2022-10-05
+'Didner & Gerge Aktiefond': 2022-10-06
+'Didner & Gerge Global': 2022-10-06
+'Didner & Gerge Småbolag': 2022-10-06
+'DNB Europa Indeks A': 2022-10-05
+'DNB Fund - Asian Mid Cap Retail A': 2022-10-03
+'DNB Fund - Nordic Equities Retail A': 2022-10-05
+'DNB Fund - Renewable Energy Retail A': 2022-10-05
+'DNB Global Emerging Markets A': 2022-10-05
+'DNB Global Indeks A': 2022-10-05
+'DNB Grönt Norden A': 2022-10-05
+'DNB Health Care A': 2022-10-05
+'DNB SMB A': 2022-10-05
+'DNB Teknologi A': 2022-10-05
+'East Capital China A-shares A': 2022-09-30
+'East Capital Eastern Europe A SEK': 2022-02-25
+'East Capital Global Emerging Markets Sustainable A': 2022-10-06
+'East Capital Global Frontier Markets A': 2022-10-06
+'East Capital Russian A SEK': 2022-06-16
+'Enter Cross Credit A': 2022-10-06
+'Enter Select A': 2022-10-06
+'Enter Sverige A': 2022-10-06
+'Evli Corporate Bond Placeringsfonden B ': 2022-10-05
+'Evli Emerging Markets Credit Placeringsfonden B': 2022-10-05
+'Evli Europa Placeringsfonden B': 2022-10-05
+'Evli Finland Select Placeringsfonden B': 2022-10-05
+'Evli GEM Placeringsfonden B': 2022-10-05
+'Evli Global Placeringsfonden B': 2022-10-05
+'Evli High Yield Placeringsfonden B': 2022-10-05
+'Evli Likviditet Placeringsfonden B': 2022-10-05
+'Evli Nordic Placeringsfonden B': 2022-10-05
+'Evli Short Corporate Bond Placeringsfonden B': 2022-10-05
+'Evli Sverige Aktieindex B': 2022-10-05
+'Evli Sverige Småbolag': 2022-10-05
+'Fidelity - America Fund A': 2022-10-06
+'Fidelity - Asian Pacific Opportunities Fund A': 2022-10-06
+'Fidelity - Asian Special Situations Fund A': 2022-10-06
+'Fidelity - China Consumer  Fund A': 2022-10-06
+'Fidelity - China Focus Fund A': 2022-10-06
+'Fidelity - Emerging Asia Fund A': 2022-10-06
+'Fidelity - Emerging Markets Funds A': 2022-10-06
+'Fidelity - European Dynamic Growth Fund A': 2022-10-06
+'Fidelity - Global High  Yield Fund A': 2022-10-06
+'Folksam LO Sverige': 2022-10-06
+'Folksam LO Världen': 2022-10-06
+'Fondita European Small Cap Placeringsfond B': 2022-10-06
+'Fondita Global Megatrends Placeringsfond B': 2022-10-06
+'Fondita Healthcare Placeringsfond B': 2022-10-06
+'Fondita Nordic Micro Cap Placeringsfond B': 2022-10-06
+'Fondita Nordic Small Cap Placeringsfond B': 2022-10-06
+'Fondita Sustainable Europe Placeringfond': 2022-10-06
+'Franklin Biotechnology Discovery Fund': 2022-10-05
+'Franklin India Fund A ': 2022-10-05
+'Franklin Mutual Global Discovery Fund A': 2022-10-05
+'Franklin Natural Resources Fund A': 2022-10-05
+'Franklin Technology Fund A': 2022-10-05
+'Franklin U.S. Opportunities Fund A': 2022-10-05
+'GodFond Sverige & Världen': 2022-10-06
+'Handelsbanken  USA Index Criteria A1': 2022-10-06
+'Handelsbanken Amerika Tema A1': 2022-10-06
+'Handelsbanken Asien Tema A1': 2022-10-06
+'Handelsbanken Emerging Markets Index A1': 2022-10-06
+'Handelsbanken Europa Index Criteria A1': 2022-10-06
+'Handelsbanken Global Index Criteria A1': 2022-10-06
+'Handelsbanken Global Småbolag Index Criteria A1': 2022-10-06
+'Handelsbanken Global Tema A1': 2022-10-06
+'Handelsbanken Hälsovård Tema A1': 2022-10-06
+'Handelsbanken Hållbar Energi A1': 2022-10-06
+'Handelsbanken Kina Tema A1': 2022-10-06
+'Handelsbanken Kortränta A1': 2022-10-06
+'Handelsbanken Latinamerika Impact Tema A1': 2022-10-06
+'Handelsbanken Långränta A1': 2022-10-06
+'Handelsbanken Norden Tema A1': 2022-10-06
+'Handelsbanken Nordiska Småbolag A1': 2022-10-06
+'Handelsbanken Pension 40 A12': 2022-10-05
+'Handelsbanken Pension 50 A12': 2022-10-05
+'Handelsbanken Pension 60 A12': 2022-10-05
+'Handelsbanken Pension 70 A12': 2022-10-05
+'Handelsbanken Pension 80 A12': 2022-10-05
+'Handelsbanken Svenska Småbolag A1': 2022-10-06
+'Handelsbanken Sverige 100 Index Criteria A1': 2022-10-06
+'Handelsbanken Sverige Tema A1': 2022-10-06
+'Handelsbanken Tillväxtmarknad Tema A1': 2022-10-06
+'HealthInvest Alpha Fund': 2022-10-05
+'Holberg Global A': 2022-10-06
+'Holberg Kreditt ': 2022-10-06
+'Holberg Norden': 2022-10-06
+'Holberg Norge': 2022-10-06
+'Humle Småbolagsfond A': 2022-10-06
+'Indecap Guide 1 C': 2022-10-05
+'Indecap Guide 2 C': 2022-10-05
+'Indecap Guide Sverige C': 2022-10-05
+'JPMorgan China A': 2022-10-06
+'JPMorgan Emerging Markets Equity A ': 2022-10-06
+'KPA Etisk Blandfond 2': 2022-10-06
+'Lannebo Europa Småbolag A': 2022-10-06
+'Lannebo Mixfond': 2022-10-06
+'Lannebo Mixfond Offensiv A': 2022-10-06
+'Lannebo Räntefond Kort': 2022-10-06
+'Lannebo Småbolag': 2022-10-06
+'Lannebo Sverige': 2022-10-06
+'Lannebo Sverige Hållbar A': 2022-10-06
+'Lannebo Sverige Plus': 2022-10-06
+'Lannebo Teknik': 2022-10-06
+'Länsförsäkringar Asienfond A': 2022-10-06
+'Länsförsäkringar Europa Aktiv A': 2022-10-06
+'Länsförsäkringar Europa Indexnära': 2022-10-06
+'Länsförsäkringar Fastighetsfond A': 2022-10-06
+'Länsförsäkringar Företagsobligation Vision ': 2022-10-06
+'Länsförsäkringar Global Indexnära': 2022-10-06
+'Länsförsäkringar Global Vision A': 2022-10-06
+'Länsförsäkringar Japan Indexnära': 2022-10-06
+'Länsförsäkringar Kort Räntefond': 2022-10-06
+'Länsförsäkringar Lång Räntefond A': 2022-10-06
+'Länsförsäkringar Mix Vision A': 2022-10-06
+'Länsförsäkringar Småbolag Sverige Vision A': 2022-10-06
+'Länsförsäkringar Sparmål 2015': 2022-10-05
+'Länsförsäkringar Sparmål 2020': 2022-10-05
+'Länsförsäkringar Sparmål 2025': 2022-10-05
+'Länsförsäkringar Sparmål 2030': 2022-10-05
+'Länsförsäkringar Sparmål 2035': 2022-10-05
+'Länsförsäkringar Sparmål 2040': 2022-10-05
+'Länsförsäkringar Sparmål 2045': 2022-10-05
+'Länsförsäkringar Sverige Indexnära': 2022-10-06
+'Länsförsäkringar Sverige Vision A': 2022-10-06
+'Länsförsäkringar Tillväxtmarknad Aktiv A': 2022-10-06
+'Länsförsäkringar Tillväxtmarknad Indexnära A': 2022-10-06
+'Länsförsäkringar USA Aktiv A': 2022-10-06
+'Länsförsäkringar USA Indexnära': 2022-10-06
+'Lärarfond 21-44 år': 2022-10-06
+'Lärarfond 45-58 år': 2022-10-06
+'Lärarfond 59+': 2022-10-06
+'Naventi Balanserad Flex': 2022-10-06
+'Naventi Defensiv Flex': 2022-10-06
+'Naventi Offensiv Flex': 2022-10-06
+'NN (L) Asia Income P ': 2022-10-06
+'NN (L) EURO Equity P ': 2022-10-06
+'NN (L) European Equity P ': 2022-10-06
+'NN (L) European Sustainable Equity P': 2022-10-06
+'NN (L) First Class Protection P': 2022-10-06
+'NN (L) Global Convertible Opportunities P': 2022-10-06
+'NN (L) Global Equity Impact Opportunities P': 2022-10-06
+'NN (L) Greater China Equity P': 2022-10-06
+'NN (L) Green Bond P': 2022-10-06
+'NN (L) Japan Equity P ': 2022-10-06
+'NN (L) Smart Connectivity P': 2022-10-06
+'Nordea Asian Stars': 2022-10-06
+'Nordea European Stars': 2022-10-06
+'Nordea Generationsfond 50-tal': 2022-10-06
+'Nordea Generationsfond 60-tal': 2022-10-06
+'Nordea Generationsfond 70-tal': 2022-10-06
+'Nordea Generationsfond 80-tal': 2022-10-06
+'Nordea Generationsfond 90-tal': 2022-10-06
+'Nordea Generationsfond Senior': 2022-10-06
+'Nordea Global': 2022-10-06
+'Nordea Globala Tillväxtmarknader ': 2022-10-06
+'Nordea Indienfond': 2022-10-06
+'Nordea Kinafond': 2022-10-06
+'Nordea Nordic': 2022-10-06
+'Nordea Obligationsfond': 2022-10-06
+'Nordea Realräntefond': 2022-10-06
+'Nordea Rysslandsfond': 2022-06-16
+'Nordea Småbolagsfond Norden': 2022-10-06
+'Nordea Stratega Ränta': 2022-10-06
+'Nordea Swedish Bond Stars': 2022-10-06
+'Nordea Swedish Stars': 2022-10-06
+'Odin Emerging Markets C': 2022-10-06
+'Odin Europa C': 2022-10-06
+'Odin Fastighet C': 2022-10-06
+'Odin Global C': 2022-10-06
+'Odin Norden C': 2022-10-06
+'Odin Norge C ': 2022-10-06
+'Odin Sverige C': 2022-10-06
+'Pareto Aksje Norge B': 2022-10-05
+'Pareto ESG Global Corporate Bond A': 2022-10-05
+'Pareto Global B': 2022-10-05
+'Pareto Nordic Corporate Bond C': 2022-10-05
+'Pictet Asian  Equities Ex Japan R': 2022-10-06
+'Pictet Biotech R': 2022-10-06
+'Pictet China Equities R': 2022-09-30
+'Pictet Clean Energy R': 2022-10-06
+'Pictet Digital R': 2022-10-06
+'Pictet Emerging Markets R': 2022-10-06
+'Pictet EUR Bonds R': 2022-10-05
+'Pictet Global Bonds R': 2022-10-05
+'Pictet Global Emerging Debt R': 2022-10-05
+'Pictet Global Megatrend Selection R': 2022-10-06
+'Pictet Health R': 2022-10-06
+'Pictet Indian Equities R': 2022-10-06
+'Pictet Japanese Equity Opportunities R': 2022-10-06
+'Pictet Premium Brands R': 2022-10-06
+'Pictet Quest Europe Sustainable Equities R': 2022-10-06
+'Pictet Security R': 2022-10-06
+'Pictet Timber R': 2022-10-06
+'Pictet Water R': 2022-10-06
+'Pictet-Emerging Corporate Bonds R ': 2022-10-05
+'PLUS Småbolag Sverige Index ': 2022-10-06
+'Prior & Nilsson Realinvest A': 2022-10-06
+'Prior & Nilsson Sverige Aktiv A': 2022-10-06
+'S-Banken Emerging Markets ESG Aktie A': 2022-10-06
+'S-Banken Europa Aktie A': 2022-10-06
+'S-Banken Fenno Aktie A': 2022-10-06
+'S-Banken USA Aktie A': 2022-10-06
+'SEB Aktiesparfond': 2022-10-06
+'SEB Asienfond ex Japan': 2022-10-06
+'SEB Asset Selection Fund C': 2022-10-06
+'SEB Dynamic Bond Fund C': 2022-10-06
+'SEB Dynamisk Aktiefond': 2022-10-06
+'SEB Emerging Marketsfond': 2022-10-05
+'SEB Europafond': 2022-10-06
+'SEB Europafond Småbolag': 2022-10-06
+'SEB Global Aktiefond': 2022-10-06
+'SEB Global High Yield Fund C': 2022-10-05
+'SEB Green Bond Fund C': 2022-10-05
+'SEB Läkemedelsfond': 2022-10-06
+'SEB Nordamerikafond Små och Medelstora Bolag A': 2022-10-06
+'SEB Nordenfond': 2022-10-06
+'SEB Pension Fund C': 2022-10-05
+'SEB Realräntefond D': 2022-10-06
+'SEB Sverige Expanderad': 2022-10-06
+'SEB Sweden Equity Fund C': 2022-10-06
+'SEB Teknologifond ': 2022-10-05
+'SEB Världenfond': 2022-10-05
+'SEB Östeuropafond': 2022-06-08
+'SEB Östeuropafond Små och Medelstora Bolag C': 2022-10-05
+'Seligson & Co Euroobligation A': 2022-10-06
+'Seligson & Co Global Top 25 Brands A': 2022-10-06
+'Seligson & Co Global Top 25 Pharmaceuticals A': 2022-10-06
+'Sensor Sverige Select': 2022-10-06
+'Simplicity Företagsobligationer A': 2022-10-06
+'Simplicity Global Corporate Bond A': 2022-10-06
+'Simplicity Likviditet A': 2022-10-06
+'Simplicity Norden ': 2022-10-06
+'SKAGEN Focus D': 2022-10-06
+'SKAGEN Global E': 2022-10-06
+'SKAGEN Kon-Tiki F': 2022-10-06
+'SKAGEN m2 C': 2022-10-06
+'SKAGEN Vekst C': 2022-10-06
+'Skandia Balanserad': 2022-10-06
+'Skandia Europa Exponering': 2022-10-06
+'Skandia Försiktig': 2022-10-06
+'Skandia Global Exponering A': 2022-10-06
+'Skandia Japan Exponering': 2022-10-06
+'Skandia Korträntefond': 2022-10-06
+'Skandia Nordamerika Exponering': 2022-10-06
+'Skandia Obligationsfond': 2022-10-06
+'Skandia Realräntefond': 2022-10-06
+'Skandia Småbolag Sverige': 2022-10-06
+'Skandia Sverige Exponering A': 2022-10-06
+'Skandia Sverige Hållbar': 2022-10-06
+'Skandia Time Global': 2022-10-06
+'Skandia USA': 2022-10-06
+'Skandia Världen': 2022-10-06
+'Spiltan Aktiefond Småland': 2022-10-06
+'Spiltan Aktiefond Stabil ': 2022-10-06
+'Spiltan Globalfond Investmentbolag': 2022-10-06
+'Spiltan Högräntefond': 2022-10-06
+'Spiltan Räntefond Sverige': 2022-10-06
+'Spiltan Småbolagsfond': 2022-10-06
+'SPP Generation 40-tal': 2022-10-06
+'SPP Generation 50-tal': 2022-10-06
+'SPP Generation 60-tal': 2022-10-06
+'SPP Generation 70-tal': 2022-10-06
+'SPP Generation 80-tal': 2022-10-06
+'Storebrand Emerging Markets A': 2022-10-06
+'Storebrand Emerging Markets Plus A': 2022-10-06
+'Storebrand Europa A': 2022-10-06
+'Storebrand FRN Företagsobligation A': 2022-10-06
+'Storebrand Global All Countries A': 2022-10-06
+'Storebrand Global Företagsobligation A': 2022-10-06
+'Storebrand Global Low Volatility A': 2022-10-06
+'Storebrand Global Multifactor A': 2022-10-06
+'Storebrand Global Plus A': 2022-10-06
+'Storebrand Global Solutions A': 2022-10-06
+'Storebrand Grön Obligation A': 2022-10-06
+'Storebrand Japan A': 2022-10-06
+'Storebrand Kortränta A': 2022-10-06
+'Storebrand Obligation A': 2022-10-06
+'Storebrand Sverige A': 2022-10-06
+'Storebrand Sverige Plus A': 2022-10-06
+'Storebrand USA A': 2022-10-06
+'Swedbank Robur Access Asien A': 2022-10-06
+'Swedbank Robur Access Europa A': 2022-10-06
+'Swedbank Robur Access Global A': 2022-10-06
+'Swedbank Robur Access Sverige A': 2022-10-06
+'Swedbank Robur Access USA A': 2022-10-06
+'Swedbank Robur Aktiefond Pension': 2022-10-06
+'Swedbank Robur Fastighet A': 2022-10-06
+'Swedbank Robur Healthcare A': 2022-10-06
+'Swedbank Robur Mixfond Pension': 2022-10-06
+'Swedbank Robur Nordenfond': 2022-10-06
+'Swedbank Robur Obligation A': 2022-10-06
+'Swedbank Robur Rysslandsfond A': 2022-06-16
+'Swedbank Robur Räntefond Kort A': 2022-10-06
+'Swedbank Robur Småbolagsfond Europa A': 2022-10-06
+'Swedbank Robur Småbolagsfond Sverige A': 2022-10-06
+'Swedbank Robur Technology A': 2022-10-06
+'Swedbank Robur Transfer 50': 2022-10-06
+'Swedbank Robur Transfer 60': 2022-10-06
+'Swedbank Robur Transfer 70': 2022-10-06
+'Swedbank Robur Transfer 80': 2022-10-06
+'Swedbank Robur Transfer 90': 2022-10-06
+'Swedbank Robur Östeuropafond A': 2022-10-06
+'Söderberg & Partners Proaktiv 75 PM A': 2022-10-06
+'Söderberg & Partners Proaktiv 80 PM A': 2022-10-06
+'Tellus Globala Investmentbolag': 2022-08-30
+'Templeton Emerging Markets Fund A': 2022-10-05
+'Templeton European Opportunities Fund A': 2022-10-05
+'Templeton Global Bond Fund A': 2022-10-05
+'TRIGON - New Europe Fund E': 2022-10-06
+'Tundra Sustainable Frontier Fund A': 2022-10-06
+'UB Europa REIT Placeringsfond A': 2022-10-06
+'UB Global REIT Placeringsfond A': 2022-10-06
+'UB Infra Placeringsfond A': 2022-10-06
+'Ålandsbanken Euro Bond S Placeringsfond': 2022-10-05
+'Ålandsbanken Euro High Yield B Placeringsfond': 2022-10-05
+'Ålandsbanken Europa Aktie B Placeringsfond': 2022-10-05
+'Ålandsbanken Global Aktie B Placeringsfond': 2022-10-05
+'Ålandsbanken Kapitalförvaltning Placeringsfond': 2022-10-05
+'Ålandsbanken Norden Aktie S Placeringsfond': 2022-10-05
+'Öhman Emerging Markets A': 2022-10-06
+'Öhman Etisk Index Sverige A': 2022-10-06
+'Öhman FRN A': 2022-10-06
+'Öhman Företagsobligationsfond A': 2022-10-06
+'Öhman Global A': 2022-10-06
+'Öhman Global Growth A': 2022-10-06
+'Öhman Kort Ränta A': 2022-10-06
+'Öhman Marknad Europa A': 2022-10-06
+'Öhman Marknad Global A': 2022-10-06
+'Öhman Marknad Pacific A': 2022-10-06
+'Öhman Marknad USA A': 2022-10-06
+'Öhman Obligationsfond A': 2022-10-06
+'Öhman Realräntefond A': 2022-10-06
+'Öhman Småbolagsfond A': 2022-10-06
+'Öhman Sverige A': 2022-10-06
+'Öhman Sweden Micro Cap': 2022-10-06
