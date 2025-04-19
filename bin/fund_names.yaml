@@ -1,202 +1,406 @@
 ---
 exist_nonfull_list:
-  - ab american growth a $
-  - ab american value a $
-  - ab global growth trends a $
-  - ab international tech fund a $
-  - banco amerika
-  - blackrock european
-  - blackrock global equity
-  - blackrock global opportun
-  - blackrock global small cap p
-  - blackrock latin america a2
-  - carnegie east european
-  - east capital balkanfonden
-  - east capital ryssland
-  - east capital turkietfonden
-  - eaton vance ppa emerg mrkts
-  - fidelity euro growth
-  - fidelity euro small
-  - fidelity international
-  - gartmore gl focus fund
-  - goldman sachs brics ptf eur
-  - goldman sachs euro core flx
-  - goldman sachs gl eq
-  - goldman sachs gl high yield
-  - hsbc brazil equity
-  - hsbc indian equity
-  - jpm gl natural resources a acc
-  - schroder isf global climate ch
-  - seb asset sel def lux ack ltd
-  - seb asset sel def sek lux ack
-  - seb asset selection sek lux utd
-  - seb bioteknikfond lux ack
-  - seb bioteknikfond lux utd
-  - seb ch asien x japan d lux utd
-  - seb ch high yield sek lux ack
-  - seb ch nordamerika c r lux ack
-  - seb choice japan c r lux ack
-  - seb choice namer medelst bolag
-  - seb choise global value lux ack
-  - seb choise global value lux utd
-  - seb corporate bond eur lux ack
-  - seb corporate bond eur lux utd
-  - seb corporate bond sek lux ack
-  - seb corporate bond sek lux utd
-  - seb currency alpha sek-lux ack
-  - seb em eq l s sek lux ack
-  - seb em mkts eq l s sek luxinutd
-  - seb ethos aktiefond
-  - seb ethos räntefond
-  - seb etisk global index lux ack
-  - seb etisk global index lux utd
-  - seb europa indexfond lux ack
-  - seb europa småbolag lux utd
-  - seb europafond lux ack
-  - seb europafond offensiv
-  - seb europeisk aktieportfölj
-  - seb företagsoblfond sek ack
-  - seb garantifond 80
-  - seb generationsfond 50-tal
-  - seb generationsfond 60-tal
-  - seb generationsfond 70-tal
-  - 'seb generationsfond 80-tal - lux'
-  - 'seb global chans risk - lux ack'
-  - seb global d lux utd
-  - seb global eq l s sek luxack
-  - seb guarantee fund 80
-  - seb key eu eq l s sek lux ack
-  - seb key hedge rc h sek
-  - seb key recovery sek lux ack
-  - 'seb life - internet'
-  - 'seb life - nordenfond'
-  - 'seb life - Östeuropa'
-  - seb life asia ex japan
-  - seb life em mkts
-  - seb life europa småbolag
-  - seb life europafond offensiv
-  - seb life global ethical index
-  - seb life global fund
-  - seb life n amer medelst bolag
-  - seb life obligation flexibel
-  - seb life sverige småbolag
-  - seb listed private eq lux ack
-  - seb modellportfölj
-  - seb multihedge
-  - 'seb norden småbolag - lux ack'
-  - 'seb nordic focus sek - lux ack'
-  - seb oblfond flexibel sek
-  - seb pb europeisk aktieportfölj
-  - seb pb portfölj balanserad
-  - seb pb portfölj försiktig
-  - seb pb portfölj möjlighet
-  - seb pb svensk aktieportfölj
-  - seb penningm eur lux utd
-  - seb penningmark $ lux ack
-  - seb real estate p i lux utd
-  - 'seb real estate portf- lux ack'
-  - seb realräntefond sek lux utd
-  - seb rysslandfond lux ack
-  - seb räntehedge alpha
-  - seb skf allemansfond
-  - seb special clients fif global
-  - seb special clients sverige
-  - seb stiftelsefond balanserad
-  - seb strategi balanserad global
-  - seb strategi global
-  - seb strategi möjlighet-lux ack
-  - seb strategi offensiv-lux ack
-  - seb strategi tillväxt-lux ack
-  - seb svensk aktieportfölj
-  - seb sverige indexfond
-  - seb sverigefond chans risk
-  - seb sverigefond stora bolag
-  - seb swedish focus fund
-  - seb swedish value fund
-  - 'seb teknologifond - lux ack'
-  - seb trygg scottish ?ope bond
-  - seb usa indexfond lux ack
-  - seb usa indexfond lux utd
-  - 'seb världenfond - lux ack'
-  - selector global value a1
-  - t-rowe price us l-cap grow eq a
+  - 'abrdn sicav i - european sustainable equity fund i acc eur'
+  - 'blackrock - natural resources growth & income fund a2'
+  - bmc global select fund
+  - coeli high yield opportunities
+  - goldman sachs asia equity income p
+  - goldman sachs global equity impact opportunities p
+  - goldman sachs global social impact equity p
+  - goldman sachs greater china equity p
+  - goldman sachs green bond p
+  - goldman sachs japan equity p (former nn)
+  - goldman sachs protection p
+  - handelsbanken developed markets index criteria a1
+  - handelsbanken norden a1
+  - handelsbanken sverige a1
+  - 'jpmorgan funds - europe sustainable equity fund'
+  - 'kotak funds - india growth fund'
+  - 'kotak funds - india midcap a'
+  - mercer passive sustainable global equity ucits ccf
+  - seb europe equity fund
+  - storebrand global indeks a4
+  - swedbank robur europafond a
+  - öhman marknad sverige bred a
 full_list:
-  - blackrock japan sm&mid cap op
-  - fidelity asian special
-  - jpm jf china fund a
+  - 'abrdn sicav i - global innovation equity fund a'
+  - 'abrdn sicav i - japanese smaller companies sustainable equity fund a'
+  - 'abrdn sicav i - japanese sustainable equity fund a'
+  - 'abrdn sicav i - select euro high yield bond a'
+  - aktia capital placeringsfond b
+  - aktia nordic small cap placeringsfond b
+  - 'aktie-ansvar avkastningsfond a'
+  - 'aktie-ansvar sverige a'
+  - aktiespararna direktavkastning
+  - aktiespararna topp sverige
+  - alfred berg aktiv r
+  - alfred berg norge c
+  - 'allianz china a-shares at'
+  - allianz china equity a
+  - allianz euro high yield bond a
+  - allianz europe small cap equity at
+  - allianz global equity growth at
+  - allianz global metals and mining a
+  - allianz global water at
+  - allianz pet and animal wellbeing at
+  - amf aktiefond asien stilla havet
+  - amf aktiefond europa
+  - amf aktiefond global
+  - amf aktiefond nordamerika
+  - amf aktiefond småbolag
+  - amf aktiefond sverige
+  - amf aktiefond världen
+  - amf balansfond
+  - amf räntefond kort
+  - amf räntefond lång
+  - amf räntefond mix
+  - amundi funds global equity conservative a2
+  - amundi funds japan equity value a2
+  - amundi funds latin america equity a2
+  - amundi funds sbi fm india equity a2
+  - amundi funds volatility world a2
+  - ap7 aktiefond
+  - ap7 räntefond
+  - avanza emerging markets
+  - axa im globlal equity qi b
+  - 'axa im pacific ex-japan equity qi b'
+  - axa im us equity qi b
+  - baring asia growth a
+  - baring global emerging markets a
+  - baring global resources a
+  - baring hong kong china a
+  - baring latin america a
+  - 'bl - american small & mid caps b'
+  - 'bl - bond dollar b'
+  - 'bl - bond emerging markets euro b'
+  - 'bl - emerging markets b'
+  - 'bl - equities america b'
+  - 'bl - equities asia b'
+  - 'bl - equities dividend b'
+  - 'bl - equities japan b'
+  - 'bl - european small & mid caps b'
+  - 'bl - global 30 b'
+  - 'bl - global 50 b'
+  - 'bl - global 75 b'
+  - 'bl - global bond opportunities b'
+  - 'bl - global equities b'
+  - 'bl - global flexible b'
+  - 'bl - global flexible usd b'
+  - 'blackrock - asian dragon fund a2'
+  - 'blackrock - china a2'
+  - 'blackrock - emerging markets a2'
+  - 'blackrock - global allocation a2'
+  - 'blackrock - global high yield bond fund a2'
+  - 'blackrock - india a2'
+  - 'blackrock - japan small & midcap a2'
+  - 'blackrock - latin american a2'
+  - 'blackrock - sustainable energy a2'
+  - 'blackrock - us basic value a2'
+  - 'blackrock - us flexible equity a2'
+  - 'blackrock - us mid-cap value fund a2'
+  - 'blackrock - world energy a2'
+  - 'blackrock - world financials a2'
+  - 'blackrock - world gold a2'
+  - 'blackrock - world healthscience a2'
+  - 'blackrock - world mining a2'
+  - 'blackrock - world real estate securities fund a2'
+  - 'blackrock - world technology a2'
+  - c worldwide asia 1a
+  - c worldwide global equities 1a
+  - c worldwide global equities ethical 1a
+  - c worldwide healthcare select 1a
+  - c worldwide sweden 1a
+  - c worldwide sweden small cap 1a
+  - captor dahlia green bond a
+  - captor iris bond a
+  - carnegie fastighetsfond norden a
+  - carnegie indienfond a
+  - carnegie likviditetsfond a
+  - carnegie listed private equity a
+  - carnegie obligationsfond a
+  - carnegie småbolagsfond a
+  - carnegie strategifond a
+  - carnegie sverigefond a
+  - cb save earth fund rc
+  - cicero avkastning a
+  - cicero hållbar mix a
+  - cpr invest global gold mines a2
+  - cpr invest global lifestyles a2
+  - d&g aktiefond
+  - d&g global all cap
+  - d&g småbolag
+  - 'danske invest sicav - aktiv förmögenhetsförvaltning si'
+  - 'danske invest sicav - euro investment grade corporate bond a'
+  - 'danske invest sicav - sverige kort ränta si'
+  - 'danske invest sicav - sverige ränta si'
+  - 'danske invest sicav - sverige si'
+  - delphi global a2
+  - delphi nordic acc
+  - dnb global emerging markets s
+  - dnb grönt skifte norden s
+  - dnb health care s
+  - dnb smb s
+  - dnb teknologi s
+  - east capital global emerging markets sustainable a
+  - east capital global frontier markets a
+  - enter cross credit a
+  - enter select a
+  - evli emerging markets credit placeringsfonden b
+  - evli finland select placeringsfonden b
+  - evli gem placeringsfonden b
+  - evli global placeringsfonden b
+  - evli high yield placeringsfonden b
+  - evli likviditet placeringsfonden b
+  - evli short corporate bond placeringsfonden b
+  - evli sverige aktieindex b
+  - evli sverige småbolag
+  - 'fidelity - america fund a'
+  - 'fidelity - asian pacific opportunities fund a'
+  - 'fidelity - asian special situations fund a'
+  - 'fidelity - china consumer fund a'
+  - 'fidelity - china focus fund a'
+  - 'fidelity - emerging asia fund a'
+  - 'fidelity - emerging markets funds a'
+  - 'fidelity - global high yield fund a'
+  - folksam lo sverige
+  - folksam lo världen
+  - fondita global megatrends placeringsfond b
+  - fondita nordic micro cap placeringsfond b
+  - fondita nordic small cap placeringsfond b
+  - franklin biotechnology discovery fund
+  - franklin mutual global discovery fund a
+  - franklin natural resources fund a
+  - franklin technology fund a
+  - franklin us opportunities fund a
+  - godfond sverige & världen
+  - handelsbanken amerika tema a1
+  - handelsbanken asien tema a1
+  - handelsbanken emerging markets index a1
+  - handelsbanken europa index criteria a1
+  - handelsbanken global index criteria a1
+  - handelsbanken global småbolag index criteria a1
+  - handelsbanken global tema a1
+  - handelsbanken hälsovård tema a1
+  - handelsbanken hållbar energi a1
+  - handelsbanken kortränta a1
+  - handelsbanken latinamerika impact tema a1
+  - handelsbanken långränta a1
+  - handelsbanken nordiska småbolag a1
+  - handelsbanken pension 40 a12
+  - handelsbanken pension 50 a12
+  - handelsbanken pension 60 a12
+  - handelsbanken pension 70 a12
+  - handelsbanken pension 80 a12
+  - handelsbanken svenska småbolag a1
+  - handelsbanken sverige 100 index criteria a1
+  - handelsbanken tillväxtmarknad tema a1
+  - handelsbanken usa index criteria a1
+  - healthinvest alpha fund
+  - holberg global a
+  - holberg norden
+  - holberg norge
+  - humle småbolagsfond a
+  - indecap guide 1 c
+  - indecap guide 2 c
+  - indecap guide sverige c
+  - jpmorgan china a
+  - kpa blandfond
+  - lannebo europa småbolag a
+  - lannebo mixfond
+  - lannebo mixfond offensiv a
+  - lannebo räntefond kort
+  - lannebo småbolag
+  - lannebo sverige
+  - lannebo sverige hållbar a
+  - lannebo sverige plus
+  - lannebo teknik
+  - länsförsäkringar asienfond a
+  - länsförsäkringar fastighetsfond a
+  - länsförsäkringar global index
+  - länsförsäkringar global vision a
+  - länsförsäkringar japan index
+  - länsförsäkringar kort räntefond
+  - länsförsäkringar lång räntefond a
+  - länsförsäkringar mix vision a
+  - länsförsäkringar småbolag sverige vision a
+  - länsförsäkringar sparmål 2015
+  - länsförsäkringar sparmål 2020
+  - länsförsäkringar sparmål 2025
+  - länsförsäkringar sparmål 2030
+  - länsförsäkringar sparmål 2035
+  - länsförsäkringar sparmål 2040
+  - länsförsäkringar sparmål 2045
+  - länsförsäkringar sverige index
+  - länsförsäkringar sverige vision a
+  - länsförsäkringar tillväxtmarknad aktiv a
+  - länsförsäkringar tillväxtmarknad index a
+  - länsförsäkringar usa aktiv a
+  - länsförsäkringar usa index
+  - lärarfond balanserad
+  - lärarfond försiktig
+  - lärarfond offensiv
+  - naventi balanserad flex
+  - naventi defensiv flex
+  - naventi offensiv flex
+  - 'nordea generationsfond 50-tal'
+  - 'nordea generationsfond 60-tal'
+  - 'nordea generationsfond 70-tal'
+  - 'nordea generationsfond 80-tal'
+  - 'nordea generationsfond 90-tal'
+  - nordea generationsfond senior
+  - nordea global
+  - nordea indienfond
+  - nordea kinafond
+  - nordea obligationsfond
+  - nordea realräntefond
+  - nordea småbolagsfond norden
+  - nordea stratega ränta
+  - nordea swedish bond stars
+  - nordea swedish stars
+  - odin emerging markets c
+  - odin fastighet c
+  - odin global c
+  - odin norden c
+  - odin sverige c
+  - pareto aksje norge b
+  - pareto esg global corporate bond a
+  - pareto global b
+  - pareto nordic corporate bond c
+  - pictet asian equities ex japan r
+  - pictet biotech r
+  - pictet china equities r
+  - pictet clean energy transition r
+  - pictet digital r
+  - pictet emerging markets r
+  - pictet eur bonds r
+  - pictet global bonds r
+  - pictet global emerging debt r
+  - pictet global megatrend selection r
+  - pictet health r
+  - pictet indian equities r
+  - pictet japanese equity opportunities r
+  - pictet premium brands r
+  - pictet security r
+  - pictet timber r
+  - pictet water r
+  - 'pictet-emerging corporate bonds r '
+  - prior & nilsson realinvest a
+  - prior & nilsson sverige aktiv a
+  - 's-banken emerging markets esg aktie a'
+  - 's-banken fenno aktie a'
+  - 's-banken usa aktie a'
   - seb aktiespar
-  - seb bond fund hnw sek -lux utd
-  - seb cancerfond
-  - 'seb ch asien x jap - lux utd'
-  - seb ch emerging market lux ack
-  - 'seb ch nordamerika d - lux utd'
-  - seb choice asien små x j lux ack
-  - seb choice asien x jap lux ack
-  - seb choice asienfond ex japan
+  - seb asienfond ex japan
+  - seb asset selection fund c
   - seb choice emerging markets
-  - seb choice japanfond
-  - seb choice japanfond c lux ack
-  - seb choice japanfond d lux utd
-  - seb choice latinamerika
-  - seb choice nordamerik småbolag
-  - seb choice nordamerikafond
-  - seb etisk europafond lux ack
-  - seb etisk globalfond
-  - seb etisk sverigefond lux utd
-  - seb europa
-  - seb europa chans risk lux ack
-  - 'seb europafond d - lux utd'
+  - seb dynamic bond fund c
+  - seb dynamisk aktiefond
   - seb europafond småbolag
-  - seb fastighetsfond
-  - seb global
-  - seb globalfond lux ack
-  - seb internet
-  - 'seb life - latinamerikafond'
-  - seb life ethical sweden
-  - seb life europe equity
-  - seb life index linked bond
-  - seb life japan equity
-  - seb life medical
-  - seb life n america equity
-  - seb life swe short-med term
-  - seb life technology
-  - seb life world
-  - seb likviditetsfond sek
+  - seb global aktiefond
+  - seb global high yield fund c
+  - seb green bond fund c
   - seb läkemedelsfond
-  - seb läkemedelsfond lux utd
+  - seb nordamerikafond små och medelstora bolag a
   - seb nordenfond
-  - seb nordenfond lux ack
-  - 'seb oblfond europa - lux utd'
-  - seb oblfond sek lux ack
-  - seb oblfond sek lux utd
-  - seb obligationsfond sek
-  - seb penningmark eur lux ack
-  - 'seb penningmark nok - lux ack'
-  - seb penningmark usd lux ack
-  - seb schweizfond
-  - seb stiftelsefond obligation sek
-  - seb stiftelsefond sverige
-  - seb stiftelsefond utland
-  - seb strategibalanserad-lux ack
-  - seb sverige småbolag chans risk
-  - seb sverigefond chans risk
-  - seb sverigefond småbolag
-  - seb teknologifond
-  - seb teknologifond lux utd
-  - seb trygg placeringsfond
-  - seb trygg scottish cash
-  - seb trygg scottish eq american
-  - seb trygg scottish eq europe
-  - seb trygg scottish eq far east
-  - seb trygg scottish eq mixed
-  - seb trygg scottish equity bond
-  - seb trygghetsfond ekorren
-  - seb världen
-  - seb världenfond lux utd
-  - seb Östersjöfond wwf
-  - seb Östeurfond småbo lux ack
-  - seb Östeurfondxryssland lux ack
-  - seb Östeuropa
+  - seb pension fund c
+  - seb realräntefond d
+  - seb sverige expanderad
+  - seb sweden equity fund c
+  - seb östeuropafond små och medelstora bolag c
+  - seligson & co euroobligation a
+  - seligson & co global top 25 brands a
+  - seligson & co global top 25 pharmaceuticals a
+  - sensor sverige select
+  - simplicity företagsobligationer a
+  - simplicity global corporate bond a
+  - simplicity likviditet a
+  - skagen focus d
+  - skagen global e
+  - 'skagen kon-tiki f'
+  - skagen m2 c
+  - skagen vekst c
+  - skandia balanserad
+  - skandia europa exponering
+  - skandia försiktig
+  - skandia global exponering a
+  - skandia japan exponering
+  - skandia korträntefond
+  - skandia nordamerika exponering
+  - skandia obligationsfond
+  - skandia realräntefond
+  - skandia småbolag sverige
+  - skandia sverige exponering a
+  - skandia time global
+  - skandia usa
+  - skandia världen
+  - spiltan aktiefond småland
+  - spiltan globalfond investmentbolag
+  - spiltan högräntefond
+  - spiltan räntefond sverige
+  - spiltan småbolagsfond
+  - 'spp generation 40-tal'
+  - 'spp generation 50-tal'
+  - 'spp generation 60-tal'
+  - 'spp generation 70-tal'
+  - 'spp generation 80-tal'
+  - storebrand emerging markets a
+  - storebrand emerging markets plus a
+  - storebrand europa a
+  - storebrand frn företagsobligation a
+  - storebrand global all countries a
+  - storebrand global företagsobligation a
+  - storebrand global low volatility a
+  - storebrand global multifactor a
+  - storebrand global plus a
+  - storebrand global solutions a
+  - storebrand grön obligation a
+  - storebrand japan a
+  - storebrand kortränta a
+  - storebrand obligation a
+  - storebrand sverige a
+  - storebrand sverige plus a
+  - storebrand usa a
+  - swedbank robur access asien a
+  - swedbank robur access europa a
+  - swedbank robur access global a
+  - swedbank robur access sverige a
+  - swedbank robur access usa a
+  - swedbank robur aktiefond pension
+  - swedbank robur fastighet a
+  - swedbank robur healthcare a
+  - swedbank robur mixfond pension
+  - swedbank robur nordenfond
+  - swedbank robur obligation a
+  - swedbank robur räntefond kort a
+  - swedbank robur small cap europe a
+  - swedbank robur småbolagsfond sverige a
+  - swedbank robur technology a
+  - swedbank robur transfer 50
+  - swedbank robur transfer 60
+  - swedbank robur transfer 70
+  - swedbank robur transfer 80
+  - swedbank robur transfer 90
+  - templeton emerging markets fund a
+  - templeton global bond fund a
+  - tundra sustainable frontier fund a
+  - ub infra placeringsfond a
+  - ålandsbanken euro bond s placeringsfond
+  - ålandsbanken euro high yield b placeringsfond
+  - ålandsbanken global aktie b placeringsfond
+  - ålandsbanken kapitalförvaltning placeringsfond
+  - öhman emerging markets a
+  - öhman frn a
+  - öhman företagsobligationsfond a
+  - öhman global a
+  - öhman global growth a
+  - öhman kort ränta a
+  - öhman marknad pacific a
+  - öhman marknad usa a
+  - öhman obligationsfond a
+  - öhman realräntefond a
+  - öhman småbolagsfond a
+  - öhman sverige a
+  - öhman sweden micro cap
 fund_names:
   ab american growth a $:
     - ab american growth a $
@@ -1313,3 +1517,114 @@ fund_names:
   trygg sverige:
     - trygg sverige
     - trygg sverigefond
+  alfred berg aktiv r:
+    - alfred berg aktiv r
+    - alfred berg aktiv c
+  'abrdn sicav i - select euro high yield bond a':
+    - 'abrdn sicav i - select euro high yield bond a'
+    - 'aberdeen standard sicav i - select euro high yield bond a'
+    - 'aberdeen standard - select euro high yield bond a'
+    - 'aberdeen standard - select euro high yield bond a'
+  'abrdn sicav i - japanese sustainable equity fund a':
+    - 'abrdn sicav i - japanese sustainable equity fund a'
+    - 'aberdeen standard sicav i - japanese sustainable equity fund a'
+  'abrdn sicav i - japanese smaller companies sustainable equity fund a':
+    - 'abrdn sicav i - japanese smaller companies sustainable equity fund a'
+    - 'aberdeen standard sicav i - japanese smaller companies sustainable equity fund a'
+  'abrdn sicav i - global innovation equity fund a':
+    - 'abrdn sicav i - global innovation equity fund a'
+    - 'aberdeen standard sicav i - global innovation equity fund a '
+  'abrdn sicav i - european sustainable equity fund a':
+    - 'abrdn sicav i - european sustainable equity fund a'
+    - 'aberdeen standard sicav i - european sustainable equity fund a'
+  'abrdn sicav i - europe ex uk sustainable equity fund a':
+    - 'abrdn sicav i - europe ex uk sustainable equity fund a'
+    - 'aberdeen standard sicav i - europe ex uk sustainable equity fund a'
+    - 'aberdeen standard sicav i - europé ex uk sustainable equity fund a'
+  aktiespararna topp sverige:
+    - aktiespararna topp sverige
+    - aktiespararna topp sverige hållbar
+  d&g aktiefond:
+    - d&g aktiefond
+    - didner & gerge aktiefond
+  d&g global all cap:
+    - d&g global all cap
+    - didner & gerge global
+  d&g småbolag:
+    - d&g småbolag
+    - didner & gerge småbolag
+  'dnb fund - nordic equties retail a sek':
+    - 'dnb fund - nordic equties retail a sek'
+    - 'dnb fund - nordic equities retail a'
+  dnb global emerging markets s:
+    - dnb global emerging markets s
+    - dnb global emerging markets a
+  dnb global indeks s:
+    - dnb global indeks s
+    - dnb global indeks a
+  dnb grönt skifte norden s:
+    - dnb grönt skifte norden s
+    - dnb grönt norden a
+  dnb health care s:
+    - dnb health care s
+    - dnb health care a
+  dnb smb s:
+    - dnb smb s
+    - dnb smb a
+  dnb teknologi s:
+    - dnb teknologi s
+    - dnb teknologi a
+  'kotak funds - india growth fund':
+    - 'kotak funds - india growth fund'
+    - 'kotak funds - india esg a'
+  kpa blandfond:
+    - kpa blandfond
+    - kpa etisk blandfond 2
+  länsförsäkringar europa index:
+    - länsförsäkringar europa index
+    - länsförsäkringar europa indexnära
+  länsförsäkringar global index:
+    - länsförsäkringar global index
+    - länsförsäkringar global indexnära
+  länsförsäkringar japan index:
+    - länsförsäkringar japan index
+    - länsförsäkringar japan indexnära
+  länsförsäkringar sverige index:
+    - länsförsäkringar sverige index
+    - länsförsäkringar sverige indexnära
+  länsförsäkringar usa index:
+    - länsförsäkringar usa index
+    - länsförsäkringar usa indexnära
+  lärarfond offensiv:
+    - lärarfond offensiv
+    - lärarfond 21-44 år
+  lärarfond balanserad:
+    - lärarfond balanserad
+    - lärarfond 45-58 år
+  lärarfond försiktig:
+    - lärarfond försiktig
+    - lärarfond 59+
+  länsförsäkringar tillväxtmarknad index a:
+    - länsförsäkringar tillväxtmarknad index a
+    - länsförsäkringar tillväxtmarknad indexnära a
+  nordea european sustainable stars equity fund:
+    - nordea european sustainable stars equity fund
+    - nordea european stars equity fund
+  nordea nordic fund:
+    - nordea nordic fund
+    - nordea nordic
+  pictet clean energy transition r:
+    - pictet clean energy transition r
+    - pictet clean energy r
+  skandia sverige:
+    - skandia sverige
+    - skandia sverige hållbar
+  seb östeuropafond små och medelstora bolag c:
+    - seb östeuropafond små och medelstora bolag c
+    - seb östeuropafond små och medelstora bolag ex ryssland c
+  swedbank robur small cap europe a:
+    - swedbank robur small cap europe a
+    - swedbank robur småbolagsfond europa a
+  ålandsbanken norden aktie placeringsfond:
+    - ålandsbanken norden aktie placeringsfond
+    - ålandsbanken norden aktie s placeringsfond

@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 ##!/home/eranac/local/bin/perl
 
+use open ":std", ":encoding(UTF-8)";
+use Encode qw(decode encode);
 use Getopt::Std;
 use Time::Local;
-use File::Glob ':glob';
-use YAML;
+use File::Glob ':bsd_glob';
+use YAML::PP;
 use String::Similarity;
 use Term::ReadKey;
 use Date::Calc qw(Delta_Days);
@@ -20,20 +22,20 @@ slice_fond_files.pl [-cflmntu] [-h] [-d <result directory>] [-i <number of funds
 This hack reads the downloaded fund files and slices the data so that each fund
 is listed with its historical values. Some options only work in combinations.
 
-Funds are bundled since they frequently change names. The bundling is 
-defined in the file F<fond_hash_slices.pm> which must reside in the same 
+Funds are bundled since they frequently change names. The bundling is
+defined in the file F<fond_names.yaml> which must reside in the same
 directory as F<slice_fond_files.pl> itself.
 
 =over 4
 
 =item -c
 
-Checks the fund hash for duplicate definitions, i.e. if a main fund name 
+Checks the fund hash for duplicate definitions, i.e. if a main fund name
 is also listed as part of some other bundle.
 
-=item -d 
+=item -d
 
-with an argument can be given in which case the funds are printed 
+with an argument can be given in which case the funds are printed
 to the subdirectory specified by the argument with the file name being the fund.
 
 =item -f
@@ -42,22 +44,25 @@ Full listing, i.e. don't use the internal fund name hash to bundle funds.
 
 =item -i
 
-Sets the number of columns for each printed table. This option will only 
-print to files. Files will be named fund_tables_#.[html|csv]. Where # is 
-a sequence number that goes up to the total number of printed tables. 
+Sets the number of columns for each printed table. This option will only
+print to files. Files will be named fund_tables_#.[html|csv]. Where # is
+a sequence number that goes up to the total number of printed tables.
 Extension html or csv depend on whether -m or -t was invoked.
 
-=item -l 
+=item -l
 
 Only lists the funds.
 
-=item -m 
+=item -m
 
 Prints a html table (matrix) to STDOUT or files if -i is set.
 
+This works well for pasting directly into Excel (at least old Excel from around
+Y2K) as it automatically senses the table format.
+
 =item -n
 
-Prints a normalized logarithmic html table. Can only be used with -m or -t.
+Prints a normalized logarithmic html or csv table. Can only be used with -m or -t.
 
 =item -p
 
@@ -76,11 +81,14 @@ change or because of being terminated.
 
 =item -t
 
-Prints a comma separated table to STDOUT or files if -i set.
+Prints a CSV table to STDOUT or files if -i set.
+
+This can be pasted into Libreoffice calc as unformatted text and imported with
+semicolons as delimiters.
 
 =item -u
 
-Lists unregistered funds, i.e. funds not in the internal fund hash and 
+Lists unregistered funds, i.e. funds not in the internal fund hash and
 therefore not visible in the result printout, and exits.
 
 =item -w
@@ -144,16 +152,20 @@ if ($opts{h}) {
 	exit 0;
 }
 
-#do "fond_hash_slices.pm";
 do { undef local $/;
-    open my $file, "<fund_names.yaml" or die "Can\t open: $!\n ";
-    my $yaml = <$file>;
+    #open my $file, "<fund_names.yaml" or die "Can\t open: $!\n ";
+	open my $file, '<:raw', "fund_names.yaml" or die "Cannot open 'fund_names.yaml': $!\n";
+    my $raw_yaml = <$file>;
     close $file;
-    my @data = Load $yaml;
-    %fund_names = %{${$data[0]}{fund_names}};
-    @full_list = @{${$data[0]}{full_list}};
-    @exist_nonfull_list = @{${$data[0]}{exist_nonfull_list}};
+	#my @data = Load $yaml;
+	my $utf8_yaml = decode('ISO-8859-15', $raw_yaml);
+	my $ypp = YAML::PP->new;
+	my $data = $ypp->load_string($utf8_yaml);
+	%fund_names = %{${$data}{fund_names}};
+	@full_list = @{${$data}{full_list}};
+	@exist_nonfull_list = @{${$data}{exist_nonfull_list}};
 };
+
 
 if ($normalized_print and not ($matrix_print or $table_print)) {
     die "Normalized output can only be done with -m  or -t options.\n";
@@ -179,7 +191,7 @@ if ($check_duplication) {
 }
 
 if ($working_dir and -e $working_dir and -d $working_dir) {
-	$wdir = $working_dir;	
+	$wdir = $working_dir;
 }
 else {
 	$wdir = ".";
@@ -191,32 +203,39 @@ if ($renew_funds or $remove_discontinued) {
 	my $last_dates;
 	do {
 		undef local $/;
-		open my $file, "<$wdir/cache/$miss_file";
+		open my $file, "<:raw", "$wdir/cache/$miss_file";
 		$misslist = <$file>;
 		close $file;
-		open my $file, "<$wdir/cache/$disc_file";
+		$misslist = decode("ISO-8859-15", $misslist);
+		open my $file, "<:raw", "$wdir/cache/$disc_file";
 		$disclist = <$file>;
 		close $file;
-		open my $file, "<$wdir/cache/$last_dates_file";
+		$disclist = decode("ISO-8859-15", $disclist);
+		open my $file, "<:raw", "$wdir/cache/$last_dates_file";
 		$last_dates = <$file>;
 		close $file;
+		$last_dates = decode("ISO-8859-15", $last_dates);
 	};
 	# Get rid of of first line (contains found number of funds)
 	$misslist =~ s/[^\n]+\n//m;
 	$disclist =~ s/[^\n]+\n//m;
 	#my @fundlist = sort split /=/, join('=', @full_list, @exist_nonfull_list);
 	my @disclist = sort split /\n/, $disclist;
-	$last_dates = Load $last_dates;
+	my $ypp = YAML::PP->new;
+	$last_dates = $ypp->load_string($last_dates);
+	print %{$last_dates};
 	my %last_date = %{$last_dates};
-	
+
     if (renew_funds) {
         my @misslist = sort split /\n/, $misslist;
         my $misscount;
         for my $missing (@misslist) {
+			print "$missing\n";
             $misscount++;
             my $sim_score = 0;
             my $disc2replace;
             for my $discontinued (@disclist) {
+				print "$discontinued\n";
                 my $compare = similarity($discontinued, $missing);
                 # If the similarity score is 1 they are identical.
                 # If they are identical the fund name has been both discontinued as well as is missing from the registered fund set.
@@ -251,7 +270,7 @@ if ($renew_funds or $remove_discontinued) {
                 }
             }
             #print "New name for the collection: $replace_name\n\n"
-            
+
             # Add the updated collection to the fund map and remove the old entry
             $fund_names{$replace_name} = \@{$discreplace{$disc2replace}};
             if (defined $fund_names{$disc2replace}) {
@@ -272,7 +291,7 @@ if ($renew_funds or $remove_discontinued) {
             #    }
             #    $fund_names{$key} = \@uniq;
             #}
-            
+
             # Update the display list
             my $i;
             for ($i=0; $i <= $#full_list; $i++) {
@@ -303,18 +322,20 @@ if ($renew_funds or $remove_discontinued) {
             }
         }
     }
-	
+
     @full_list = sort grep {$_ ne ""} @full_list;
     @exist_nonfull_list = sort grep {$_ ne ""} @exist_nonfull_list;
     my %hash;
 	$hash{fund_names} = \%fund_names;
 	$hash{full_list} = \@full_list;
 	$hash{exist_nonfull_list} = \@exist_nonfull_list;
-	my $yaml = Dump \%hash;
-	open my $fh, ">$wdir/fund_names.new.yaml" or die "Can't open '$wdir/fund_names.new.yaml': $!\n";
-	print $fh $yaml;
+	my $ypp = YAML::PP->new(schema => [qw/ + Perl /]);
+	my $yaml = $yp->dump_string(\%hash);
+	#my $yaml = Dump \%hash;
+	open my $fh, ">:raw", "$wdir/fund_names.new.yaml" or die "Can't open '$wdir/fund_names.new.yaml': $!\n";
+	print $fh encode('ISO-8859-15', $yaml);
 	close $fh;
-	
+
 	exit 0;
 }
 
@@ -340,12 +361,16 @@ for my $file (sort {$a cmp $b} @flist) {
 	$progress = sprintf "%d", $counter++/$file_count*100;
 	$progrsign = $counter % 4;
 	print STDERR "\rReading $file_count fund files $progrind[$progrsign] (${progress}%).";
-	open FONDFILE, "<$file\n" or die "\nCan't open $file: $!\n";
-	my @filec = <FONDFILE>;
+	open FONDFILE, "<:raw", "$file" or die "\nCan't open $file: $!\n";
+	my @filec;
+	while (my $fline = <FONDFILE>) {
+		push(@filec,decode("ISO-8859-15", $fline)) unless $fline =~ m/Fondnr/;
+	}
 	close FONDFILE;
 	for my $filerow (@filec) {
 		my @row = split /;/, $filerow;
-		my $date = $row[0];
+		my $date = $row[4];
+		chomp $date;
 		if ($date eq "00-4-4") {$date = "2000-04-04"}
 		my $fund_name = $row[1];
 		my $value = $row[2];
@@ -354,33 +379,35 @@ for my $file (sort {$a cmp $b} @flist) {
 		$fund_name =~ s:[/_]: :g;
 		$fund_name = lc $fund_name;
 		$value =~ s/,/./;
-		
-		unless ($full_listing) {
-			# Catch duplicate names
-			FUNDKEY: for my $fundkey (sort {$a cmp $b} keys %fund_names) {
-						for $fundelem (@{$fund_names{$fundkey}}) {
-							if ($fund_name eq $fundelem) {
-								$fund_name = $fundkey;
-								last FUNDKEY;
+
+		if ($fund_name) {
+			unless ($full_listing) {
+				# Catch duplicate names
+				FUNDKEY: for my $fundkey (sort {$a cmp $b} keys %fund_names) {
+							for $fundelem (@{$fund_names{$fundkey}}) {
+								if ($fund_name eq $fundelem) {
+									$fund_name = $fundkey;
+									last FUNDKEY;
+								}
 							}
 						}
-					}
-		}
-		
-		$fund_hash{$fund_name} -> {$date} = $value;
-		$last_date_with_value{$fund_name} = $date;
-		# Count the number of samples for the specified fund name
-		$fund_samples{$fund_name}++;
-		$date_hash{$date} = "exists";
-		my ($year, $month, $day);
-		if (($year, $month, $day) = $date =~ m/(\d\d\d\d)-(\d\d)-(\d\d)/) {
-			#print "::- $year, $month, $day\n";
-			my $timestamp = timelocal "", "", "", $day, $month-1, $year;
-			# If later than, i.e. if younger...
-            #if ($timestamp > $one_year_ago) {
-            #if ($timestamp > $six_months_ago) {
-            if ($timestamp > $three_months_ago) {
-				$current_funds{$fund_name} = "exists";
+			}
+
+			$fund_hash{$fund_name} -> {$date} = $value;
+			$last_date_with_value{$fund_name} = $date;
+			# Count the number of samples for the specified fund name
+			$fund_samples{$fund_name}++;
+			$date_hash{$date} = "exists";
+			my ($year, $month, $day);
+			if (($year, $month, $day) = $date =~ m/(\d\d\d\d)-(\d\d)-(\d\d)/) {
+				#print "::- $year, $month, $day\n";
+				my $timestamp = timelocal "", "", "", $day, $month-1, $year;
+				# If later than, i.e. if younger...
+				#if ($timestamp > $one_year_ago) {
+				#if ($timestamp > $six_months_ago) {
+				if ($timestamp > $three_months_ago) {
+					$current_funds{$fund_name} = "exists";
+				}
 			}
 		}
 	}
@@ -400,15 +427,22 @@ print STDERR "\n";
 { # Save data in cache
 	my $fh = "$wdir/cache/$last_dates_file";
 	my $hash = \%last_date_with_value;
-	my $yaml = Dump $hash;
-	open my $fh, ">$wdir/cache/$last_dates_file" or die "Can't open '$last_dates_file': $!\n";
-	print $fh $yaml;
+	#my $yaml = Dump $hash;
+	my $ypp = YAML::PP->new;
+	my $yaml = $ypp->dump_string($hash);
+	my $encoded_yaml = encode('ISO-8859-15', $yaml);
+	open my $fh, ">:raw", "$wdir/cache/$last_dates_file" or die "Can't open '$last_dates_file': $!\n";
+	print $fh $encoded_yaml;
 	close $fh;
 	@current_funds = sort keys %current_funds;
 	push @registered_funds, @full_list;
 	push @registered_funds, @exist_nonfull_list;
 	@registered_funds = sort @registered_funds;
 	$registered_funds = join "\n", @registered_funds;
+	#print "\nRegistered\n---\n$registered_funds";
+	#print "\nProcessed\n---\n";
+	#for my $item (@current_funds) {print "$item\n"};
+	#print "\n---\n";
 	@missing_funds = map {$registered_funds !~ m/\Q$_\E/smg ? $_ : "" } @current_funds;
 	@missing_funds = grep {$_ ne ""} @missing_funds;
 	my @dates = sort {$a cmp $b} keys %date_hash;
@@ -421,16 +455,16 @@ print STDERR "\n";
 			push @discontinued_funds, $c_fund;
 		}
 	}
-	open my $fh, ">$wdir/cache/$miss_file" or die "Can't open '$miss_file': $!\n";
-	print $fh "@{[ $#missing_funds+1 ]} missing funds found.\n";
+	open my $fh, ">:raw", "$wdir/cache/$miss_file" or die "Can't open '$miss_file': $!\n";
+	print $fh encode("ISO-8859-15", "@{[ $#missing_funds+1 ]} missing funds found.\n");
 	for my $fund (@missing_funds) {print $fh "$fund\n";}
 	close $fh;
 	if ($list_missing_funds) {
 		print STDOUT "@{[ $#missing_funds+1 ]} missing funds found.\n";
 		for my $fund (@missing_funds) {print STDOUT "$fund\n";}
 	}
-	open my $fh, ">$wdir/cache/$disc_file" or die "Can't open '$disc_file': $!\n";
-	print $fh "@{[ $#discontinued_funds+1 ]} discontinued funds found.\n";
+	open my $fh, ">:raw", "$wdir/cache/$disc_file" or die "Can't open '$disc_file': $!\n";
+	print $fh encode("ISO-8859-15", "@{[ $#discontinued_funds+1 ]} discontinued funds found.\n");
 	for my $fund (@discontinued_funds) {print $fh "$fund\n";}
 	close $fh;
 	if ($list_discontinued_funds) {
@@ -496,7 +530,7 @@ EOSTART
 	elsif ($table_print) {
 		print "# Fund info from slice_fond_files.pl";
 	}
-	
+
 	my $max_width = 256;	# So that the width doesn't exceed an Excel worksheet.
 	my $found_tables = $#fund_arr+1;
 	my $max_tables = $found_tables / $max_width;
@@ -509,24 +543,29 @@ EOSTART
 			print "<tr>\n<td></td>";
 		}
 		elsif ($table_print) {
-			print "\n# ,";
+			print "\n# ;";
 		}
-		#for my $fund (sort {$a cmp $b} keys %fund_hash) 
+		#for my $fund (sort {$a cmp $b} keys %fund_hash)
 		for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
 			print "<td>" if $matrix_print;
-			for my $fund (@{$fund_names{$fund_arr[$i]}}) {
-				print "[$fund]";
+			unless ($#{$fund_names{$fund_arr[$i]}} < 0 ) {
+				for my $fund (@{$fund_names{$fund_arr[$i]}}) {
+					print "[$fund]";
+				}
+			}
+			else {
+				print "[]";
 			}
 			if ($matrix_print) {print "</td>";}
-			elsif ($table_print) {print ",";}
+			elsif ($table_print) {print ";";}
 		}
 		if ($matrix_print) {print "\n</tr>\n<tr>\n<td></td>";}
-		elsif ($table_print) {print "\n# ,";}
+		elsif ($table_print) {print "\n# ;";}
 		for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
 			if ($matrix_print) {print "<td>$fund_arr[$i]</td>";}
-			elsif ($table_print) {print "$fund_arr[$i],";}
+			elsif ($table_print) {print "$fund_arr[$i];";}
 		}
 		#print "\n</tr>\n<tr>\n";
 		for my $date (sort {$a cmp $b} keys %date_hash) {
@@ -535,30 +574,33 @@ EOSTART
 				print "<td>$date</td>";
 			}
 			elsif ($table_print) {
-				print "\n$date,";
+				print "\n$date;";
 			}
-			#for my $fund (sort {$a cmp $b} keys %fund_hash) 
+			#for my $fund (sort {$a cmp $b} keys %fund_hash)
 			for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
 				if ($i > ($#fund_arr)) {last}
 				unless ($normalized_print) {
 					if (defined $fund_hash{$fund_arr[$i]}{$date}) {
 						if ($matrix_print) {print "<td>$fund_hash{$fund_arr[$i]}{$date}</td>";}
-						elsif ($table_print) {print "$fund_hash{$fund_arr[$i]}{$date},";};
+						elsif ($table_print) {print "$fund_hash{$fund_arr[$i]}{$date};";};
 					}
 					else {
 						if ($matrix_print) {print "<td>x</td>";}
-						elsif ($table_print) {print "x,";};
+						elsif ($table_print) {print "x;";};
 					}
 				}
 				else {
 					if (defined $fund_hash{$fund_arr[$i]}{$date} and $fund_hash{$fund_arr[$i]}{$date} > 0) {
 						my $norm_value = sprintf "%.3f", log($fund_hash{$fund_arr[$i]}{$date} / $fund_hash{$fund_arr[$i]}{$last_date_with_value{$fund_arr[$i]}}) / log(10);
 						if ($matrix_print) {print "<td>$norm_value</td>";}
-						elsif ($table_print) {print "$norm_value,"};
+						elsif ($table_print) {
+							$norm_value =~ s/\./,/;
+							print "$norm_value;"
+						};
 					}
 					else {
 						if ($matrix_print) {print "<td></td>";}
-						elsif ($table_print) {print ",";}
+						elsif ($table_print) {print ";";}
 					}
 				}
 			}
@@ -578,7 +620,7 @@ EOSTART
 			#print "<p></p>\n";
 		}
 		elsif ($table_print) {
-			print qq(# Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files.</font> (List them with the -u option.));
+			print qq(\n# Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files. (List them with the -u option.));
 		};
 	}
 	print "</body>" if $matrix_print;
