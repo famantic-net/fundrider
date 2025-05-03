@@ -546,7 +546,7 @@ EOSTART
 			print "\n# ;";
 		}
 		#for my $fund (sort {$a cmp $b} keys %fund_hash)
-		for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
+		for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
 			print "<td>" if $matrix_print;
 			unless ($#{$fund_names{$fund_arr[$i]}} < 0 ) {
@@ -562,7 +562,7 @@ EOSTART
 		}
 		if ($matrix_print) {print "\n</tr>\n<tr>\n<td></td>";}
 		elsif ($table_print) {print "\n# ;";}
-		for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
+		for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
 			if ($matrix_print) {print "<td>$fund_arr[$i]</td>";}
 			elsif ($table_print) {print "$fund_arr[$i];";}
@@ -577,7 +577,7 @@ EOSTART
 				print "\n$date;";
 			}
 			#for my $fund (sort {$a cmp $b} keys %fund_hash)
-			for (my $i=($n_tables*$table); $i<=(($n_tables*$table)+$n_tables); $i++) {
+			for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 				if ($i > ($#fund_arr)) {last}
 				unless ($normalized_print) {
 					if (defined $fund_hash{$fund_arr[$i]}{$date}) {
