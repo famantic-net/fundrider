@@ -501,6 +501,16 @@ unless ($matrix_print or $table_print) {
 	}
 }
 else {
+	my $filetable_data;
+	sub print_directed { # To handle prints redirected to table files
+		my $arg = shift(@_);
+		unless ($n_output_tables) {
+			print $arg;
+		}
+		else {
+			$filetable_data .= sprintf "%s", $arg;
+		}
+	}
 	my $full_list = join "\n", @full_list;
 	$full_list =~ s/([^\n]+)(:?\n|$)/<$1>/sg;
 	my $exist_nonfull_list = join "\n", @exist_nonfull_list;
@@ -515,8 +525,8 @@ else {
 		}
 	}
 
-	if ($matrix_print) {
-		print << "EOSTART";
+	if ($matrix_print) { # This html heading will not work with separate table files
+		print(<< "EOSTART");
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
@@ -537,93 +547,103 @@ EOSTART
 	if (defined $n_output_tables) {$n_tables = $n_output_tables}
 	else {$n_tables = $found_tables}
 	my $n_table_rows = $found_tables / $n_tables;
+	my $idx = 0;
 	for (my $table=0; $table<($n_table_rows); $table++) {
+		$idx = $table + 1;
 		if ($matrix_print) {
-			print "<table>\n";
-			print "<tr>\n<td></td>";
+			print_directed "<table>\n";
+			print_directed "<tr>\n<td></td>";
 		}
 		elsif ($table_print) {
-			print "\n# ;";
+			print_directed "\n# ;";
 		}
 		#for my $fund (sort {$a cmp $b} keys %fund_hash)
 		for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
-			print "<td>" if $matrix_print;
+			print_directed "<td>" if $matrix_print;
 			unless ($#{$fund_names{$fund_arr[$i]}} < 0 ) {
 				for my $fund (@{$fund_names{$fund_arr[$i]}}) {
-					print "[$fund]";
+					print_directed "[$fund]";
 				}
 			}
 			else {
-				print "[]";
+				print_directed "[]";
 			}
-			if ($matrix_print) {print "</td>";}
-			elsif ($table_print) {print ";";}
+			if ($matrix_print) {print_directed "</td>";}
+			elsif ($table_print) {print_directed ";";}
 		}
-		if ($matrix_print) {print "\n</tr>\n<tr>\n<td></td>";}
-		elsif ($table_print) {print "\n# ;";}
+		if ($matrix_print) {print_directed "\n</tr>\n<tr>\n<td></td>";}
+		elsif ($table_print) {print_directed "\n# ;";}
 		for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 			if ($i > ($#fund_arr)) {last}
-			if ($matrix_print) {print "<td>$fund_arr[$i]</td>";}
-			elsif ($table_print) {print "$fund_arr[$i];";}
+			if ($matrix_print) {print_directed "<td>$fund_arr[$i]</td>";}
+			elsif ($table_print) {print_directed "$fund_arr[$i];";}
 		}
 		#print "\n</tr>\n<tr>\n";
 		for my $date (sort {$a cmp $b} keys %date_hash) {
 			if ($matrix_print) {
-				print "\n</tr>\n<tr>\n";
-				print "<td>$date</td>";
+				print_directed "\n</tr>\n<tr>\n";
+				print_directed "<td>$date</td>";
 			}
 			elsif ($table_print) {
-				print "\n$date;";
+				print_directed "\n$date;";
 			}
 			#for my $fund (sort {$a cmp $b} keys %fund_hash)
 			for (my $i=($n_tables*$table); $i<(($n_tables*$table)+$n_tables); $i++) {
 				if ($i > ($#fund_arr)) {last}
 				unless ($normalized_print) {
 					if (defined $fund_hash{$fund_arr[$i]}{$date}) {
-						if ($matrix_print) {print "<td>$fund_hash{$fund_arr[$i]}{$date}</td>";}
-						elsif ($table_print) {print "$fund_hash{$fund_arr[$i]}{$date};";};
+						if ($matrix_print) {print_directed "<td>$fund_hash{$fund_arr[$i]}{$date}</td>";}
+						elsif ($table_print) {print_directed "$fund_hash{$fund_arr[$i]}{$date};";};
 					}
 					else {
-						if ($matrix_print) {print "<td>x</td>";}
-						elsif ($table_print) {print "x;";};
+						if ($matrix_print) {print_directed "<td>x</td>";}
+						elsif ($table_print) {print_directed "x;";};
 					}
 				}
 				else {
 					if (defined $fund_hash{$fund_arr[$i]}{$date} and $fund_hash{$fund_arr[$i]}{$date} > 0) {
 						my $norm_value = sprintf "%.3f", log($fund_hash{$fund_arr[$i]}{$date} / $fund_hash{$fund_arr[$i]}{$last_date_with_value{$fund_arr[$i]}}) / log(10);
-						if ($matrix_print) {print "<td>$norm_value</td>";}
+						if ($matrix_print) {print_directed "<td>$norm_value</td>";}
 						elsif ($table_print) {
 							$norm_value =~ s/\./,/;
-							print "$norm_value;"
+							print_directed "$norm_value;"
 						};
 					}
 					else {
-						if ($matrix_print) {print "<td></td>";}
-						elsif ($table_print) {print ";";}
+						if ($matrix_print) {print_directed "<td></td>";}
+						elsif ($table_print) {print_directed ";";}
 					}
 				}
 			}
 			#print "</tr>\n<tr>\n";
 		}
 		if ($matrix_print) {
-			print "\n</tr>";
-			print "\n</table>\n";
+			print_directed "\n</tr>";
+			print_directed "\n</table>\n";
 		}
 		elsif ($table_print) {
-			print "\n";
-		};
+			print_directed "\n";
+		}
+		if ($n_output_tables) {
+			my $path = $result_dir ?  "$result_dir/" : "";
+			my $ext = $table_print ? "csv" : "html";
+			open my $fh, '>:raw', "${path}fund_tables_$idx.$ext" or die "Can't open '${path}fund_tables_$idx.$ext': $!\n";
+			print $fh $filetable_data;
+			close $fh;
+			$filetable_data = "";
+		}
 	}
 	if ($#missing_funds > -1) {
 		if ($matrix_print) {
-			print qq(<p><font size="+2"><b>Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files.</font> (List them with the -u option.)</b>\n</p>);
+			print_directed qq(<p><font size="+2"><b>Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files.</font> (List them with the -u option.)</b>\n</p>);
 			#print "<p></p>\n";
 		}
 		elsif ($table_print) {
-			print qq(\n# Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files. (List them with the -u option.));
+			print_directed qq(\n# Note: @{[ $#missing_funds+1 ]} funds have been left out that exist in the processed files. (List them with the -u option.));
 		};
 	}
-	print "</body>" if $matrix_print;
+	print_directed "</body>" if $matrix_print;
 }
 
 
