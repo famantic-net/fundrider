@@ -1,4 +1,5 @@
 import os
+import sys
 import re
 import glob
 import argparse
@@ -7,33 +8,41 @@ import plotly.graph_objs as go
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(
-    description='Generate interactive fund series charts from CSV files and an embedded-master index.'
+    description='Generate fund series charts from CSVs; optionally store internally or write to disk.'
 )
-parser.add_argument('-t', dest='input_dir', default='.', help='Directory containing fund_tables_<n>.csv')
-parser.add_argument('-r', dest='output_dir', default='.', help='Directory to save HTML files and master index')
+parser.add_argument(
+    '-t', dest='input_dir', default='.',
+    help='Directory containing fund_tables_<n>.csv'
+)
+parser.add_argument(
+    '-r', dest='output_dir', default='.',
+    help='Directory to save HTML files and index, or use ":internal:" to output index to STDOUT'
+)
 args = parser.parse_args()
 
-# Helper to find and sort CSV files by numeric suffix
+# Determine mode
+internal_only = (args.output_dir == ':internal:')
+if not internal_only:
+    os.makedirs(args.output_dir, exist_ok=True)
+
+# Find and sort CSV files
 def find_csv_files(input_dir):
     pat = re.compile(r'fund_tables_(\d+)\.csv$')
-    files = []
+    results = []
     for fname in os.listdir(input_dir):
         m = pat.match(fname)
         if m:
             idx = int(m.group(1))
-            files.append((idx, fname))
-    return sorted(files, key=lambda x: x[0])
+            results.append((idx, fname))
+    return sorted(results, key=lambda x: x[0])
 
 csv_files = find_csv_files(args.input_dir)
 if not csv_files:
     print(f"No CSV files matching 'fund_tables_<n>.csv' in {args.input_dir}")
     exit(1)
 
-# Ensure output directory exists
-os.makedirs(args.output_dir, exist_ok=True)
-
-# JavaScript to bold legend and thicken line on hover
-hover_js = '''<script>
+# JavaScript hover snippet
+debug_hover_js = '''<script>
 (function() {
   document.querySelectorAll('.plotly-graph-div').forEach(function(gd) {
     gd.on('plotly_hover', function(data) {
@@ -54,20 +63,22 @@ hover_js = '''<script>
 })();
 </script>'''
 
-# Pandas read options
-df_kwargs = dict(sep=';', decimal=',', skiprows=2, header=0,
-                 parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1')
+# Pandas CSV read options
+df_kwargs = dict(
+    sep=';', decimal=',', skiprows=2, header=0,
+    parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1'
+)
 
-# Track generated HTML filenames
-html_files = []
+# Prepare to store outputs
+disk_html_files = []
+internal_html = {}
 
-# Generate individual chart HTML files
+# Process each CSV
 for idx, fname in csv_files:
     csv_path = os.path.join(args.input_dir, fname)
-    out_name = f'fund_series_chart_{idx}.html'
-    out_path = os.path.join(args.output_dir, out_name)
+    base_name = f'fund_series_chart_{idx}.html'
 
-    # Load and preprocess data
+    # Read and preprocess
     df = pd.read_csv(csv_path, **df_kwargs)
     df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
     df.dropna(axis=1, how='all', inplace=True)
@@ -80,7 +91,8 @@ for idx, fname in csv_files:
     # Build Plotly figure
     fig = go.Figure()
     for col in df.columns:
-        if col == 'Date': continue
+        if col == 'Date':
+            continue
         fig.add_trace(go.Scatter(
             x=df['Date'], y=df[col], mode='lines', name=col,
             line=dict(width=2), hovertemplate=(
@@ -94,35 +106,51 @@ for idx, fname in csv_files:
         hovermode='closest', template='plotly_white'
     )
 
-    # Export HTML and inject hover JS
+    # Export HTML string and inject hover JS
     html_str = fig.to_html(include_plotlyjs='cdn', full_html=True)
-    final_html = html_str.replace('</body>', hover_js + '\n</body>')
-    with open(out_path, 'w', encoding='utf-8') as f:
-        f.write(final_html)
-    print(f"Saved {out_name}")
-    html_files.append(out_name)
+    chart_html = html_str.replace('</body>', debug_hover_js + '\n</body>')
 
-# Create master index embedding individual HTMLs via srcdoc iframes
-index_path = os.path.join(args.output_dir, 'fund_series_charts.html')
-lines = [
-    '<!DOCTYPE html>', '<html lang="en">', '<head>',
-    '  <meta charset="utf-8">',
-    '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-    '  <title>Aggregated Fund Series Charts</title>',
-    '</head>', '<body>'
-]
-for html_file in html_files:
-    path = os.path.join(args.output_dir, html_file)
-    with open(path, 'r', encoding='utf-8') as hf:
-        content = hf.read().replace('"', '&quot;')
-    # Embed via srcdoc
-    lines.append(
-        f'  <iframe srcdoc="{content}" '
-        'style="width:100%; height:600px; border:none; margin-bottom:80px;"></iframe>'
-    )
-    lines.append('  <hr style="border:none; border-top:3px solid #ccc; margin:100px 0;">')
-lines += ['</body>', '</html>']
+    if internal_only:
+        internal_html[idx] = chart_html
+        print(f"Stored chart {idx} internally", file=sys.stderr)
+    else:
+        out_path = os.path.join(args.output_dir, base_name)
+        with open(out_path, 'w', encoding='utf-8') as f:
+            f.write(chart_html)
+        print(f"Saved {out_path}")
+        disk_html_files.append(base_name)
 
-with open(index_path, 'w', encoding='utf-8') as f:
-    f.write("\n".join(lines))
-print(f"Generated master index with embedded charts at {index_path}")
+# After processing all, output index
+
+def output_index(files_dict, filenames, mode_internal):
+    lines = [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '  <meta charset="utf-8">',
+        '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+        '  <title>Aggregated Fund Series Charts</title>',
+        '</head>',
+        '<body>'
+    ]
+    if mode_internal:
+        for idx, _ in csv_files:
+            content = files_dict[idx].replace('"', '&quot;')
+            lines.append(
+                f'<iframe srcdoc="{content}" style="width:100%; height:600px; border:none; margin-bottom:80px;"></iframe>'
+            )
+            lines.append('  <hr style="border:none; border-top:3px solid #ccc; margin:100px 0;">')
+        print("\n".join(lines + ['</body>', '</html>']))
+    else:
+        for name in filenames:
+            lines.append(
+                f'<iframe src="{name}" style="width:100%; height:600px; border:none; margin-bottom:80px;"></iframe>'
+            )
+            lines.append('  <hr style="border:none; border-top:3px solid #ccc; margin:100px 0;">')
+        lines += ['</body>', '</html>']
+        index_path = os.path.join(args.output_dir, 'fund_series_charts.html')
+        with open(index_path, 'w', encoding='utf-8') as f:
+            f.write("\n".join(lines))
+        print(f"Generated index at {index_path}")
+
+output_index(internal_html, disk_html_files, internal_only)
