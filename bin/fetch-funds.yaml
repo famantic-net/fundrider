@@ -1,0 +1,36 @@
+name: Daily Fund Data Fetcher
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 00:00 UTC == 01:00 CET
+  workflow_dispatch:      # allows manual run
+
+permissions:
+  contents: write          # allow pushing to the repo
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Fetch CSV and save to file
+      run: |
+        mkdir -p data
+        DATE=$(date +%F)
+        curl -sSL 'https://static.pensionsmyndigheten.se/fond/kurser.csv' -o "data/fonder_${DATE}.csv"
+
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add data/fonder_*.csv
+
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Add daily fund data for $(date +%F)"
+          git push
+        fi
