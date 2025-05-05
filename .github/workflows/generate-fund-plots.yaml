@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # allow pushing changes
+  contents: write
+  packages: write  # needed for creating releases
 
 jobs:
   run-fund-plot:
@@ -26,8 +27,7 @@ jobs:
         pip install pandas plotly
 
     - name: Create results folder
-      run: |
-        mkdir -p results
+      run: mkdir -p results
 
     - name: Run fund chart generation script
       run: |
@@ -44,4 +44,26 @@ jobs:
         else
           git commit -m "Update fund chart HTML for $(date +%F)"
           git push
-        fi
+
+    - name: Get current date
+      id: get_date
+      run: echo "date_tag=fund-charts-$(date +'%F')" >> $GITHUB_OUTPUT
+
+    - name: Create or update release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_date.outputs.date_tag }}
+        name: "Fund Charts - ${{ steps.get_date.outputs.date_tag }}"
+        body: "Auto-generated fund chart for ${{ steps.get_date.outputs.date_tag }}."
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload HTML as release asset
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_date.outputs.date_tag }}
+        files: results/fund_series_charts.stdout.html
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
