@@ -44,6 +44,7 @@ jobs:
         else
           git commit -m "Update fund chart HTML for $(date +%F)"
           git push
+        fi
 
     - name: Get current date
       id: get_date
