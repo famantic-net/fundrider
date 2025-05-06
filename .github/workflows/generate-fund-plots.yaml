@@ -73,3 +73,27 @@ jobs:
         files: results/fund_series_charts.stdout.html
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish to Pages repo
+      run: |
+        echo "$FUND_PAGES_DEPLOY_KEY" > /tmp/deploy_key
+        chmod 600 /tmp/deploy_key
+
+        GIT_SSH_COMMAND="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" \
+        git clone git@github.com:famantic-net/fundrider-pages.git ../fundrider-pages
+
+        cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
+
+        cd ../fundrider-pages
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add docs/latest_fund_series_charts.html
+
+        if git diff --cached --quiet; then
+          echo "No changes to publish"
+        else
+          git commit -m "Update chart for $(date +%F)"
+          git push
+        fi
+      env:
+        FUND_PAGES_DEPLOY_KEY: ${{ secrets.FUND_PAGES_DEPLOY_KEY }}
