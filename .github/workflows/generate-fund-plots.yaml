@@ -33,11 +33,16 @@ jobs:
       run: |
         python3 bin/interactive_fund_plot.py -t tables -r :internal: > results/fund_series_charts.stdout.html 2>/dev/null
 
+    - name: Copy to GitHub Pages docs directory
+      run: |
+        mkdir -p docs
+        cp results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
+
     - name: Commit and push if changed
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git add results/fund_series_charts.stdout.html
+        git add results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
 
         if git diff --cached --quiet; then
           echo "No changes to commit"
