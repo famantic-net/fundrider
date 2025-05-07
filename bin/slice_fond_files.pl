@@ -26,6 +26,8 @@ Funds are bundled since they frequently change names. The bundling is
 defined in the file F<fond_names.yaml> which must reside in the same
 directory as F<slice_fond_files.pl> itself.
 
+=head1 Options
+
 =over 4
 
 =item -c
