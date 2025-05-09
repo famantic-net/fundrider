@@ -29,21 +29,8 @@ jobs:
       run: |
         cd "$GITHUB_WORKSPACE"
         echo "Running in: $(pwd)"
-
-        echo "Checking Perl modules..."
-        perl -MEncode -e1
-        perl -MGetopt::Std -e1
-        perl -MTime::Local -e1
-        perl -MFile::Glob -e1
-        perl -MFile::Basename -e1
-        perl -MYAML::PP -e1
-        perl -MString::Similarity -e1
-        perl -MTerm::ReadKey -e1
-        perl -MDate::Calc -e1
-
-        echo "Running script..."
         mkdir -p tables
-        perl bin/slice_fond_files.pl -nt -i17 -w data -d tables
+        perl bin/slice_fond_files.pl -nt -i17 -w data -d tables 2>/dev/null
 
     - name: Commit and push if changed
       run: |
