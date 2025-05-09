@@ -31,7 +31,6 @@ jobs:
         echo "Running in: $(pwd)"
 
         echo "Checking Perl modules..."
-        perl -Mopen -e1
         perl -MEncode -e1
         perl -MGetopt::Std -e1
         perl -MTime::Local -e1
