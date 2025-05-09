@@ -1,0 +1,44 @@
+name: Slice Fund Files
+
+on:
+  schedule:
+    - cron: '30 0 * * *'  # 00:30 UTC = 01:30 CET
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  slice-funds:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install Perl dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cpanminus libterm-readkey-perl
+        cpanm --notest \
+          YAML::PP \
+          String::Similarity \
+          Date::Calc
+
+    - name: Run Perl script
+      run: |
+        mkdir -p tables
+        perl bin/slice_fond_files.pl -nt -i17 -w data -d tables 2>/dev/null
+
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git add tables/
+
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update sliced fund tables for $(date +%F)"
+          git push
+        fi
