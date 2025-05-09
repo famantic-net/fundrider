@@ -6,6 +6,7 @@ use Encode qw(decode encode);
 use Getopt::Std;
 use Time::Local;
 use File::Glob ':bsd_glob';
+use File::Basename;
 use YAML::PP;
 use String::Similarity;
 use Term::ReadKey;
@@ -138,6 +139,7 @@ $working_dir = $opts{w} if defined $opts{w};
 $renew_funds = true if $opts{r};
 $remove_discontinued = true if $opts{p};
 
+$bindir = dirname(__FILE__);
 $miss_file = "missing.txt";
 $disc_file = "discontinued.txt";
 $last_dates_file = "lastdates.txt";
@@ -156,7 +158,7 @@ if ($opts{h}) {
 
 do { undef local $/;
     #open my $file, "<fund_names.yaml" or die "Can\t open: $!\n ";
-	open my $file, '<:raw', "fund_names.yaml" or die "Cannot open 'fund_names.yaml': $!\n";
+	open my $file, '<:raw', "$bindir/fund_names.yaml" or die "Cannot open '$bindir/fund_names.yaml': $!\n";
     my $raw_yaml = <$file>;
     close $file;
 	#my @data = Load $yaml;
@@ -205,15 +207,15 @@ if ($renew_funds or $remove_discontinued) {
 	my $last_dates;
 	do {
 		undef local $/;
-		open my $file, "<:raw", "$wdir/cache/$miss_file";
+		open my $file, "<:raw", "$wdir/cache/$miss_file" or die "Cannot open '$wdir/cache/$miss_file': $!\n";
 		$misslist = <$file>;
 		close $file;
 		$misslist = decode("ISO-8859-15", $misslist);
-		open my $file, "<:raw", "$wdir/cache/$disc_file";
+		open my $file, "<:raw", "$wdir/cache/$disc_file" or die "Cannot open '$wdir/cache/$disc_file': $!\n";
 		$disclist = <$file>;
 		close $file;
 		$disclist = decode("ISO-8859-15", $disclist);
-		open my $file, "<:raw", "$wdir/cache/$last_dates_file";
+		open my $file, "<:raw", "$wdir/cache/$last_dates_file" or die "Cannot open '$wdir/cache/$last_dates_file': $!\n";
 		$last_dates = <$file>;
 		close $file;
 		$last_dates = decode("ISO-8859-15", $last_dates);
@@ -334,7 +336,7 @@ if ($renew_funds or $remove_discontinued) {
 	my $ypp = YAML::PP->new(schema => [qw/ + Perl /]);
 	my $yaml = $yp->dump_string(\%hash);
 	#my $yaml = Dump \%hash;
-	open my $fh, ">:raw", "$wdir/fund_names.new.yaml" or die "Can't open '$wdir/fund_names.new.yaml': $!\n";
+	open my $fh, ">:raw", "$bindir/fund_names.new.yaml" or die "Can't open '$bindir/fund_names.new.yaml': $!\n";
 	print $fh encode('ISO-8859-15', $yaml);
 	close $fh;
 
