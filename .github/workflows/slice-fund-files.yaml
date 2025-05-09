@@ -27,6 +27,7 @@ jobs:
 
     - name: Run Perl script
       run: |
+        cd "$GITHUB_WORKSPACE"
         mkdir -p tables
         perl bin/slice_fond_files.pl -nt -i17 -w data -d tables 2>/dev/null
 
