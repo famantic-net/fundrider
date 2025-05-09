@@ -20,7 +20,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y cpanminus libterm-readkey-perl
-        cpanm --notest \
+        cpanm --sudo --notest \
           YAML::PP \
           String::Similarity \
           Date::Calc
