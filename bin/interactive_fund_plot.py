@@ -67,19 +67,43 @@ if not internal_only and not use_stdin:
     os.makedirs(args.output_dir, exist_ok=True)
 
 # JS hover snippet
+# Adds bi-directional interactivity: hover on trace or legend text
+# Legend hover binding is done after plotly renders via plotly_afterplot event
 debug_hover_js = '''<script>
 (function() {
   document.querySelectorAll('.plotly-graph-div').forEach(function(gd) {
+    // Bind trace hover
     gd.on('plotly_hover', function(data) {
       var name = data.points[0].fullData.name;
       var ci = data.points[0].curveNumber;
-      gd.querySelectorAll('.legendtext').forEach(el => { if(el.textContent===name) el.style.fontWeight='bold'; });
+      gd.querySelectorAll('.legendtext').forEach(function(el) {
+        if (el.textContent === name) el.style.fontWeight = 'bold';
+      });
       Plotly.restyle(gd, {'line.width':3}, [ci]);
     });
     gd.on('plotly_unhover', function() {
-      gd.querySelectorAll('.legendtext').forEach(el => el.style.fontWeight='normal');
-      Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,i)=>i));
+      gd.querySelectorAll('.legendtext').forEach(function(el) {
+        el.style.fontWeight = 'normal';
+      });
+      Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, function(_,i){return i;}));
     });
+    // Bind legend hover after initial render and on updates
+    function bindLegendHover() {
+      var texts = gd.querySelectorAll('.legendtext');
+      texts.forEach(function(el, i) {
+        el.onmouseenter = function() {
+          el.style.fontWeight = 'bold';
+          Plotly.restyle(gd, {'line.width':3}, [i]);
+        };
+        el.onmouseleave = function() {
+          el.style.fontWeight = 'normal';
+          Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, function(_,j){return j;}));
+        };
+      });
+    }
+    gd.on('plotly_afterplot', bindLegendHover);
+    // Also bind on legend clicks to rebind after toggling
+    gd.on('plotly_legendclick', function() { setTimeout(bindLegendHover, 0); });
   });
 })();
 </script>'''
