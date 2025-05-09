@@ -1,0 +1,50 @@
+name: Show Scheduled Workflow Times
+
+on:
+  workflow_dispatch:
+
+jobs:
+  show-schedules:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install croniter and pytz
+      run: |
+        pip install croniter pytz
+
+    - name: Show next 5 scheduled times for all workflows
+      run: |
+        python3 <<EOF
+        import os
+        from datetime import datetime
+        from croniter import croniter
+        import pytz
+        import glob
+        import yaml
+
+        CET = pytz.timezone('Europe/Stockholm')
+        now = datetime.now(pytz.utc)
+
+        print("📅 Next scheduled workflow runs (all times in CET):\n")
+
+        for path in glob.glob('.github/workflows/*.y*ml'):
+            with open(path, 'r') as f:
+                try:
+                    doc = yaml.safe_load(f)
+                    schedules = doc.get('on', {}).get('schedule', [])
+                    if schedules:
+                        print(f"🔧 {os.path.basename(path)}")
+                        for item in schedules:
+                            cron_expr = item['cron']
+                            print(f"  cron: {cron_expr}")
+                            base = croniter(cron_expr, now)
+                            for _ in range(5):
+                                next_run = base.get_next(datetime).astimezone(CET)
+                                print(f"   → {next_run.strftime('%Y-%m-%d %H:%M:%S %Z')}")
+                        print()
+                except Exception as e:
+                    print(f"⚠️ Failed to parse {path}: {e}")
+        EOF
