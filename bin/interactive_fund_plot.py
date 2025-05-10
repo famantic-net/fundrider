@@ -89,7 +89,7 @@ hover_js = '''<script>
       gd.querySelectorAll('.legendtext').forEach(el => el.style.fontWeight='normal');
       Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,i)=>i));
     });
-    // Legend hover (bound after plot)
+    // Legend hover (bind after render)
     function bindLegendHover() {
       var texts = gd.querySelectorAll('.legendtext');
       texts.forEach(function(el, i) {
@@ -115,8 +115,14 @@ df_kwargs = dict(
     parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1'
 )
 
-# Function to build HTML with optional last-dates in legend
+# Function to build HTML with optional last-dates in legend, dynamic height for legend
 def df_to_html(df, title=None, last_dates=None):
+    # Determine number of series for legend height
+    num_series = len(df.columns) - 1
+    # Approx ~25px per item + padding, then increase by 50%
+    base_height = max(500, num_series * 25 + 100)
+    height_px = int(base_height * 1.5)
+
     fig = go.Figure()
     for col in df.columns:
         if col == 'Date': continue
@@ -131,7 +137,13 @@ def df_to_html(df, title=None, last_dates=None):
                 '<b>Value:</b> %{y:.3f}<extra></extra>'
             )
         ))
-    layout = dict(hovermode='closest', template='plotly_white')
+    # Add zero gridline thicker
+    layout = dict(
+        hovermode='closest',
+        template='plotly_white',
+        height=height_px,
+        yaxis=dict(zeroline=True, zerolinewidth=3)
+    )
     if title:
         layout['title'] = title
     fig.update_layout(**layout)
@@ -144,7 +156,6 @@ if use_stdin:
     df_raw.rename(columns={df_raw.columns[0]:'Date'}, inplace=True)
     df_raw.dropna(axis=1, how='all', inplace=True)
     df_raw.set_index('Date', inplace=True)
-    # Compute last valid dates
     last_dates = {col: df_raw[col].last_valid_index().strftime('%Y-%m-%d') for col in df_raw.columns}
     full_idx = pd.date_range(df_raw.index.min(), df_raw.index.max(), freq='D')
     df = df_raw.reindex(full_idx).interpolate()
@@ -161,7 +172,7 @@ if use_stdin:
         print(f"Saved {out_file}", file=sys.stderr)
     sys.exit(0)
 
-# Directory mode: find CSVs
+# Directory mode: find and sort CSVs
 pat = re.compile(r'fund_tables_(\d+)\.csv$')
 csv_files = sorted([(int(m.group(1)), f)
                     for f in os.listdir(args.input_dir)
@@ -206,12 +217,12 @@ lines = ['<!DOCTYPE html>', '<html lang="en">', '<head>',
 if internal_only:
     for idx, _ in csv_files:
         content = internal_html[idx].replace('"','&quot;')
-        lines.append(f'<iframe srcdoc="{content}" style="width:100%; height:600px; border:none;"></iframe>')
+        lines.append(f'<iframe srcdoc="{content}" style="width:100%; height:850px; border:none;"></iframe>')
         lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
     print("\n".join(lines + ['</body>', '</html>']))
 else:
     for name in html_files:
-        lines.append(f'<iframe src="{name}" style="width:100%; height:600px; border:none;"></iframe>')
+        lines.append(f'<iframe src="{name}" style="width:100%; height:850px; border:none;"></iframe>')
         lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
     lines += ['</body>', '</html>']
     idx_path = os.path.join(args.output_dir, 'fund_series_charts.html')
