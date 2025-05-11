@@ -155,12 +155,13 @@ def df_to_html(df, title=None, last_dates=None):
         name = col
         if last_dates and col in last_dates:
             name = f"{col}<br>{last_dates[col]}"
+        perc = (10 ** df[col]).round(6) * 100
         fig.add_trace(go.Scatter(
-            x=df['Date'], y=df[col], mode='lines', name=name,
+            x=df['Date'], y=df[col], mode='lines', name=name, customdata=perc,
             line=dict(width=2), hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
-                '<b>Value:</b> %{y:.3f}<extra></extra>'
+                '<b>Value:</b> %{y:.3f} (%{customdata:.1f}%)<extra></extra>'
             )
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
