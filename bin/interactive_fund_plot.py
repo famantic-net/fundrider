@@ -51,12 +51,14 @@ import os
 import re
 import sys
 import argparse
+import json
+import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(
-    description='Generate fund series charts from CSVs; stdin support for single-table mode.'
+    description='Generate fund series charts from CSVs; supports time-series, bar-score mode, and stdin.'
 )
 parser.add_argument(
     '-t', dest='input_dir', default='.',
@@ -64,7 +66,11 @@ parser.add_argument(
 )
 parser.add_argument(
     '-r', dest='output_dir', default='.',
-    help='Directory to save HTML files and index, or use ":internal:" to output index to STDOUT'
+    help='Directory to save HTML or ":internal:" to output HTML to stdout'
+)
+parser.add_argument(
+    '--bar', dest='bar_mode', action='store_true',
+    help='Generate performance bar chart instead of time-series'
 )
 args = parser.parse_args()
 
@@ -74,7 +80,13 @@ use_stdin = (args.input_dir == '.' and not sys.stdin.isatty())
 if not internal_only and not use_stdin:
     os.makedirs(args.output_dir, exist_ok=True)
 
-# JavaScript for hover: thickens line and bolds both trace and legend text
+# Common pandas CSV options
+df_kwargs = dict(
+    sep=';', decimal=',', skiprows=2, header=0,
+    parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1'
+)
+
+# JS snippet for hover interactions
 hover_js = '''<script>
 (function() {
   document.querySelectorAll('.plotly-graph-div').forEach(function(gd) {
@@ -89,7 +101,7 @@ hover_js = '''<script>
       gd.querySelectorAll('.legendtext').forEach(el => el.style.fontWeight='normal');
       Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,i)=>i));
     });
-    // Legend hover (bind after render)
+    // Legend hover
     function bindLegendHover() {
       var texts = gd.querySelectorAll('.legendtext');
       texts.forEach(function(el, i) {
@@ -109,23 +121,15 @@ hover_js = '''<script>
 })();
 </script>'''
 
-# Common pandas CSV options
-df_kwargs = dict(
-    sep=';', decimal=',', skiprows=2, header=0,
-    parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1'
-)
-
-# Function to build HTML with optional last-dates in legend, dynamic height for legend
+# Helper: build HTML for time-series chart
 def df_to_html(df, title=None, last_dates=None):
-    # Determine number of series for legend height
+    # dynamic height
     num_series = len(df.columns) - 1
-    # Approx ~25px per item + padding, then increase by 50%
-    base_height = max(500, num_series * 25 + 100)
-    height_px = int(base_height * 1.5)
-
+    base_h = max(500, num_series*25 + 100)
+    height_px = int(base_h * 1.5)
     fig = go.Figure()
     for col in df.columns:
-        if col == 'Date': continue
+        if col=='Date': continue
         name = col
         if last_dates and col in last_dates:
             name = f"{col}<br>{last_dates[col]}"
@@ -137,95 +141,172 @@ def df_to_html(df, title=None, last_dates=None):
                 '<b>Value:</b> %{y:.3f}<extra></extra>'
             )
         ))
-    # Add zero gridline thicker
-    layout = dict(
-        hovermode='closest',
-        template='plotly_white',
-        height=height_px,
-        yaxis=dict(zeroline=True, zerolinewidth=3)
-    )
-    if title:
-        layout['title'] = title
+    layout = dict(hovermode='closest', template='plotly_white', height=height_px,
+                  yaxis=dict(zeroline=True, zerolinewidth=3))
+    if title: layout['title'] = title
     fig.update_layout(**layout)
-    html_str = fig.to_html(include_plotlyjs='cdn', full_html=True)
-    return html_str.replace('</body>', hover_js + '\n</body>')
+    html = fig.to_html(include_plotlyjs='cdn', full_html=True)
+    return html.replace('</body>', hover_js + '\n</body>')
 
-# STDIN mode for single CSV
-if use_stdin:
-    df_raw = pd.read_csv(sys.stdin, **df_kwargs)
-    df_raw.rename(columns={df_raw.columns[0]:'Date'}, inplace=True)
-    df_raw.dropna(axis=1, how='all', inplace=True)
-    df_raw.set_index('Date', inplace=True)
-    last_dates = {col: df_raw[col].last_valid_index().strftime('%Y-%m-%d') for col in df_raw.columns}
-    full_idx = pd.date_range(df_raw.index.min(), df_raw.index.max(), freq='D')
-    df = df_raw.reindex(full_idx).interpolate()
-    df.reset_index(inplace=True)
-    df.rename(columns={'index':'Date'}, inplace=True)
+# Bar-chart mode function
+def bar_chart_mode(input_dir, output_dir, internal):
+    import os, re, json, numpy as np, pandas as pd, plotly.graph_objs as go
+    windows = [7,14,30,90,180,365,730]
+    init_weights = [0.3, 1.5, 2.5, 4, 3, 2, 1]
 
-    html = df_to_html(df, title='Fund Series Chart', last_dates=last_dates)
+    # 1) Collect percent-change series
+    pat = re.compile(r'fund_tables_(\d+)\.csv$')
+    funds, data = [], []
+    for fname in sorted(f for f in os.listdir(input_dir) if pat.match(f)):
+        df = pd.read_csv(os.path.join(input_dir, fname), **df_kwargs)
+        df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
+        df.set_index('Date', inplace=True)
+        for col in df.columns:
+            ys = df[col].dropna().values
+            pct = []
+            for w in windows:
+                if len(ys) < w:
+                    pct.append(0)
+                else:
+                    m, _ = np.polyfit(np.arange(w), ys[-w:], 1)
+                    pct.append(m * (w - 1) * 100)
+            funds.append(col)
+            data.append(pct)
+
+        # 2) Build initial bar chart
+    scores = [sum(p * w for p,w in zip(row, init_weights)) for row in data]
+    fig = go.Figure(go.Bar(x=funds, y=scores, marker_color='steelblue'))
+    fig.update_layout(
+        title='Current fund performance',
+        template='plotly_white',
+        height=600,
+        xaxis=dict(showticklabels=False),
+        yaxis=dict(title='score')
+    )
+    # Render chart via Plotly.newPlot for predictable div id
+    fig_dict = fig.to_dict()
+    fig_json = json.dumps(fig_dict)
+    body = (
+        '<div id="bar-chart" style="width:100%; height:500px;"></div>'
+        '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>'
+        f'<script>var fig={fig_json};Plotly.newPlot("bar-chart",fig.data,fig.layout);</script>'
+    )
+
+    # 3) Build sliders in table cells for horizontal arrangement
+    slider_html = '<table style="margin:auto;"><tr>'
+    for i, w in enumerate(windows):
+        slider_html += (
+            '<td style="text-align:center; padding:10px; vertical-align:top;">'
+            f'<div>Window {w}d Weight</div>'
+            f'<div><span id="v{i}">{init_weights[i]:.1f}</span></div>'
+            f'<div><input id="w{i}" type="range" min=\"0\" max=\"10\" step="0.1" '
+            f'value="{init_weights[i]:.1f}"></div>'
+            '</td>'
+        )
+    slider_html += '</tr></table>'
+
+        # 4) JavaScript for live re-scoring
+    post_js = f"""
+<script>
+  const perc = {json.dumps(data)};
+  const inputs = Array.from(document.querySelectorAll('input[id^="w"]'));
+  function update() {{
+    const ws = inputs.map(el => parseFloat(el.value));
+    // update displayed slider values
+    ws.forEach((val,i) => {{
+      document.getElementById('v'+i).textContent = val.toFixed(1);
+    }});
+    const newY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
+    Plotly.restyle('bar-chart', 'y', [newY]);
+  }}
+  inputs.forEach(el => el.addEventListener('input', update));
+  // initialize
+  update();
+</script>
+"""
+
+    # 5) Assemble final HTML
+    full_html = (
+        '<!DOCTYPE html><html><head><meta charset="utf-8">'
+        '<title>Fund Scores</title></head><body>'
+        '<h3 style="text-align:center;">Adjust Weights</h3>'
+        + slider_html
+        + body.replace('<div id="bar-chart"', '<div id="bar-chart" style="width:100%; height:500px;"')
+        + post_js
+        + '</body></html>'
+    )
+
+    # 6) Output
+    if internal:
+        print(full_html)
+    else:
+        out = os.path.join(output_dir, 'fund_series_scores.html')
+        with open(out, 'w', encoding='utf-8') as f:
+            f.write(full_html)
+        print(f"Saved score chart to {out}", file=sys.stderr)
+
+# STDIN single time-series
+if use_stdin and not args.bar_mode:
+    df0 = pd.read_csv(sys.stdin, **df_kwargs)
+    df0.rename(columns={df0.columns[0]:'Date'}, inplace=True)
+    df0.dropna(axis=1, how='all', inplace=True)
+    df0.set_index('Date', inplace=True)
+    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns}
+    idx=pd.date_range(df0.index.min(),df0.index.max(),freq='D')
+    df=df0.reindex(idx).interpolate().reset_index().rename(columns={'index':'Date'})
+    html=df_to_html(df,title='Fund Series Chart',last_dates=last_dates)
     if internal_only:
         print(html)
     else:
-        out_file = os.path.join(args.output_dir, 'fund_series_chart.html')
-        with open(out_file, 'w', encoding='utf-8') as f:
-            f.write(html)
-        print(f"Saved {out_file}", file=sys.stderr)
+        outf=os.path.join(args.output_dir,'fund_series_chart.html')
+        with open(outf,'w',encoding='utf-8') as f: f.write(html)
+        print(f"Saved {outf}",file=sys.stderr)
     sys.exit(0)
 
-# Directory mode: find and sort CSVs
-pat = re.compile(r'fund_tables_(\d+)\.csv$')
-csv_files = sorted([(int(m.group(1)), f)
-                    for f in os.listdir(args.input_dir)
-                    for m in [pat.match(f)] if m], key=lambda x: x[0])
-if not csv_files:
-    print(f"No CSV files matching 'fund_tables_<n>.csv' in {args.input_dir}")
-    sys.exit(1)
+# Bar-mode
+if args.bar_mode:
+    bar_chart_mode(args.input_dir,args.output_dir,internal_only)
+    sys.exit(0)
 
-# Process each CSV
-html_files = []
-internal_html = {}
-for idx, fname in csv_files:
-    path = os.path.join(args.input_dir, fname)
-    df_raw = pd.read_csv(path, **df_kwargs)
-    df_raw.rename(columns={df_raw.columns[0]:'Date'}, inplace=True)
-    df_raw.dropna(axis=1, how='all', inplace=True)
-    df_raw.set_index('Date', inplace=True)
-    last_dates = {col: df_raw[col].last_valid_index().strftime('%Y-%m-%d') for col in df_raw.columns}
-    full_idx = pd.date_range(df_raw.index.min(), df_raw.index.max(), freq='D')
-    df = df_raw.reindex(full_idx).interpolate()
-    df.reset_index(inplace=True)
-    df.rename(columns={'index':'Date'}, inplace=True)
-
-    html = df_to_html(df, title=f'Fund Series Chart {idx}', last_dates=last_dates)
+# Directory time-series
+pat=re.compile(r'fund_tables_(\d+)\.csv$')
+csvs=sorted((int(m.group(1)),f) for f in os.listdir(args.input_dir) for m in [pat.match(f)] if m)
+if not csvs: print(f"No CSVs in {args.input_dir}"), sys.exit(1)
+htmls=[]
+internal_html={}
+for idx,f in csvs:
+    df0=pd.read_csv(os.path.join(args.input_dir,f),**df_kwargs)
+    df0.rename(columns={df0.columns[0]:'Date'},inplace=True)
+    df0.dropna(axis=1,how='all',inplace=True)
+    df0.set_index('Date',inplace=True)
+    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns}
+    idxr=pd.date_range(df0.index.min(),df0.index.max(),freq='D')
+    df=df0.reindex(idxr).interpolate().reset_index().rename(columns={'index':'Date'})
+    html=df_to_html(df,title=f'Fund Series Chart {idx}',last_dates=last_dates)
     if internal_only:
-        internal_html[idx] = html
-        print(f"Stored chart {idx} internally", file=sys.stderr)
+        internal_html[idx]=html; print(f"Stored chart {idx} internally",file=sys.stderr)
     else:
-        out_name = f'fund_series_chart_{idx}.html'
-        out_path = os.path.join(args.output_dir, out_name)
-        with open(out_path, 'w', encoding='utf-8') as f:
-            f.write(html)
-        print(f"Saved {out_path}")
-        html_files.append(out_name)
+        name=f'fund_series_chart_{idx}.html'
+        p=os.path.join(args.output_dir,name)
+        with open(p,'w',encoding='utf-8') as ff: ff.write(html)
+        print(f"Saved {p}"); htmls.append(name)
 
-# Generate master index
-lines = ['<!DOCTYPE html>', '<html lang="en">', '<head>',
-         '  <meta charset="utf-8">',
-         '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-         '  <title>Aggregated Fund Series Charts</title>',
-         '</head>', '<body>']
+# Master index
+base=['</body>','</html>']
+lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
+       '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+       '  <title>Aggregated Fund Series Charts</title>','</head>','<body>']
 if internal_only:
-    for idx, _ in csv_files:
-        content = internal_html[idx].replace('"','&quot;')
-        lines.append(f'<iframe srcdoc="{content}" style="width:100%; height:850px; border:none;"></iframe>')
+    for idx,_ in csvs:
+        c=internal_html[idx].replace('"','&quot;')
+        lines.append(f'<iframe srcdoc="{c}" style="width:100%; height:850px; border:none;"></iframe>')
         lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
-    print("\n".join(lines + ['</body>', '</html>']))
+    print("\n".join(lines+base))
 else:
-    for name in html_files:
+    for name in htmls:
         lines.append(f'<iframe src="{name}" style="width:100%; height:850px; border:none;"></iframe>')
         lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
-    lines += ['</body>', '</html>']
-    idx_path = os.path.join(args.output_dir, 'fund_series_charts.html')
-    with open(idx_path, 'w', encoding='utf-8') as f:
-        f.write("\n".join(lines))
-    print(f"Generated index at {idx_path}")
+    lines+=base
+    idxp=os.path.join(args.output_dir,'fund_series_charts.html')
+    with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(lines))
+    print(f"Generated index at {idxp}")
