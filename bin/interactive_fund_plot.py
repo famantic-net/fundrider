@@ -92,26 +92,31 @@ hover_js = '''<script>
   document.querySelectorAll('.plotly-graph-div').forEach(function(gd) {
     // Trace hover
     gd.on('plotly_hover', function(data) {
-      var name = data.points[0].fullData.name;
       var ci = data.points[0].curveNumber;
-      gd.querySelectorAll('.legendtext').forEach(el => { if(el.textContent===name) el.style.fontWeight='bold'; });
+      // Bold legend entry by index
+      var texts = gd.querySelectorAll('.legendtext');
+      if(texts[ci]) texts[ci].style.fontWeight = 'bold';
+      // Thicken hovered line
       Plotly.restyle(gd, {'line.width':3}, [ci]);
     });
     gd.on('plotly_unhover', function() {
-      gd.querySelectorAll('.legendtext').forEach(el => el.style.fontWeight='normal');
-      Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,i)=>i));
+      // Reset legend text
+      var texts = gd.querySelectorAll('.legendtext');
+      texts.forEach(el => el.style.fontWeight = 'normal');
+      // Reset all lines
+      Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,j) => j));
     });
     // Legend hover
     function bindLegendHover() {
       var texts = gd.querySelectorAll('.legendtext');
       texts.forEach(function(el, i) {
         el.onmouseenter = function() {
-          el.style.fontWeight='bold';
+          el.style.fontWeight = 'bold';
           Plotly.restyle(gd, {'line.width':3}, [i]);
         };
         el.onmouseleave = function() {
-          el.style.fontWeight='normal';
-          Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,j)=>j));
+          el.style.fontWeight = 'normal';
+          Plotly.restyle(gd, {'line.width':2}, Array.from({length:gd.data.length}, (_,j) => j));
         };
       });
     }
