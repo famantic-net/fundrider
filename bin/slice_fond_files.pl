@@ -423,9 +423,12 @@ for my $file (sort {$a cmp $b} @flist) {
 # Corrections
 unless ($full_listing) {
 	for my $date (sort {$a cmp $b} keys %date_hash) {
-		if ($date lt "1999-09-20") {$fund_hash{"seb avkastning"}{$date} = 0}
-		if ($date gt "2000-05-08" and $date lt "2001-05-20") {$fund_hash{"seb läkemedelsfond"}{$date} = $fund_hash{"seb läkemedels- och bioteknikf"}{$date}}
-		if ($date lt "2006-10-12") {undef $fund_hash{"merrill lynch global equity"}{$date}}
+		#if ($date lt "1999-09-20") {$fund_hash{"seb avkastning"}{$date} = 0}
+		#if ($date gt "2000-05-08" and $date lt "2001-05-20") {$fund_hash{"seb läkemedelsfond"}{$date} = $fund_hash{"seb läkemedels- och bioteknikf"}{$date}}
+		if ($date eq "2024-06-05") {undef $fund_hash{"abrdn sicav i - japanese sustainable equity fund a"}{$date}}
+		if ($date eq "2024-06-05") {undef $fund_hash{"abrdn sicav i - japanese smaller companies sustainable equity fund a"}{$date}}
+		if ($date eq "2024-06-05") {undef $fund_hash{"goldman sachs japan equity p (former nn)"}{$date}}
+		if ($date eq "2024-06-05") {undef $fund_hash{"pictet japanese equity opportunities r"}{$date}}
 	}
 }
 

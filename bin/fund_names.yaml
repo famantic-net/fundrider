@@ -22,6 +22,12 @@ exist_nonfull_list:
   - storebrand global indeks a4
   - swedbank robur europafond a
   - öhman marknad sverige bred a
+  - dnb global indeks s
+  - dnb grönt skifte norden s
+  - dnb health care s
+  - dnb smb s
+  - dnb teknologi s
+  - dnb global emerging markets s
 full_list:
   - 'abrdn sicav i - global innovation equity fund a'
   - 'abrdn sicav i - japanese smaller companies sustainable equity fund a'
@@ -1556,24 +1562,6 @@ fund_names:
   'dnb fund - nordic equties retail a sek':
     - 'dnb fund - nordic equties retail a sek'
     - 'dnb fund - nordic equities retail a'
-  dnb global emerging markets s:
-    - dnb global emerging markets s
-    - dnb global emerging markets a
-  dnb global indeks s:
-    - dnb global indeks s
-    - dnb global indeks a
-  dnb grönt skifte norden s:
-    - dnb grönt skifte norden s
-    - dnb grönt norden a
-  dnb health care s:
-    - dnb health care s
-    - dnb health care a
-  dnb smb s:
-    - dnb smb s
-    - dnb smb a
-  dnb teknologi s:
-    - dnb teknologi s
-    - dnb teknologi a
   'kotak funds - india growth fund':
     - 'kotak funds - india growth fund'
     - 'kotak funds - india esg a'
