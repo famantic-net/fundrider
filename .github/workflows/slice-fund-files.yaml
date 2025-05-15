@@ -23,7 +23,8 @@ jobs:
         cpanm --sudo --notest \
           YAML::PP \
           String::Similarity \
-          Date::Calc
+          Date::Calc \
+          Archive::Zip
 
     - name: Run Perl script
       run: |
