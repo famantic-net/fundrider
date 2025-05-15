@@ -11,6 +11,7 @@ use YAML::PP;
 use String::Similarity;
 use Term::ReadKey;
 use Date::Calc qw(Delta_Days);
+use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 
 =pod
 
@@ -138,6 +139,7 @@ $n_output_tables = $opts{i} if defined $opts{i};
 $working_dir = $opts{w} if defined $opts{w};
 $renew_funds = true if $opts{r};
 $remove_discontinued = true if $opts{p};
+$zip = Archive::Zip->new();
 
 $bindir = dirname(__FILE__);
 $miss_file = "missing.txt";
@@ -632,11 +634,16 @@ EOSTART
 		if ($n_output_tables) {
 			my $path = $result_dir ?  "$result_dir/" : "";
 			my $ext = $table_print ? "csv" : "html";
-			open my $fh, '>:raw', "${path}fund_tables_$idx.$ext" or die "Can't open '${path}fund_tables_$idx.$ext': $!\n";
+			my $fund_table = "${path}fund_tables_$idx.$ext";
+			open my $fh, '>:raw', $fund_table or die "Can't open '$fund_table': $!\n";
 			print $fh $filetable_data;
 			close $fh;
 			$filetable_data = "";
+			$zip->addFile( $fund_table );
 		}
+	}
+	unless ( $zip->writeToFileNamed("$result_dir/fund_tables.zip") == AZ_OK ) {
+		die "write error for $result_dir/fund_tables.zip: $!";
 	}
 	if ($#missing_funds > -1) {
 		if ($matrix_print) {
@@ -648,6 +655,7 @@ EOSTART
 		};
 	}
 	print_directed "</body>" if $matrix_print;
+
 }
 
 
