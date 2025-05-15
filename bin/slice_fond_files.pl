@@ -172,6 +172,9 @@ do { undef local $/;
 	@exist_nonfull_list = @{${$data}{exist_nonfull_list}};
 };
 
+if ($n_output_tables and not $result_dir) {
+	$result_dir = "result_files"
+}
 
 if ($normalized_print and not ($matrix_print or $table_print)) {
     die "Normalized output can only be done with -m  or -t options.\n";
@@ -352,13 +355,11 @@ $file_count = $#flist;
 #exit 1;
 
 if ($result_dir) {
-	$dest_dir = $result_dir;
-	if ($dest_dir eq "") {$dest_dir = "result_files"}
-	unless (-e $dest_dir) {
-		print "Creating $dest_dir\n";
-		mkdir $dest_dir or die "Can't create $dest_dir\n$!\n";
+	unless (-e $result_dir) {
+		print "Creating $result_dir\n";
+		mkdir $result_dir or die "Can't create $result_dir\n$!\n";
 	}
-	print "Writing funds to $dest_dir\n";
+	print "Writing funds to $result_dir\n";
 }
 
 $counter = 0;
@@ -492,16 +493,16 @@ unless ($matrix_print or $table_print) {
 				}
 			}
 			else {
-				if (-e "$dest_dir/$fund" and not $file_warned) {
+				if (-e "$result_dir/$fund" and not $file_warned) {
 					warn "\t*** Warning: File exists! Data will be appended. ***\n";
 					$file_warned = true;
 				}
-				if (open FUND, ">>$dest_dir/$fund") {
+				if (open FUND, ">>$result_dir/$fund") {
 					$file_warned = true;
 					print FUND "\t$date,$fund_hash{$fund}{$date}\n";
 					close FUND;
 				}
-				else {warn "Can't open the file $dest_dir/$fund for writng: $!\n"}
+				else {warn "Can't open the file $result_dir/$fund for writng: $!\n"}
 			}
 		}
 	}
@@ -642,8 +643,10 @@ EOSTART
 			$zip->addFile( $fund_table );
 		}
 	}
-	unless ( $zip->writeToFileNamed("$result_dir/fund_tables.zip") == AZ_OK ) {
-		die "write error for $result_dir/fund_tables.zip: $!";
+	if ($result_dir) {
+		unless ( $zip->writeToFileNamed("$result_dir/fund_tables.zip") == AZ_OK ) {
+			die "write error for $result_dir/fund_tables.zip: $!";
+		}
 	}
 	if ($#missing_funds > -1) {
 		if ($matrix_print) {
