@@ -77,7 +77,7 @@ jobs:
       with:
         tag_name: ${{ steps.get_date.outputs.date_tag }}
         files: |
-          results/fund_tables.zip
+          tables/fund_tables.zip
           results/fund_series_charts.stdout.html
           results/fund_series_scores.stdout.html
       env:
@@ -91,7 +91,7 @@ jobs:
         export GIT_SSH_COMMAND="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no"
         git clone git@github.com:famantic-net/fundrider-pages.git ../fundrider-pages
 
-        cp results/fund_tables.zip ../fundrider-pages/fund_tables.zip
+        cp tables/fund_tables.zip ../fundrider-pages/fund_tables.zip
         cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html ../fundrider-pages/docs/latest_fund_series_scores.html
 
