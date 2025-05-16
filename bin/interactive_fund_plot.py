@@ -211,7 +211,7 @@ def bar_chart_mode(input_dir, output_dir, internal):
     fig_dict = fig.to_dict()
     fig_json = json.dumps(fig_dict)
     body = (
-        '<div id="bar-chart" style="width:100%; height:500px;"></div>'
+        '<div id="bar-chart" style="width:100%; height:500px; margin-bottom:30px;"></div>'
         '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>'
         f'<script>var fig={fig_json};Plotly.newPlot("bar-chart",fig.data,fig.layout);</script>'
     )
@@ -229,6 +229,10 @@ def bar_chart_mode(input_dir, output_dir, internal):
         )
     slider_html += '</tr></table>'
 
+    # Dropdown isolate controls
+
+    select_html = f'<div style="text-align:center; margin:20px 0;"><select id="fund-select" multiple size="{min(len(funds), 10)}" style="width:200px; height:200px; overflow-y:auto; position:relative"></select> <button id="isolate">Isolate</button> <button id="reset">Reset</button></div>'
+
         # 4) JavaScript for live re-scoring
     post_js = f"""
 <script>
@@ -236,30 +240,53 @@ def bar_chart_mode(input_dir, output_dir, internal):
   const inputs = Array.from(document.querySelectorAll('input[id^="w"]'));
   function update() {{
     const ws = inputs.map(el => parseFloat(el.value));
-    // update displayed slider values
-    ws.forEach((val,i) => {{
-      document.getElementById('v'+i).textContent = val.toFixed(1);
-    }});
+    ws.forEach((val,i) => {{ document.getElementById('v'+i).textContent = val.toFixed(1); }});
     const newY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
     Plotly.restyle('bar-chart', 'y', [newY]);
   }}
   inputs.forEach(el => el.addEventListener('input', update));
-  // initialize
   update();
 </script>
 """
-
+    isolate_js = f"""
+<script>
+  const fundList = {json.dumps(funds)};
+  const select = document.getElementById('fund-select');
+  fundList.forEach(n => {{
+    const opt = document.createElement('option');
+    opt.value = n; opt.text = n;
+    select.appendChild(opt);
+  }});
+  // Isolate selected funds
+  document.getElementById('isolate').addEventListener('click', function() {{
+    const sel = Array.from(select.selectedOptions).map(o => o.value);
+    const idxs = sel.map(n => fundList.indexOf(n));
+    const ws = inputs.map(el => parseFloat(el.value));
+    const curY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
+    const filtX = sel;
+    const filtY = idxs.map(i => curY[i]);
+    // Use double braces in f-string to produce a JS object literal
+    Plotly.restyle('bar-chart', {{ 'x': [filtX], 'y': [filtY] }});
+  }});
+  // Reset to all funds
+  document.getElementById('reset').addEventListener('click', function() {{
+    select.selectedIndex = -1;
+    const ws = inputs.map(el => parseFloat(el.value));
+    const curY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
+    Plotly.restyle('bar-chart', {{ 'x': [fundList], 'y': [curY] }});
+  }});
+</script>
+"""
     # 5) Assemble final HTML
     full_html = (
-        '<!DOCTYPE html><html><head><meta charset="utf-8">'
-        '<title>Fund Scores</title></head><body>'
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title></head><body>'
         '<h3 style="text-align:center;">Adjust Weights</h3>'
         + slider_html
-        + body.replace('<div id="bar-chart"', '<div id="bar-chart" style="width:100%; height:500px;"')
-        + post_js
-        + '</body></html>'
+        + body
+        + '<div style="clear:both; margin-top:20px;"></div>'
+        + select_html
+        + post_js + isolate_js + '</body></html>'
     )
-
     # 6) Output
     if internal:
         print(full_html)
