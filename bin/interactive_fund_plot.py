@@ -103,7 +103,7 @@ df_kwargs = dict(
     parse_dates=[0], dayfirst=True, na_values=[''], encoding='latin1'
 )
 
-# JS snippet for hover interactions
+# JS snippet for hover interactions (for time-series charts)
 hover_js = '''<script>
 (function() {
   document.querySelectorAll('.plotly-graph-div').forEach(function(gd) {
@@ -111,9 +111,23 @@ hover_js = '''<script>
     gd.on('plotly_hover', function(data) {
       var ci = data.points[0].curveNumber;
       // Bold legend entry by index
-      gd.querySelectorAll('.legendtext').forEach(el => { if(el.textContent===name) el.style.fontWeight='bold'; });
-      var texts = gd.querySelectorAll('.legendtext');
-      if(texts[ci]) texts[ci].style.fontWeight = 'bold';
+      var legendTexts = gd.querySelectorAll('.legendtext');
+      if (gd.data[ci] && legendTexts.length > ci) {
+        var traceName = gd.data[ci].name; // Get name from trace data
+        // Attempt to bold by matching name, then fall back to index if needed
+        var foundMatchByName = false;
+        legendTexts.forEach(el => {
+          if(el.textContent.startsWith(traceName.split('<br>')[0])) { // Match primary name part if <br> is used
+            el.style.fontWeight='bold';
+            foundMatchByName = true;
+          }
+        });
+        if (!foundMatchByName && legendTexts[ci]) {
+             legendTexts[ci].style.fontWeight = 'bold';
+        }
+      } else if (legendTexts.length > ci && legendTexts[ci]) {
+         legendTexts[ci].style.fontWeight = 'bold'; // Fallback if gd.data[ci] is undefined
+      }
       // Thicken hovered line
       Plotly.restyle(gd, {'line.width':3}, [ci]);
     });
@@ -146,8 +160,7 @@ hover_js = '''<script>
 
 # Helper: build HTML for time-series chart
 def df_to_html(df, title=None, last_dates=None):
-    # dynamic height
-    num_series = len(df.columns) - 1
+    num_series = len(df.columns) - 1 if 'Date' in df.columns else len(df.columns)
     base_h = max(500, num_series*25 + 100)
     height_px = int(base_h * 1.5)
     fig = go.Figure()
@@ -156,9 +169,12 @@ def df_to_html(df, title=None, last_dates=None):
         name = col
         if last_dates and col in last_dates:
             name = f"{col}<br>{last_dates[col]}"
-        perc = (10 ** df[col]).round(6) * 100
+        # Ensure data is numeric before potential exponentiation
+        series_data = pd.to_numeric(df[col], errors='coerce')
+        perc = (10 ** series_data).round(6) * 100 # Example transformation
+
         fig.add_trace(go.Scatter(
-            x=df['Date'], y=df[col], mode='lines', name=name, customdata=perc,
+            x=df['Date'], y=series_data, mode='lines', name=name, customdata=perc,
             line=dict(width=2), hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
@@ -166,11 +182,17 @@ def df_to_html(df, title=None, last_dates=None):
             )
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
-                  yaxis=dict(zeroline=True, zerolinewidth=3))
-    if title: layout['title'] = title
+                  yaxis=dict(zeroline=True, zerolinewidth=3, title='Value'),
+                  xaxis=dict(title='Date'),
+                  legend=dict(traceorder='normal'))
+    if title: layout['title'] = dict(text=title, x=0.5, xanchor='center')
     fig.update_layout(**layout)
     html = fig.to_html(include_plotlyjs='cdn', full_html=True)
-    return html.replace('</body>', hover_js + '\n</body>')
+    if '</body>' in html:
+        html = html.replace('</body>', hover_js + '\n</body>')
+    else:
+        html += hover_js
+    return html
 
 # Bar-chart mode function
 def bar_chart_mode(input_dir, output_dir, internal):
@@ -178,116 +200,153 @@ def bar_chart_mode(input_dir, output_dir, internal):
     windows = [7,14,30,90,180,365,730]
     init_weights = [0.3, 1.5, 2.5, 4, 3, 2, 1]
 
-    # 1) Collect percent-change series
     pat = re.compile(r'fund_tables_(\d+)\.csv$')
     funds, data = [], []
-    for fname in sorted(f for f in os.listdir(input_dir) if pat.match(f)):
-        df = pd.read_csv(os.path.join(input_dir, fname), **df_kwargs)
-        df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
-        df.set_index('Date', inplace=True)
-        for col in df.columns:
-            ys = df[col].dropna().values
-            pct = []
-            for w in windows:
-                if len(ys) < w:
-                    pct.append(0)
-                else:
-                    m, _ = np.polyfit(np.arange(w), ys[-w:], 1)
-                    pct.append(m * (w - 1) * 100)
-            funds.append(col)
-            data.append(pct)
+    # Ensure input_dir exists before listing files
+    if not os.path.isdir(input_dir):
+        print(f"Error: Input directory '{input_dir}' not found.", file=sys.stderr)
+        sys.exit(1)
 
-        # 2) Build initial bar chart
+    for fname in sorted(f for f in os.listdir(input_dir) if pat.match(f)):
+        try:
+            df_temp = pd.read_csv(os.path.join(input_dir, fname), **df_kwargs)
+            if df_temp.empty:
+                print(f"Warning: CSV file {fname} is empty or has no data after skiprows. Skipping.", file=sys.stderr)
+                continue
+            df_temp.rename(columns={df_temp.columns[0]: 'Date'}, inplace=True)
+            df_temp.set_index('Date', inplace=True)
+
+            for col in df_temp.columns:
+                if col.startswith('Unnamed:'): # Skip unnamed columns earlier
+                    continue
+                ys = pd.to_numeric(df_temp[col], errors='coerce').dropna().values
+                if len(ys) == 0: # Skip if column becomes empty after coerce/dropna
+                    continue
+                pct = []
+                for w in windows:
+                    if len(ys) < w:
+                        pct.append(0)
+                    else:
+                        m, _ = np.polyfit(np.arange(w), ys[-w:], 1)
+                        pct.append(m * (w - 1) * 100)
+                funds.append(col)
+                data.append(pct)
+        except Exception as e:
+            print(f"Error processing file {fname}: {e}", file=sys.stderr)
+            continue
+
+    if not funds:
+        print(f"No valid fund data collected from {input_dir}. Exiting bar chart mode.", file=sys.stderr)
+        return # Use return instead of sys.exit(1) if called as a function
+
     scores = [sum(p * w for p,w in zip(row, init_weights)) for row in data]
-    fig = go.Figure(go.Bar(x=funds, y=scores, marker_color='steelblue'))
+    dropdown_funds = sorted([f for f in funds if not f.startswith('Unnamed:')]) # Already filtered in loop, but good for safety
+
+    fig = go.Figure(go.Bar(x=funds, y=scores, marker_color='steelblue', name='Fund Scores')) # x should be all original funds for initial plot
     fig.update_layout(
-        title='Current fund performance',
-        template='plotly_white',
-        height=600,
-        xaxis=dict(showticklabels=False),
-        yaxis=dict(title='score')
+        title='Current fund performance', template='plotly_white', height=600,
+        xaxis=dict(showticklabels=False, title='Funds (Scroll/Isolate to see names)'),
+        yaxis=dict(title='Score'), barmode='group'
     )
-    # Render chart via Plotly.newPlot for predictable div id
     fig_dict = fig.to_dict()
     fig_json = json.dumps(fig_dict)
     body = (
-        '<div id="bar-chart" style="width:100%; height:500px; margin-bottom:30px;"></div>'
+        '<div id="bar-chart" style="width:100%; height:600px; margin-bottom:30px;"></div>'
         '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>'
-        f'<script>var fig={fig_json};Plotly.newPlot("bar-chart",fig.data,fig.layout);</script>'
+        f'<script>var figDataInit={fig_json};Plotly.newPlot("bar-chart",figDataInit.data,figDataInit.layout);</script>'
     )
 
-    # 3) Build sliders in table cells for horizontal arrangement
-    slider_html = '<table style="margin:auto;"><tr>'
+    slider_html = '<table style="margin:auto; width:80%; border-spacing: 10px;"><tr>'
     for i, w in enumerate(windows):
         slider_html += (
-            '<td style="text-align:center; padding:10px; vertical-align:top;">'
+            '<td style="text-align:center; padding:10px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px;">'
             f'<div>Window {w}d Weight</div>'
-            f'<div><span id="v{i}">{init_weights[i]:.1f}</span></div>'
-            f'<div><input id="w{i}" type="range" min=\"0\" max=\"10\" step="0.1" '
-            f'value="{init_weights[i]:.1f}"></div>'
-            '</td>'
+            f'<div><span id="v{i}" style="font-weight:bold;">{init_weights[i]:.1f}</span></div>'
+            f'<div><input id="w{i}" type="range" min="0" max="10" step="0.1" '
+            f'value="{init_weights[i]:.1f}" style="width:100%;"></div></td>'
         )
     slider_html += '</tr></table>'
 
-    # Dropdown isolate controls
+    select_html = (
+        '<div style="text-align:center; margin:20px 0;">'
+        f'<select id="fund-select" multiple size="{min(len(dropdown_funds), 10)}" '
+        'style="width:300px; height:200px; overflow-y:auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;"></select><br/>'
+        '<button id="isolate" style="margin:10px 5px; padding: 8px 15px; border-radius:5px; background-color:#4CAF50; color:white; border:none; cursor:pointer;">Isolate</button>'
+        '<button id="reset" style="margin:10px 5px; padding: 8px 15px; border-radius:5px; background-color:#f44336; color:white; border:none; cursor:pointer;">Reset</button>'
+        '</div>'
+    )
 
-    select_html = f'<div style="text-align:center; margin:20px 0;"><select id="fund-select" multiple size="{min(len(funds), 10)}" style="width:200px; height:200px; overflow-y:auto; position:relative"></select> <button id="isolate">Isolate</button> <button id="reset">Reset</button></div>'
-
-        # 4) JavaScript for live re-scoring
     post_js = f"""
 <script>
-  const perc = {json.dumps(data)};
-  const inputs = Array.from(document.querySelectorAll('input[id^="w"]'));
-  function update() {{
-    const ws = inputs.map(el => parseFloat(el.value));
-    ws.forEach((val,i) => {{ document.getElementById('v'+i).textContent = val.toFixed(1); }});
-    const newY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
-    Plotly.restyle('bar-chart', 'y', [newY]);
+  const percDataForPostJs = {json.dumps(data)};
+  const weightInputsForPostJs = Array.from(document.querySelectorAll('input[id^="w"]'));
+
+  function updateScoresOnWeightChange() {{
+    const currentWeights = weightInputsForPostJs.map(el => parseFloat(el.value));
+    currentWeights.forEach((val,i) => {{ document.getElementById('v'+i).textContent = val.toFixed(1); }});
+    const newYScores = percDataForPostJs.map(fundPerformanceRow =>
+      fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
+    );
+    Plotly.restyle('bar-chart', 'y', [newYScores]);
   }}
-  inputs.forEach(el => el.addEventListener('input', update));
-  update();
+  weightInputsForPostJs.forEach(el => el.addEventListener('input', updateScoresOnWeightChange));
 </script>
 """
     isolate_js = f"""
 <script>
-  const fundList = {json.dumps(funds)};
-  const select = document.getElementById('fund-select');
-  fundList.forEach(n => {{
-    const opt = document.createElement('option');
-    opt.value = n; opt.text = n;
-    select.appendChild(opt);
+  const allOriginalFunds = {json.dumps(funds)};
+  const fundsForDropdown = {json.dumps(dropdown_funds)};
+  const percData = {json.dumps(data)};
+
+  const fundSelectElement = document.getElementById('fund-select');
+  const weightInputs = Array.from(document.querySelectorAll('input[id^="w"]'));
+
+  fundsForDropdown.forEach(fundName => {{
+    const optionElement = document.createElement('option');
+    optionElement.value = fundName;
+    optionElement.text = fundName;
+    fundSelectElement.appendChild(optionElement);
   }});
-  // Isolate selected funds
+
+  function calculateAllCurrentScores() {{
+    const currentWeights = weightInputs.map(el => parseFloat(el.value));
+    return percData.map(fundPerformanceRow =>
+      fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
+    );
+  }}
+
   document.getElementById('isolate').addEventListener('click', function() {{
-    const sel = Array.from(select.selectedOptions).map(o => o.value);
-    const idxs = sel.map(n => fundList.indexOf(n));
-    const ws = inputs.map(el => parseFloat(el.value));
-    const curY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
-    const filtX = sel;
-    const filtY = idxs.map(i => curY[i]);
-    // Use double braces in f-string to produce a JS object literal
-    Plotly.restyle('bar-chart', {{ 'x': [filtX], 'y': [filtY] }});
+    const selectedFundNames = Array.from(fundSelectElement.selectedOptions).map(opt => opt.value);
+    if (selectedFundNames.length === 0) {{ return; }}
+    const allCurrentScores = calculateAllCurrentScores();
+    const indicesInOriginalList = selectedFundNames.map(name => allOriginalFunds.indexOf(name)).filter(index => index !== -1); // Filter out -1 if a name isn't found
+    const isolatedXValues = selectedFundNames.filter(name => allOriginalFunds.includes(name)); // Ensure names are valid
+    const isolatedYValues = indicesInOriginalList.map(index => allCurrentScores[index]);
+    Plotly.restyle('bar-chart', {{ 'x': [isolatedXValues], 'y': [isolatedYValues] }});
   }});
-  // Reset to all funds
+
   document.getElementById('reset').addEventListener('click', function() {{
-    select.selectedIndex = -1;
-    const ws = inputs.map(el => parseFloat(el.value));
-    const curY = perc.map(row => row.reduce((s,p,i) => s + p*ws[i], 0));
-    Plotly.restyle('bar-chart', {{ 'x': [fundList], 'y': [curY] }});
+    fundSelectElement.selectedIndex = -1;
+    const allCurrentScores = calculateAllCurrentScores();
+    Plotly.restyle('bar-chart', {{ 'x': [allOriginalFunds], 'y': [allCurrentScores] }});
   }});
 </script>
 """
-    # 5) Assemble final HTML
     full_html = (
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title></head><body>'
-        '<h3 style="text-align:center;">Adjust Weights</h3>'
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title>'
+        '<style>body {{ font-family: Arial, sans-serif; }}</style></head><body>'
+        '<h1 style="text-align:center; color:#333;">Fund Performance Dashboard</h1>'
+        '<h3 style="text-align:center; color:#555;">Adjust Scoring Weights</h3>'
         + slider_html
+        + '<h3 style="text-align:center; margin-top:30px; color:#555;">Fund Scores Bar Chart</h3>'
         + body
         + '<div style="clear:both; margin-top:20px;"></div>'
+        + '<h3 style="text-align:center; color:#555;">Isolate Funds</h3>'
         + select_html
-        + post_js + isolate_js + '</body></html>'
+        + post_js
+        + isolate_js
+        + '</body></html>'
     )
-    # 6) Output
     if internal:
         print(full_html)
     else:
@@ -298,66 +357,203 @@ def bar_chart_mode(input_dir, output_dir, internal):
 
 # STDIN single time-series
 if use_stdin and not args.bar_mode:
-    df0 = pd.read_csv(sys.stdin, **df_kwargs)
+    try:
+        df0 = pd.read_csv(sys.stdin, **df_kwargs)
+    except Exception as e:
+        print(f"Error reading from stdin: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    if df0.empty:
+        print("Received empty or all-NA data from stdin after skiprows.", file=sys.stderr)
+        sys.exit(1)
+
     df0.rename(columns={df0.columns[0]:'Date'}, inplace=True)
     df0.dropna(axis=1, how='all', inplace=True)
+    df0.dropna(subset=['Date'], how='all', inplace=True) # Drop rows where 'Date' itself is NA
+    if df0.empty:
+        print("Data became empty after initial NA handling from stdin.", file=sys.stderr)
+        sys.exit(1)
     df0.set_index('Date', inplace=True)
-    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns}
-    idx=pd.date_range(df0.index.min(),df0.index.max(),freq='D')
-    df=df0.reindex(idx).interpolate().reset_index().rename(columns={'index':'Date'})
-    html=df_to_html(df,title='Fund Series Chart',last_dates=last_dates)
+
+    df0 = df0.dropna(axis=1, how='all')
+    if df0.empty:
+        print("No valid data series found after initial processing from stdin.", file=sys.stderr)
+        sys.exit(1)
+
+    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns if pd.notna(df0[c].last_valid_index())}
+
+    if not df0.index.is_monotonic_increasing:
+        df0 = df0.sort_index()
+
+    df0.index = pd.to_datetime(df0.index, errors='coerce')
+    df0 = df0[pd.notna(df0.index)] # Remove rows where date conversion failed
+
+    if df0.empty:
+        print("No valid dates found in stdin data after conversion.", file=sys.stderr)
+        sys.exit(1)
+
+    min_date, max_date = df0.index.min(), df0.index.max()
+    if pd.isna(min_date) or pd.isna(max_date):
+        print("Could not determine a valid date range from stdin data.", file=sys.stderr)
+        sys.exit(1)
+
+    idx=pd.date_range(min_date, max_date, freq='D')
+    df=df0.reindex(idx).interpolate(method='time').reset_index()
+    # The 'Date' column is created by reset_index from the named index 'Date'.
+    # If the index was named 'index', it would be 'index', then the original rename would apply.
+    # Since we set index to 'Date', it should be 'Date'.
+    if 'index' in df.columns and 'Date' not in df.columns: # Safety for unnamed index case
+        df.rename(columns={'index':'Date'}, inplace=True)
+
+
+    # Corrected: Remove columns (except 'Date') that are still all NaN after interpolation
+    if 'Date' in df.columns:
+        date_column_data = df['Date']
+        other_columns_df = df.drop(columns=['Date'])
+        cleaned_other_columns_df = other_columns_df.dropna(axis=1, how='all')
+        df = pd.concat([date_column_data, cleaned_other_columns_df], axis=1)
+
+        if len(df.columns) <= 1 : # Only 'Date' column left
+            print("No valid data series to plot after interpolation and cleaning from stdin (only Date column).", file=sys.stderr)
+            sys.exit(1)
+    else:
+        print("Critical: 'Date' column missing after processing stdin. Cannot proceed.", file=sys.stderr)
+        sys.exit(1)
+
+    html=df_to_html(df,title='Fund Series Chart (from stdin)',last_dates=last_dates)
     if internal_only:
         print(html)
     else:
-        outf=os.path.join(args.output_dir,'fund_series_chart.html')
+        outf=os.path.join(args.output_dir,'fund_series_chart_stdin.html')
         with open(outf,'w',encoding='utf-8') as f: f.write(html)
         print(f"Saved {outf}",file=sys.stderr)
     sys.exit(0)
 
 # Bar-mode
 if args.bar_mode:
+    if use_stdin:
+        print("Bar mode cannot be used with stdin input. Please provide an input directory with -t.", file=sys.stderr)
+        sys.exit(1)
     bar_chart_mode(args.input_dir,args.output_dir,internal_only)
     sys.exit(0)
 
 # Directory time-series
 pat=re.compile(r'fund_tables_(\d+)\.csv$')
-csvs=sorted((int(m.group(1)),f) for f in os.listdir(args.input_dir) for m in [pat.match(f)] if m)
-if not csvs: print(f"No CSVs in {args.input_dir}"), sys.exit(1)
+csv_files = []
+if os.path.isdir(args.input_dir):
+    csv_files = sorted(
+        (int(m.group(1)), os.path.join(args.input_dir, f))
+        for f in os.listdir(args.input_dir)
+        for m in [pat.match(f)] if m
+    )
+else: # Handle case where input_dir is not a directory
+    if not (use_stdin or args.bar_mode): # if not other modes, then this is an error
+        print(f"Error: Input directory '{args.input_dir}' not found or is not a directory.", file=sys.stderr)
+        sys.exit(1)
+
+
+if not csv_files and not (use_stdin or args.bar_mode): # Check only if this mode is active
+    print(f"No CSVs matching 'fund_tables_<n>.csv' found in {args.input_dir}", file=sys.stderr)
+    sys.exit(1)
+
 htmls=[]
 internal_html={}
-for idx,f in csvs:
-    df0=pd.read_csv(os.path.join(args.input_dir,f),**df_kwargs)
+for idx_num, filepath in csv_files:
+    try:
+        df0=pd.read_csv(filepath,**df_kwargs)
+    except Exception as e:
+        print(f"Error reading CSV file {filepath}: {e}", file=sys.stderr)
+        continue # Skip to next file
+
+    if df0.empty:
+        print(f"Warning: CSV file {filepath} is empty or has no data after skiprows. Skipping.", file=sys.stderr)
+        continue
+
     df0.rename(columns={df0.columns[0]:'Date'},inplace=True)
     df0.dropna(axis=1,how='all',inplace=True)
+    df0.dropna(subset=['Date'], how='all', inplace=True) # Drop rows where 'Date' itself is NA
+    if df0.empty:
+        print(f"Data became empty for {filepath} after initial NA handling.", file=sys.stderr)
+        continue
     df0.set_index('Date',inplace=True)
-    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns}
-    idxr=pd.date_range(df0.index.min(),df0.index.max(),freq='D')
-    df=df0.reindex(idxr).interpolate().reset_index().rename(columns={'index':'Date'})
-    html=df_to_html(df,title=f'Fund Series Chart {idx}',last_dates=last_dates)
-    if internal_only:
-        internal_html[idx]=html; print(f"Stored chart {idx} internally",file=sys.stderr)
+
+    df0 = df0.dropna(axis=1, how='all') # Drop series that are entirely NA
+    if df0.empty:
+        print(f"No valid data series in {filepath} after initial processing.", file=sys.stderr)
+        continue
+
+    last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns if pd.notna(df0[c].last_valid_index())}
+
+    if not df0.index.is_monotonic_increasing:
+        df0 = df0.sort_index()
+
+    df0.index = pd.to_datetime(df0.index, errors='coerce')
+    df0 = df0[pd.notna(df0.index)] # Remove rows where date conversion failed
+
+    if df0.empty:
+        print(f"No valid dates in {filepath} after conversion. Skipping.", file=sys.stderr)
+        continue
+
+    min_date, max_date = df0.index.min(), df0.index.max()
+    if pd.isna(min_date) or pd.isna(max_date):
+        print(f"Could not determine a valid date range from {filepath}. Skipping.", file=sys.stderr)
+        continue
+
+    idxr=pd.date_range(min_date,max_date,freq='D')
+    df=df0.reindex(idxr).interpolate(method='time').reset_index()
+    # The 'Date' column is created by reset_index from the named index 'Date'.
+    if 'index' in df.columns and 'Date' not in df.columns: # Safety for unnamed index case
+        df.rename(columns={'index':'Date'}, inplace=True)
+
+    # Corrected: Remove columns (except 'Date') that are still all NaN after interpolation
+    if 'Date' in df.columns:
+        date_column_data = df['Date']
+        other_columns_df = df.drop(columns=['Date'])
+        cleaned_other_columns_df = other_columns_df.dropna(axis=1, how='all')
+        df = pd.concat([date_column_data, cleaned_other_columns_df], axis=1)
+
+        if len(df.columns) <= 1: # Only 'Date' column (or fewer)
+            print(f"No valid data series to plot in {filepath} after interpolation and cleaning (only Date column or empty).", file=sys.stderr)
+            continue
     else:
-        name=f'fund_series_chart_{idx}.html'
+        print(f"Warning: 'Date' column not found in DataFrame for {filepath} after reset_index. Skipping this file.", file=sys.stderr)
+        continue
+
+    html=df_to_html(df,title=f'Fund Series Chart {idx_num}',last_dates=last_dates)
+    if internal_only:
+        internal_html[idx_num]=html; print(f"Stored chart {idx_num} internally",file=sys.stderr)
+    else:
+        name=f'fund_series_chart_{idx_num}.html'
         p=os.path.join(args.output_dir,name)
         with open(p,'w',encoding='utf-8') as ff: ff.write(html)
         print(f"Saved {p}"); htmls.append(name)
 
-# Master index
-base=['</body>','</html>']
-lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
-       '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-       '  <title>Aggregated Fund Series Charts</title>','</head>','<body>']
-if internal_only:
-    for idx,_ in csvs:
-        c=internal_html[idx].replace('"','&quot;')
-        lines.append(f'<iframe srcdoc="{c}" style="width:100%; height:850px; border:none;"></iframe>')
-        lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
-    print("\n".join(lines+base))
-else:
-    for name in htmls:
-        lines.append(f'<iframe src="{name}" style="width:100%; height:850px; border:none;"></iframe>')
-        lines.append('<hr style="border:none; border-top:3px solid #ccc; margin:20px 0;">')
-    lines+=base
-    idxp=os.path.join(args.output_dir,'fund_series_charts.html')
-    with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(lines))
-    print(f"Generated index at {idxp}")
+if not (use_stdin or args.bar_mode) and not htmls and not internal_html : # Check only if this mode was active
+    print("No charts were generated from directory processing.", file=sys.stderr)
+    # sys.exit(1) # Avoid exiting if other modes might have run or if this is not critical
+
+# Master index (only if not in stdin mode or bar_mode, as they handle their own output/exit)
+if not use_stdin and not args.bar_mode and (htmls or internal_html):
+    base=['</body>','</html>']
+    lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
+           '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+           '  <title>Aggregated Fund Series Charts</title>',
+           '  <style>body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; } iframe { border: 1px solid #ccc; margin-bottom: 10px; } hr { display: none; }</style>',
+           '</head>','<body>']
+    lines.append('<h1 style="text-align:center; margin-top:20px; margin-bottom:20px;">Aggregated Fund Series Charts</h1>')
+
+    if internal_only:
+        for idx_num in sorted(internal_html.keys()):
+            c=internal_html[idx_num].replace('"','&quot;')
+            lines.append(f'<iframe title="Fund Series Chart {idx_num}" srcdoc="{c}" style="width:100%; height:850px; border:none;"></iframe>')
+        print("\n".join(lines+base))
+    else:
+        for name in htmls:
+            lines.append(f'<iframe title="{name}" src="{name}" style="width:100%; height:850px; border:none;"></iframe>')
+        lines+=base
+        idxp=os.path.join(args.output_dir,'fund_series_charts_index.html')
+        with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(lines))
+        print(f"Generated index at {idxp}")
+elif not use_stdin and not args.bar_mode:
+    print("No charts to include in master index.", file=sys.stderr)
+
