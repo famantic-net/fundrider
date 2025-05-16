@@ -111,6 +111,7 @@ hover_js = '''<script>
     gd.on('plotly_hover', function(data) {
       var ci = data.points[0].curveNumber;
       // Bold legend entry by index
+      gd.querySelectorAll('.legendtext').forEach(el => { if(el.textContent===name) el.style.fontWeight='bold'; });
       var texts = gd.querySelectorAll('.legendtext');
       if(texts[ci]) texts[ci].style.fontWeight = 'bold';
       // Thicken hovered line
