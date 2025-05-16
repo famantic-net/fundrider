@@ -262,7 +262,8 @@ def bar_chart_mode(input_dir, output_dir, internal):
             '<td style="text-align:center; padding:10px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px;">'
             f'<div>Window {w}d Weight</div>'
             f'<div><span id="v{i}" style="font-weight:bold;">{init_weights[i]:.1f}</span></div>'
-            f'<div><input id="w{i}" type="range" min="0" max="10" step="0.1" '
+            # Added data-index attribute to easily identify slider index in JS
+            f'<div><input id="w{i}" data-index="{i}" type="range" min="0" max="10" step="0.1" '
             f'value="{init_weights[i]:.1f}" style="width:100%;"></div></td>'
         )
     slider_html += '</tr></table>'
@@ -276,6 +277,7 @@ def bar_chart_mode(input_dir, output_dir, internal):
         '</div>'
     )
 
+    # MODIFIED post_js to include scroll wheel functionality for sliders
     post_js = f"""
 <script>
   const percDataForPostJs = {json.dumps(data)};
@@ -283,23 +285,62 @@ def bar_chart_mode(input_dir, output_dir, internal):
 
   function updateScoresOnWeightChange() {{
     const currentWeights = weightInputsForPostJs.map(el => parseFloat(el.value));
-    currentWeights.forEach((val,i) => {{ document.getElementById('v'+i).textContent = val.toFixed(1); }});
+    // Update displayed weight values
+    currentWeights.forEach((val,i) => {{
+        const vElement = document.getElementById('v'+i);
+        if (vElement) {{ // Check if element exists
+            vElement.textContent = val.toFixed(1);
+        }}
+    }});
     const newYScores = percDataForPostJs.map(fundPerformanceRow =>
       fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
     );
     Plotly.restyle('bar-chart', 'y', [newYScores]);
   }}
-  weightInputsForPostJs.forEach(el => el.addEventListener('input', updateScoresOnWeightChange));
+
+  weightInputsForPostJs.forEach(slider => {{
+    // Event listener for 'input' (when slider is dragged)
+    slider.addEventListener('input', updateScoresOnWeightChange);
+
+    // Event listener for 'wheel' (mouse scroll)
+    slider.addEventListener('wheel', function(event) {{
+      event.preventDefault(); // Prevent page scrolling
+
+      const step = parseFloat(slider.step) || 0.1; // Get step from slider attribute, default to 0.1
+      let currentValue = parseFloat(slider.value);
+      const minVal = parseFloat(slider.min) || 0;
+      const maxVal = parseFloat(slider.max) || 10;
+
+      if (event.deltaY < 0) {{ // Wheel up
+        currentValue += step;
+      }} else {{ // Wheel down
+        currentValue -= step;
+      }}
+
+      // Clamp value to min/max
+      currentValue = Math.max(minVal, Math.min(maxVal, currentValue));
+
+      slider.value = currentValue.toFixed(1); // Update slider value (toFixed for precision matching step)
+
+      // Manually trigger the update function since 'input' event doesn't fire on programmatic change
+      updateScoresOnWeightChange();
+    }});
+  }});
+  // Initial call to set scores based on initial weights if needed (Plotly.newPlot should handle this)
+  // updateScoresOnWeightChange();
 </script>
 """
     isolate_js = f"""
 <script>
   const allOriginalFunds = {json.dumps(funds)};
   const fundsForDropdown = {json.dumps(dropdown_funds)};
-  const percData = {json.dumps(data)};
+  const percData = {json.dumps(data)}; // This is percDataForIsolateJs, distinct from percDataForPostJs if they were in different scopes
+                                       // In this combined script, it's fine, but good to be mindful.
 
   const fundSelectElement = document.getElementById('fund-select');
-  const weightInputs = Array.from(document.querySelectorAll('input[id^="w"]'));
+  // Note: weightInputs is already defined in post_js. If these scripts were truly separate,
+  // you'd redefine it here. Since they are concatenated, it's accessible.
+  // const weightInputsForIsolate = Array.from(document.querySelectorAll('input[id^="w"]'));
 
   fundsForDropdown.forEach(fundName => {{
     const optionElement = document.createElement('option');
@@ -309,7 +350,8 @@ def bar_chart_mode(input_dir, output_dir, internal):
   }});
 
   function calculateAllCurrentScores() {{
-    const currentWeights = weightInputs.map(el => parseFloat(el.value));
+    // Use weightInputsForPostJs as it's the one tied to the event listeners for updates
+    const currentWeights = weightInputsForPostJs.map(el => parseFloat(el.value));
     return percData.map(fundPerformanceRow =>
       fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
     );
@@ -405,8 +447,6 @@ if use_stdin and not args.bar_mode:
     if 'index' in df.columns and 'Date' not in df.columns: # Safety for unnamed index case
         df.rename(columns={'index':'Date'}, inplace=True)
 
-
-    # Corrected: Remove columns (except 'Date') that are still all NaN after interpolation
     if 'Date' in df.columns:
         date_column_data = df['Date']
         other_columns_df = df.drop(columns=['Date'])
@@ -505,7 +545,7 @@ for idx_num, filepath in csv_files:
     if 'index' in df.columns and 'Date' not in df.columns: # Safety for unnamed index case
         df.rename(columns={'index':'Date'}, inplace=True)
 
-    # Corrected: Remove columns (except 'Date') that are still all NaN after interpolation
+    # Remove columns (except 'Date') that are still all NaN after interpolation
     if 'Date' in df.columns:
         date_column_data = df['Date']
         other_columns_df = df.drop(columns=['Date'])
