@@ -102,6 +102,7 @@ jobs:
           echo "<li><a href=\"$file\">$file</a></li>" >> index.html
         done
         echo '</ul></body></html>' >> index.html
+        cd "$GITHUB_WORKSPACE"
 
         cd ../fundrider-pages
         git config user.name "github-actions"
