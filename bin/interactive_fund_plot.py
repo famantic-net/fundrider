@@ -180,33 +180,25 @@ def df_to_html(df, title=None, last_dates=None):
         name = col
         if last_dates and col in last_dates:
             name = f"{col}<br>{last_dates[col]}"
-        # Ensure data is numeric before potential exponentiation
+        # Ensure data is numeric
         series_data = pd.to_numeric(df[col], errors='coerce')
-        # The user's description of CSVs: "relative values ... normalization at the latest date ... all funds are at a value of zero on the last date"
-        # "If it is positive, the value was higher, if it was negative, the value was lower."
-        # "The more they have increased, the lower the curve on the left."
-        # This implies the values are already in a relative form, not log-transformed in the CSVs for the purpose of this specific normalization.
-        # The transformation `(10 ** series_data)` seems specific to a different data interpretation or chart type.
-        # For consistency with the bar chart mode and the user's description of input data,
-        # we should probably plot the series_data as is, or if a percentage is needed for hover,
-        # it should be derived differently if series_data is not log10(percentage/100).
-        # For now, let's assume series_data is what needs to be plotted directly.
-        # The customdata for hover might need adjustment based on actual data meaning.
-        # If 'series_data' represents the direct normalized values (e.g., -0.05 for a 5% drop from the end point),
-        # then `customdata = series_data * 100` would be the percentage difference.
-        custom_hover_data = 10 ** series_data * 100 # Series_data is the log10 fractional relative change
+
+        # Corrected custom_hover_data calculation as per user's update
+        # series_data (the y-value) is the log10 of the fractional change.
+        # To get percentage change: 10^y * 100
+        custom_hover_data = 10 ** series_data * 100
 
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
             line=dict(width=2), hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
-                '<b>Value:</b> %{y:.3f}<br>' # Displaying the direct normalized value
-                '<b>Relative Change:</b> %{customdata:.1f}%<extra></extra>' # Displaying it as percentage
+                '<b>Value (log10):</b> %{y:.3f}<br>' # Displaying the direct log10 normalized value
+                '<b>Relative Change:</b> %{customdata:.1f}%<extra></extra>' # Displaying the calculated percentage
             )
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
-                  yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (0 = Last Date)'), # Clarified Y-axis title
+                  yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'), # Clarified Y-axis title
                   xaxis=dict(title='Date'),
                   legend=dict(traceorder='normal'))
     if title: layout['title'] = dict(text=title, x=0.5, xanchor='center')
@@ -267,7 +259,10 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled): # Added trac
                     if trace_enabled: print(f"TRACE: File: {fname}, Column: {col} - Skipping unnamed column.", file=sys.stderr)
                     continue
                 # Convert column data to numeric, coercing errors to NaN, then drop NaNs
-                # These are the 'ys' values for regression
+                # These are the 'ys' values for regression.
+                # IMPORTANT: For bar_chart_mode, the 'ys' values are the direct normalized values from CSV
+                # which are log10(fractional_change). The regression is done on these log10 values.
+                # The percentage contribution is then derived from the slope of this log-space regression.
                 ys = pd.to_numeric(df_temp[col], errors='coerce').dropna().values
                 if len(ys) == 0: # Skip if column becomes empty after coerce/dropna (e.g., all non-numeric)
                     if trace_enabled: print(f"TRACE: File: {fname}, Fund: {col} - No numeric data after cleaning (ys length is 0). Skipping fund.", file=sys.stderr)
@@ -285,18 +280,33 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled): # Added trac
                         if trace_enabled:
                             print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Insufficient data points ({len(ys)} < {w}). Contribution set to 0.", file=sys.stderr)
                     else:
-                        # Perform linear regression on the last 'w' data points
-                        # np.arange(w) creates [0, 1, ..., w-1] as the x-values (time steps)
-                        # ys[-w:] gets the last 'w' values of the fund series
-                        # m is the slope of the regression line
-                        m, _ = np.polyfit(np.arange(w), ys[-w:], 1)
-                        # Calculate total relative change over the window based on the slope
-                        # (w-1) because 'w' points span 'w-1' intervals
-                        # Multiply by 100 to express as a percentage
+                        # Perform linear regression on the last 'w' data points (which are log10 values)
+                        m, _ = np.polyfit(np.arange(w), ys[-w:], 1) # m is slope in log10 space
+
+                        # To calculate the equivalent percentage change from a slope in log10 space:
+                        # The change in y (log10 value) over the window is m * (w-1)
+                        # If y_start is log10(V_start) and y_end is log10(V_end)
+                        # m * (w-1) = y_end - y_start = log10(V_end) - log10(V_start) = log10(V_end / V_start)
+                        # So, V_end / V_start = 10**(m * (w-1))
+                        # Percentage change = ((V_end / V_start) - 1) * 100
+                        # Or, if V_start is the reference (normalized to 1 for relative change calc),
+                        # then V_end itself represents the factor of change.
+                        # The user's initial description of the bar chart calculation was:
+                        # "Linear regression slope factor ... based on that slope factor, a number in percent for the relative change"
+                        # "pct.append(m * (w - 1) * 100)"
+                        # This implies 'm' was treated as a direct slope of *percentage points* or fractional change per day.
+                        # If 'ys' are log10 values, then 'm' is log10(change_factor_per_day).
+                        # Let's stick to the user's original formula for percentage contribution in bar chart mode,
+                        # assuming the linear regression on log-values and then multiplying by 100 is the desired metric,
+                        # even if it's not a direct percentage in the typical sense without anti-log.
+                        # The user's formula: "pct.append(m * (w - 1) * 100)"
+                        # This means the "percentage" is slope_in_log_space * number_of_intervals * 100.
+                        # This will be a "log-percentage-points" style metric.
                         current_pct_contribution = m * (w - 1) * 100
                         pct.append(current_pct_contribution)
+
                         if trace_enabled:
-                            print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Sufficient data points ({len(ys)} >= {w}). Calculated slope (m): {m:.6f}, Contribution: {current_pct_contribution:.2f}%", file=sys.stderr)
+                            print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Sufficient data points ({len(ys)} >= {w}). Calculated slope (m_log_space): {m:.6f}, Contribution (as per formula m*(w-1)*100): {current_pct_contribution:.2f}", file=sys.stderr)
                 funds.append(col) # Add fund name
                 data.append(pct)  # Add list of percentage changes for this fund
         except Exception as e:
@@ -337,8 +347,6 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled): # Added trac
 
     # HTML for weight adjustment sliders
     # The table width might need adjustment if it gets too crowded with 8 sliders.
-    # Consider making it 100% width and letting items wrap or adjust cell padding/spacing.
-    # For now, keeping 80% but it might be tight.
     slider_html = '<table style="margin:auto; width:90%; border-spacing: 5px;"><tr>' # Increased width, reduced spacing
     for i, w_days in enumerate(windows): # w_days is the window size in days
         period_name = period_label_map.get(w_days, f"{w_days}d") # Get descriptive name or default to days
