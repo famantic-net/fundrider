@@ -91,8 +91,8 @@ jobs:
         export GIT_SSH_COMMAND="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no"
         git clone git@github.com:famantic-net/fundrider-pages.git ../fundrider-pages
 
-        cp tables/fund_tables.zip ../fundrider-pages/tables/fund_tables.zip
-        cp tables/fund_tables_*.csv ../fundrider-pages/
+        cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
+        cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
         cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html ../fundrider-pages/docs/latest_fund_series_scores.html
 
