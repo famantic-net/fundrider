@@ -194,7 +194,7 @@ def df_to_html(df, title=None, last_dates=None):
         # The customdata for hover might need adjustment based on actual data meaning.
         # If 'series_data' represents the direct normalized values (e.g., -0.05 for a 5% drop from the end point),
         # then `customdata = series_data * 100` would be the percentage difference.
-        custom_hover_data = series_data * 100 # Assuming series_data is the fractional relative change
+        custom_hover_data = 10 ** series_data * 100 # Series_data is the log10 fractional relative change
 
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
@@ -202,7 +202,7 @@ def df_to_html(df, title=None, last_dates=None):
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
                 '<b>Value:</b> %{y:.3f}<br>' # Displaying the direct normalized value
-                '<b>Relative Change:</b> %{customdata:.2f}%<extra></extra>' # Displaying it as percentage
+                '<b>Relative Change:</b> %{customdata:.1f}%<extra></extra>' # Displaying it as percentage
             )
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
