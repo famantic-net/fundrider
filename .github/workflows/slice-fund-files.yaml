@@ -32,6 +32,7 @@ jobs:
         echo "Running in: $(pwd)"
         mkdir -p tables
         perl bin/slice_fond_files.pl -nt -i17 -w data -d tables 2>/dev/null
+        cat $(ls -1 tables/*.csv | sort -V) > tables/fund_tables_concat.txt
 
     - name: Commit and push if changed
       run: |
