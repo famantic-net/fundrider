@@ -91,23 +91,25 @@ jobs:
         export GIT_SSH_COMMAND="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no"
         git clone git@github.com:famantic-net/fundrider-pages.git ../fundrider-pages
 
-        cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
-        cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
         cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html ../fundrider-pages/docs/latest_fund_series_scores.html
+        cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
+        cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
+        cp tables/fund_tables_concat.txt ../fundrider-pages/docs/tables/fund_tables_concat.txt
 
         cd ../fundrider-pages/docs/tables
         echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Available Tables</title></head><body><h1>Available CSV Tables</h1><ul>' > index.html
         for file in *.csv; do
           echo "<li><a href=\"$file\">$file</a></li>" >> index.html
         done
+        echo "<li><a href=\"fund_tables_concat.txt\">fund_tables_concat.txt</a></li>" >> index.html
         echo '</ul></body></html>' >> index.html
         cd "$GITHUB_WORKSPACE"
 
         cd ../fundrider-pages
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/index.html
+        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/fund_tables_concat.txt docs/tables/index.html
 
         if git diff --cached --quiet; then
           echo "No changes to publish"
