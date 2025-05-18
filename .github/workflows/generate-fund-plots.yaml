@@ -96,14 +96,17 @@ jobs:
         cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
         cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
         cp tables/fund_tables_concat.txt ../fundrider-pages/docs/tables/fund_tables_concat.txt
+        cp bin/fund_name_bundles.yaml ../fundrider-pages/docs/tables/fund_name_bundles.yaml
 
         cd ../fundrider-pages/docs/tables
         echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Available Tables</title></head><body><h1>Available CSV Tables</h1><ul>' > index.html
-        for file in *.csv; do
+        echo "<li><a href=\"fund_name_bundles.yaml\">fund_name_bundles.yaml</a></li>" >> index.html
+        echo "<li><a href=\"fund_tables_concat.txt\">fund_tables_concat.txt</a></li>" >> index.html
+        for file in $(ls -1 *.csv | sort -V); do
           echo "<li><a href=\"$file\">$file</a></li>" >> index.html
         done
-        echo "<li><a href=\"fund_tables_concat.txt\">fund_tables_concat.txt</a></li>" >> index.html
         echo '</ul></body></html>' >> index.html
+
         cd "$GITHUB_WORKSPACE"
 
         cd ../fundrider-pages
