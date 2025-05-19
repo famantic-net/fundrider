@@ -24,7 +24,7 @@ jobs:
 
     - name: Install Python dependencies
       run: |
-        pip install pandas plotly
+        pip install pandas plotly numpy requests PyYAML tabulate
 
     - name: Create results folder
       run: mkdir -p results
