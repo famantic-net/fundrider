@@ -39,7 +39,7 @@ jobs:
 
     - name: Run growth assessment script
       run: |
-        python3 bin/fund_momentum_emailer.py 2>/dev/null > results/growth-recommendations.md
+        python3 bin/fund_momentum_emailer.py > results/growth-recommendations.md
 
     - name: Copy to GitHub Pages docs directory
       run: |
