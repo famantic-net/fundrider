@@ -254,8 +254,6 @@ def load_and_parse_individual_csv_files(tables_dir: Path) -> pd.DataFrame:
             df_segment.dropna(subset=["date"], inplace=True)
 
             if df_segment.empty:
-                # This warning is now less critical as the debug prints for first file are removed
-                # print(f"Warning: DataFrame empty for {csv_file_path.name} after date processing and dropna. Skipping.", file=sys.stderr)
                 continue
 
             for col in df_segment.columns:
@@ -268,8 +266,6 @@ def load_and_parse_individual_csv_files(tables_dir: Path) -> pd.DataFrame:
 
             if not df_segment.columns.empty:
                 all_dfs.append(df_segment)
-            # else:
-                # print(f"Warning: No data columns in {csv_file_path.name} after processing. Skipping.", file=sys.stderr)
 
         except Exception as e:
             print(f"Error processing file {csv_file_path.name}: {e}. Skipping this file.", file=sys.stderr)
@@ -547,9 +543,8 @@ def send_email(subject: str, html_body: str, text_body: str) -> None:
 
     missing_env_vars = [var for var, val in [("SMTP_USER", smtp_user), ("SMTP_PASS", smtp_pass), ("RECIPIENT", recipient)] if not val]
     if missing_env_vars:
-        # This would typically be a critical error if direct email sending was intended.
         print(f"Error: Missing required SMTP env vars for send_email function: {', '.join(missing_env_vars)}", file=sys.stderr)
-        return # Or raise an error if direct sending is critical path
+        return
 
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -604,7 +599,7 @@ def main() -> None:
 
     current_date_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     email_subject_prefix = os.getenv("SUBJECT_PREFIX", "Daily Fund Momentum Rankings")
-    final_email_subject = f"{email_subject_prefix} - {current_date_utc_str}" # Used for HTML title
+    final_email_subject = f"{email_subject_prefix} - {current_date_utc_str}"
 
     raw_prices_df = pd.DataFrame()
     processed_prices_df = pd.DataFrame()
@@ -721,6 +716,8 @@ def main() -> None:
             body {{font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 15px; padding: 0; background-color: #f4f7f6; color: #333333; line-height: 1.6;}}
             .email-container {{max-width: 700px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);}}
             h1 {{color: #2c3e50; font-size: 22px; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 0;}}
+            h1 a.header-link {{color: inherit; text-decoration: none;}}
+            h1 a.header-link:hover {{text-decoration: underline;}}
             h2 {{color: #3498db; font-size: 18px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;}}
             .fund-table {{border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.9em; border-radius: 5px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05); border: 1px solid #dddddd;}}
             .fund-table th, .fund-table td {{padding: 10px 12px; border-bottom: 1px solid #dddddd; text-align: right;}}
@@ -731,11 +728,12 @@ def main() -> None:
             .fund-table tbody tr:last-child td {{border-bottom: none;}}
             .footer {{margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 0.85em; color: #767676; text-align: center;}}
             .footer p {{margin: 5px 0;}}
-        </style></head><body><div class="email-container"><h1>{final_email_subject}</h1>
+        </style></head><body><div class="email-container">
+        <h1><a href="https://famantic-net.github.io/fundrider-pages/" class="header-link">{final_email_subject}</a></h1>
         <h2>Best Long-Term Growth Assessment (Top 20)</h2>{html_long_term_table}
         <h2>Best Lag-Adjusted Short-Term Assessment (Top 20)</h2>{html_lag_adj_table}
         """
-        if html_comparison_table: # Add comparison table if it exists
+        if html_comparison_table:
             html_email_body += f"""<h2>Comparison Funds Performance</h2>{html_comparison_table}"""
 
         html_email_body += f"""
@@ -743,13 +741,8 @@ def main() -> None:
         <p>Fund data is typically lagged by several days. Performance figures are historical.</p>
         <p>Always do your own research before making investment decisions.</p></div></div></body></html>
         """
-        print(html_email_body, file=sys.stdout) # Print HTML to STDOUT
-        # The send_email() call is now removed from this path.
-        # If you want to send an email for testing, you could call it explicitly:
-        # if all_required_smtp_vars_are_set:
-        #     send_email(final_email_subject, html_email_body, "See HTML part for report.") # Plain text part can be simple
+        print(html_email_body, file=sys.stdout)
     else:
-        # Output Markdown to STDOUT if --email is not used
         print("\n--- Email sending skipped (--email flag not provided) ---", file=sys.stderr)
         print(f"\n### Best Long-Term Growth Assessment (Top 20) - {current_date_utc_str}\n", file=sys.stdout)
         print(md_long_term_table, file=sys.stdout)
