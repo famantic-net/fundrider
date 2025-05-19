@@ -5,9 +5,9 @@ from __future__ import annotations # For modern type hints
 
 Fetches fund price tables and fund-name bundle map,
 computes two momentum screens:
-    1. Best Long-Term Growth Assessment (top-10) - Ranks primarily by "All Dates" return,
+    1. Best Long-Term Growth Assessment (top-20) - Ranks primarily by "All Dates" return,
        penalizing for poor 1-year and very poor recent (2-month) performance.
-    2. Best Lag-Adjusted Short-Term Assessment (top-10)
+    2. Best Lag-Adjusted Short-Term Assessment (top-20)
 
 Optionally, a list of specific funds can be provided via --compare for direct comparison.
 Output tables include 2-week, 1-month, 2-month, 3-month, 6-month, 1-year, and All Dates performance.
@@ -16,7 +16,7 @@ Default file locations (assuming script is in 'bin/' and run from project root):
 - CSV Data: Scans for 'tables/fund_tables_*.csv' (expected to contain log10 of normalized prices, ISO-8859-15 encoding)
 - YAML Bundles: 'bin/fund_name_bundles.yaml' (expected to be ISO-8859-15 encoding)
 
-If the --email flag is provided, it e-mails the top-10 results of each
+If the --email flag is provided, it e-mails the top-20 results of each
 screen (and any comparison funds) as HTML tables (with a Markdown fallback)
 to a recipient specified via environment variables. Otherwise, it prints the
 Markdown tables to the console.
@@ -329,7 +329,7 @@ def bundle_funds(prices_df: pd.DataFrame, fund_bundles_map: Dict[str, List[str]]
 
 def compute_momentum_tables(log_prices: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
-    Computes momentum tables and returns top-10s and the full performance DataFrame.
+    Computes momentum tables and returns top-20s and the full performance DataFrame.
     Input 'log_prices' DataFrame contains log10 of normalized prices for each fund.
     """
     empty_perf_df = pd.DataFrame(index=log_prices.index if not log_prices.empty else None)
@@ -432,10 +432,10 @@ def compute_momentum_tables(log_prices: pd.DataFrame) -> Tuple[pd.DataFrame, pd.
                 penalty_2m = loss_beyond_threshold_2m * valid_all_dates_for_penalty_2m.abs() * LONG_TERM_AD_2M_PENALTY_FACTOR
                 perf_df.loc[significant_2m_loss_mask, 'LongTermAdjustedPerf'] -= penalty_2m
 
-        long_term_top10 = perf_df.sort_values("LongTermAdjustedPerf", ascending=False).head(10).reset_index()
+        long_term_top = perf_df.sort_values("LongTermAdjustedPerf", ascending=False).head(20).reset_index() # Changed to top 20
     else:
         print(f"Warning: Missing '{ALL_DATES_KEY}' column for Long-Term Growth. Using empty table.", file=sys.stderr)
-        long_term_top10 = pd.DataFrame(columns=DISPLAY_COLUMNS)
+        long_term_top = pd.DataFrame(columns=DISPLAY_COLUMNS)
 
     z_scores_df_cols: Dict[str, pd.Series] = {}
     for period in LAG_ADJ_WEIGHTS.keys():
@@ -467,9 +467,9 @@ def compute_momentum_tables(log_prices: pd.DataFrame) -> Tuple[pd.DataFrame, pd.
     if "LagAdjScore" not in perf_df.columns and not perf_df.empty:
         perf_df["LagAdjScore"] = np.nan
 
-    lag_adj_top10 = perf_df.sort_values("LagAdjScore", ascending=False).head(10).reset_index()
+    lag_adj_top = perf_df.sort_values("LagAdjScore", ascending=False).head(20).reset_index() # Changed to top 20
 
-    return long_term_top10, lag_adj_top10, perf_df.reset_index()
+    return long_term_top, lag_adj_top, perf_df.reset_index()
 
 
 def format_df_for_display(df: pd.DataFrame) -> pd.DataFrame:
@@ -719,12 +719,12 @@ def main() -> None:
         plain_text_email_body = textwrap.dedent(f"""
             {email_subject_prefix} - {current_date_utc_str}
 
-            ## Best Long-Term Growth Assessment (Top 10)
+            ## Best Long-Term Growth Assessment (Top 20)
             {md_long_term_table}
 
-            ## Best Lag-Adjusted Short-Term Assessment (Top 10)
+            ## Best Lag-Adjusted Short-Term Assessment (Top 20)
             {md_lag_adj_table}
-        """)
+        """) # Updated heading to Top 20
         if md_comparison_table:
             plain_text_email_body += textwrap.dedent(f"""
 
@@ -756,9 +756,9 @@ def main() -> None:
             .footer {{margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 0.85em; color: #767676; text-align: center;}}
             .footer p {{margin: 5px 0;}}
         </style></head><body><div class="email-container"><h1>{final_email_subject}</h1>
-        <h2>Best Long-Term Growth Assessment (Top 10)</h2>{html_long_term_table}
-        <h2>Best Lag-Adjusted Short-Term Assessment (Top 10)</h2>{html_lag_adj_table}
-        """
+        <h2>Best Long-Term Growth Assessment (Top 20)</h2>{html_long_term_table}
+        <h2>Best Lag-Adjusted Short-Term Assessment (Top 20)</h2>{html_lag_adj_table}
+        """ # Updated heading to Top 20
         if html_comparison_table:
             html_email_body += f"""<h2>Comparison Funds Performance</h2>{html_comparison_table}"""
 
@@ -776,9 +776,9 @@ def main() -> None:
             sys.exit(f"An unexpected error occurred during email sending: {e}")
     else:
         print("\n--- Email sending skipped (--email flag not provided) ---", file=sys.stderr)
-        print("\n### Best Long-Term Growth Assessment (Top 10)\n", file=sys.stdout)
+        print("\n### Best Long-Term Growth Assessment (Top 20)\n", file=sys.stdout) # Updated heading
         print(md_long_term_table, file=sys.stdout)
-        print("\n### Best Lag-Adjusted Short-Term Assessment (Top 10)\n", file=sys.stdout)
+        print("\n### Best Lag-Adjusted Short-Term Assessment (Top 20)\n", file=sys.stdout) # Updated heading
         print(md_lag_adj_table, file=sys.stdout)
         if md_comparison_table:
             print("\n### Comparison Funds Performance\n", file=sys.stdout)
