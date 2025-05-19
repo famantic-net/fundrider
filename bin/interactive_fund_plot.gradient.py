@@ -805,4 +805,3 @@ if not use_stdin and not args.bar_mode and (htmls or internal_html):
         print(f"Generated index at {idxp}")
 elif not use_stdin and not args.bar_mode:
     print("No charts to include in master index.", file=sys.stderr)
-s
