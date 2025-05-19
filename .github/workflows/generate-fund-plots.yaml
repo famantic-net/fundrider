@@ -31,11 +31,11 @@ jobs:
 
     - name: Run fund chart generation script
       run: |
-        python3 bin/interactive_fund_plot.py -t tables -r :internal: > results/fund_series_charts.stdout.html 2>/dev/null
+        python3 bin/interactive_fund_plot.gradient.py -t tables -r :internal: > results/fund_series_charts.stdout.html 2>/dev/null
 
     - name: Run fund scores generation script
       run: |
-        python3 bin/interactive_fund_plot.py --bar -t tables -r :internal: > results/fund_series_scores.stdout.html 2>/dev/null
+        python3 bin/interactive_fund_plot.gradient.py --bar -t tables -r :internal: > results/fund_series_scores.stdout.html 2>/dev/null
 
     - name: Copy to GitHub Pages docs directory
       run: |
