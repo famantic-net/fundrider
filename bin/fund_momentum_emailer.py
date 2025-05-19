@@ -16,33 +16,32 @@ Default file locations (assuming script is in 'bin/' and run from project root):
 - CSV Data: Scans for 'tables/fund_tables_*.csv' (expected to contain log10 of normalized prices, ISO-8859-15 encoding)
 - YAML Bundles: 'bin/fund_name_bundles.yaml' (expected to be ISO-8859-15 encoding)
 
-If the --email flag is provided, it e-mails the top-20 results of each
-screen (and any comparison funds) as HTML tables (with a Markdown fallback)
-to a recipient specified via environment variables. Otherwise, it prints the
-Markdown tables to the console.
+Output Behavior:
+- Without --email flag: Prints Markdown tables to STDOUT.
+- With --email flag: Prints a full HTML document (suitable for an email body) to STDOUT.
+  The script itself no longer sends emails. Email sending is expected to be handled externally (e.g., via GitHub Actions).
 
 This script requires Python 3.11 or newer.
 
 Designed to be run regularly, e.g., via cron or GitHub Actions.
 
-Cron example (Europe/Madrid timezone assumed; adjust path as needed):
-    5 6 * * 1-5  /usr/bin/python3.11 /path/to/project/bin/fund_momentum_emailer.py --email
+Cron example (Europe/Madrid timezone assumed; adjust path as needed for GitHub Actions runner):
+    5 6 * * 1-5  /usr/bin/python3.11 /path/to/project/bin/fund_momentum_emailer.py --email > report.html
 
 Usage examples:
     python3.11 bin/fund_momentum_emailer.py
-    python3.11 bin/fund_momentum_emailer.py --email
+    python3.11 bin/fund_momentum_emailer.py --email > fund_report.html
     python3.11 bin/fund_momentum_emailer.py --compare "Fund Name A","Another Fund, with comma"
-    python3.11 bin/fund_momentum_emailer.py --compare "'Fund C','Fund D'" --email
+    python3.11 bin/fund_momentum_emailer.py --compare "'Fund C','Fund D'" --email > specific_funds_report.html
 
+Environment variables:
+    (SMTP variables like SMTP_HOST, SMTP_USER, SMTP_PASS, RECIPIENT, SENDER are no longer
+     directly used by the script's primary workflow for the --email flag, as email
+     sending has been decoupled. They are kept in the send_email function for potential
+     manual use or if direct email sending is re-enabled locally.)
 
-Environment variables (required only if --email is used):
-    SMTP_HOST      default "smtp.gmail.com"
-    SMTP_PORT      default "587" (as string, converted to int)
-    SMTP_USER      required – full login address
-    SMTP_PASS      required – password / app-password (for Gmail with 2FA, use an app password)
-    RECIPIENT      required – where to send the e-mail
-    SENDER         optional – From: address (defaults to SMTP_USER)
     SUBJECT_PREFIX optional – e-mail subject prefix (default "Daily Fund Momentum Rankings")
+                       (This is still used for the HTML title and H1 tag)
 
 Shared Environment variables (can override default local file paths):
     YAML_DATA_URL  optional - URL (http/https/file) for the fund name bundles YAML file.
@@ -60,7 +59,7 @@ import textwrap
 import argparse # For command-line argument parsing
 import csv # For parsing comma-separated fund list
 from datetime import datetime, timezone
-from email.message import EmailMessage
+from email.message import EmailMessage # Kept if send_email is used manually
 from io import StringIO # Used for pd.read_csv with text string
 from typing import Dict, List, Tuple, Any
 from pathlib import Path # For creating file URIs
@@ -98,7 +97,7 @@ ALL_DATES_KEY = "All Dates"
 
 
 LOOKBACKS_BD: Dict[str, int] = {
-    TWO_WEEK_LOOKBACK_KEY: 10, # Approx 2 weeks
+    TWO_WEEK_LOOKBACK_KEY: 10,
     ONE_MONTH_LOOKBACK_KEY: 21,
     TWO_MONTH_LOOKBACK_KEY: 42,
     THREE_MONTH_LOOKBACK_KEY: 63,
@@ -106,8 +105,6 @@ LOOKBACKS_BD: Dict[str, int] = {
     ONE_YEAR_LOOKBACK_KEY: 252,
 }
 
-# Weights for Lag-Adjusted Short-Term Score (sum to 1.0)
-# These specific periods are used for scoring.
 LAG_ADJ_WEIGHTS: Dict[str, float] = {
     ONE_MONTH_LOOKBACK_KEY: 0.40,
     THREE_MONTH_LOOKBACK_KEY: 0.35,
@@ -116,7 +113,6 @@ LAG_ADJ_WEIGHTS: Dict[str, float] = {
 }
 assert abs(sum(LAG_ADJ_WEIGHTS.values()) - 1.0) < 1e-6, "LAG_ADJ_WEIGHTS must sum to 1.0"
 
-# Configuration for Long-Term Growth Assessment (based on "All Dates" primarily)
 LONG_TERM_AD_1Y_THRESHOLD = 0.00
 LONG_TERM_AD_1Y_PENALTY_FACTOR = 0.5
 LONG_TERM_AD_2M_THRESHOLD = -0.05
@@ -258,7 +254,8 @@ def load_and_parse_individual_csv_files(tables_dir: Path) -> pd.DataFrame:
             df_segment.dropna(subset=["date"], inplace=True)
 
             if df_segment.empty:
-                print(f"Warning: DataFrame empty for {csv_file_path.name} after date processing and dropna. Skipping.", file=sys.stderr)
+                # This warning is now less critical as the debug prints for first file are removed
+                # print(f"Warning: DataFrame empty for {csv_file_path.name} after date processing and dropna. Skipping.", file=sys.stderr)
                 continue
 
             for col in df_segment.columns:
@@ -271,8 +268,8 @@ def load_and_parse_individual_csv_files(tables_dir: Path) -> pd.DataFrame:
 
             if not df_segment.columns.empty:
                 all_dfs.append(df_segment)
-            else:
-                print(f"Warning: No data columns in {csv_file_path.name} after processing. Skipping.", file=sys.stderr)
+            # else:
+                # print(f"Warning: No data columns in {csv_file_path.name} after processing. Skipping.", file=sys.stderr)
 
         except Exception as e:
             print(f"Error processing file {csv_file_path.name}: {e}. Skipping this file.", file=sys.stderr)
@@ -432,7 +429,7 @@ def compute_momentum_tables(log_prices: pd.DataFrame) -> Tuple[pd.DataFrame, pd.
                 penalty_2m = loss_beyond_threshold_2m * valid_all_dates_for_penalty_2m.abs() * LONG_TERM_AD_2M_PENALTY_FACTOR
                 perf_df.loc[significant_2m_loss_mask, 'LongTermAdjustedPerf'] -= penalty_2m
 
-        long_term_top = perf_df.sort_values("LongTermAdjustedPerf", ascending=False).head(20).reset_index() # Changed to top 20
+        long_term_top = perf_df.sort_values("LongTermAdjustedPerf", ascending=False).head(20).reset_index()
     else:
         print(f"Warning: Missing '{ALL_DATES_KEY}' column for Long-Term Growth. Using empty table.", file=sys.stderr)
         long_term_top = pd.DataFrame(columns=DISPLAY_COLUMNS)
@@ -467,7 +464,7 @@ def compute_momentum_tables(log_prices: pd.DataFrame) -> Tuple[pd.DataFrame, pd.
     if "LagAdjScore" not in perf_df.columns and not perf_df.empty:
         perf_df["LagAdjScore"] = np.nan
 
-    lag_adj_top = perf_df.sort_values("LagAdjScore", ascending=False).head(20).reset_index() # Changed to top 20
+    lag_adj_top = perf_df.sort_values("LagAdjScore", ascending=False).head(20).reset_index()
 
     return long_term_top, lag_adj_top, perf_df.reset_index()
 
@@ -531,7 +528,10 @@ def df_to_html_table_styled(df: pd.DataFrame, table_id: str | None = None) -> st
     )
 
 def send_email(subject: str, html_body: str, text_body: str) -> None:
-    """Sends an email with HTML and plain text alternatives."""
+    """Sends an email with HTML and plain text alternatives.
+    Note: This function is currently not called by the main script workflow if --email is used,
+    as output is directed to STDOUT for external email handling.
+    """
     smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
     smtp_port_str = os.getenv("SMTP_PORT", "587")
     try:
@@ -547,7 +547,9 @@ def send_email(subject: str, html_body: str, text_body: str) -> None:
 
     missing_env_vars = [var for var, val in [("SMTP_USER", smtp_user), ("SMTP_PASS", smtp_pass), ("RECIPIENT", recipient)] if not val]
     if missing_env_vars:
-        raise SystemExit(f"Error: Missing required SMTP env vars: {', '.join(missing_env_vars)}")
+        # This would typically be a critical error if direct email sending was intended.
+        print(f"Error: Missing required SMTP env vars for send_email function: {', '.join(missing_env_vars)}", file=sys.stderr)
+        return # Or raise an error if direct sending is critical path
 
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -562,16 +564,13 @@ def send_email(subject: str, html_body: str, text_body: str) -> None:
             server.starttls(context=context)
             server.login(smtp_user, smtp_pass)
             server.send_message(msg)
-        print(f"Email sent successfully to {recipient}.", file=sys.stderr)
+        print(f"Email sent successfully to {recipient} (if send_email was called directly).", file=sys.stderr)
     except smtplib.SMTPAuthenticationError as e:
-        print(f"SMTP Auth Error: {e}. Check credentials/app password.", file=sys.stderr)
-        raise SystemExit("Exiting due to SMTP Authentication Error.")
+        print(f"SMTP Auth Error (if send_email was called directly): {e}. Check credentials/app password.", file=sys.stderr)
     except smtplib.SMTPException as e:
-        print(f"SMTP Error: {e}", file=sys.stderr)
-        raise SystemExit("Exiting due to SMTP Error.")
+        print(f"SMTP Error (if send_email was called directly): {e}", file=sys.stderr)
     except Exception as e:
-        print(f"Unexpected email error: {e}", file=sys.stderr)
-        raise SystemExit("Exiting due to unexpected email sending error.")
+        print(f"Unexpected email error (if send_email was called directly): {e}", file=sys.stderr)
 
 # ------------------- Main Execution --------------------------------------- #
 
@@ -585,8 +584,8 @@ def main() -> None:
     parser.add_argument(
         "--email",
         action="store_true",
-        help="Send the report via email. Requires SMTP environment variables to be set.\n"
-             "If not set, tables are printed to the console."
+        help="Output the report as a full HTML document to STDOUT (for external email sending).\n"
+             "If not set, Markdown tables are printed to STDOUT."
     )
     parser.add_argument(
         "--compare",
@@ -605,7 +604,7 @@ def main() -> None:
 
     current_date_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     email_subject_prefix = os.getenv("SUBJECT_PREFIX", "Daily Fund Momentum Rankings")
-    final_email_subject = f"{email_subject_prefix} - {current_date_utc_str}"
+    final_email_subject = f"{email_subject_prefix} - {current_date_utc_str}" # Used for HTML title
 
     raw_prices_df = pd.DataFrame()
     processed_prices_df = pd.DataFrame()
@@ -670,11 +669,11 @@ def main() -> None:
     print("Computing momentum tables...", file=sys.stderr)
     full_perf_df = pd.DataFrame()
     try:
-        long_term_top10_df, lag_adj_top10_df, full_perf_df = compute_momentum_tables(processed_prices_df)
+        long_term_top_df, lag_adj_top_df, full_perf_df = compute_momentum_tables(processed_prices_df)
     except Exception as e:
         print(f"Error computing momentum tables: {e}. Report will show no data for tables.", file=sys.stderr)
-        long_term_top10_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
-        lag_adj_top10_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
+        long_term_top_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
+        lag_adj_top_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
         full_perf_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
 
     md_comparison_table = ""
@@ -709,36 +708,13 @@ def main() -> None:
 
 
     print("Generating HTML and Markdown table outputs...", file=sys.stderr)
-    html_long_term_table = df_to_html_table_styled(long_term_top10_df, "longTermGrowthTable")
-    html_lag_adj_table = df_to_html_table_styled(lag_adj_top10_df, "lagAdjustedShortTermTable")
-    md_long_term_table = df_to_markdown_table(long_term_top10_df)
-    md_lag_adj_table = df_to_markdown_table(lag_adj_top10_df)
+    html_long_term_table = df_to_html_table_styled(long_term_top_df, "longTermGrowthTable")
+    html_lag_adj_table = df_to_html_table_styled(lag_adj_top_df, "lagAdjustedShortTermTable")
+    md_long_term_table = df_to_markdown_table(long_term_top_df)
+    md_lag_adj_table = df_to_markdown_table(lag_adj_top_df)
 
     if args.email:
-        print("Constructing email body...", file=sys.stderr)
-        plain_text_email_body = textwrap.dedent(f"""
-            {email_subject_prefix} - {current_date_utc_str}
-
-            ## Best Long-Term Growth Assessment (Top 20)
-            {md_long_term_table}
-
-            ## Best Lag-Adjusted Short-Term Assessment (Top 20)
-            {md_lag_adj_table}
-        """) # Updated heading to Top 20
-        if md_comparison_table:
-            plain_text_email_body += textwrap.dedent(f"""
-
-            ## Comparison Funds Performance
-            {md_comparison_table}
-            """)
-        plain_text_email_body += textwrap.dedent("""
-
-            ---
-            *This report was generated automatically by the Fund Momentum Emailer script.*
-            *Fund data is typically lagged by several days. Performance figures are historical.*
-            *Always do your own research before making investment decisions.*
-        """)
-
+        # Construct the full HTML body for STDOUT
         html_email_body = f"""
         <!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>{final_email_subject}</title>
         <style type="text/css">
@@ -758,8 +734,8 @@ def main() -> None:
         </style></head><body><div class="email-container"><h1>{final_email_subject}</h1>
         <h2>Best Long-Term Growth Assessment (Top 20)</h2>{html_long_term_table}
         <h2>Best Lag-Adjusted Short-Term Assessment (Top 20)</h2>{html_lag_adj_table}
-        """ # Updated heading to Top 20
-        if html_comparison_table:
+        """
+        if html_comparison_table: # Add comparison table if it exists
             html_email_body += f"""<h2>Comparison Funds Performance</h2>{html_comparison_table}"""
 
         html_email_body += f"""
@@ -767,18 +743,17 @@ def main() -> None:
         <p>Fund data is typically lagged by several days. Performance figures are historical.</p>
         <p>Always do your own research before making investment decisions.</p></div></div></body></html>
         """
-        print("Attempting to send email...", file=sys.stderr)
-        try:
-            send_email(final_email_subject, html_email_body, plain_text_email_body)
-        except SystemExit:
-            sys.exit(1)
-        except Exception as e:
-            sys.exit(f"An unexpected error occurred during email sending: {e}")
+        print(html_email_body, file=sys.stdout) # Print HTML to STDOUT
+        # The send_email() call is now removed from this path.
+        # If you want to send an email for testing, you could call it explicitly:
+        # if all_required_smtp_vars_are_set:
+        #     send_email(final_email_subject, html_email_body, "See HTML part for report.") # Plain text part can be simple
     else:
+        # Output Markdown to STDOUT if --email is not used
         print("\n--- Email sending skipped (--email flag not provided) ---", file=sys.stderr)
-        print("\n### Best Long-Term Growth Assessment (Top 20)\n", file=sys.stdout) # Updated heading
+        print(f"\n### Best Long-Term Growth Assessment (Top 20) - {current_date_utc_str}\n", file=sys.stdout)
         print(md_long_term_table, file=sys.stdout)
-        print("\n### Best Lag-Adjusted Short-Term Assessment (Top 20)\n", file=sys.stdout) # Updated heading
+        print(f"\n### Best Lag-Adjusted Short-Term Assessment (Top 20) - {current_date_utc_str}\n", file=sys.stdout)
         print(md_lag_adj_table, file=sys.stdout)
         if md_comparison_table:
             print("\n### Comparison Funds Performance\n", file=sys.stdout)
