@@ -221,15 +221,16 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
 
     num_gradient_lookback_days = 10 # Static gradient lookback period
 
-    # --- Helper function to calculate window contributions and score (Python version) ---
-    def calculate_score_from_series_py(ys_series, current_windows, current_weights, fund_name_for_trace, day_label_for_trace):
+    # --- Helper function to calculate window contributions (Python version) ---
+    # This helper now ONLY returns contributions, score is calculated from these.
+    def get_window_contributions_py(ys_series, current_windows, fund_name_for_trace, context_label_for_trace):
         pct_contributions = []
         if not isinstance(ys_series, np.ndarray):
             ys_series = np.array(ys_series)
 
         for w_idx, w_val in enumerate(current_windows):
-            if trace_enabled and day_label_for_trace:
-                 print(f"PY_TRACE_HIST: Fund: {fund_name_for_trace}, Day: {day_label_for_trace}, Window: {w_val}d - Series len: {len(ys_series)}", file=sys.stderr)
+            if trace_enabled and context_label_for_trace:
+                 print(f"PY_TRACE_CONTRIB: Fund: {fund_name_for_trace}, Context: {context_label_for_trace}, Window: {w_val}d - Series len: {len(ys_series)}", file=sys.stderr)
 
             if len(ys_series) < w_val:
                 pct_contributions.append(0.0)
@@ -241,23 +242,11 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
                 if not np.isfinite(raw_contrib):
                     contrib = 0.0
                     if trace_enabled:
-                        trace_prefix = f"PY_TRACE_CONTRIB_CLEAN: Fund: {fund_name_for_trace}, "
-                        if day_label_for_trace: trace_prefix += f"Day: {day_label_for_trace}, "
-                        else: trace_prefix += "Day: MAIN, "
-                        print(f"{trace_prefix}Window: {w_val}d - Slope(m): {m:.6f} resulted in non-finite raw_contrib ({raw_contrib}). Setting contrib to 0.0", file=sys.stderr)
+                        print(f"PY_TRACE_CONTRIB_CLEAN: Fund: {fund_name_for_trace}, Context: {context_label_for_trace}, Window: {w_val}d - Slope(m): {m:.6f} non-finite raw_contrib ({raw_contrib}). Contrib set to 0.0", file=sys.stderr)
                 else:
                     contrib = raw_contrib
                 pct_contributions.append(contrib)
-
-        score = sum(p * wt for p, wt in zip(pct_contributions, current_weights))
-        if not np.isfinite(score):
-            score = 0.0
-            if trace_enabled:
-                print(f"PY_TRACE_SCORE_CLEAN: Fund: {fund_name_for_trace}, Day: {day_label_for_trace or 'MAIN'} - Final score non-finite, set to 0.0. Contributions: {[round(c,2) if np.isfinite(c) else 'NonFinite' for c in pct_contributions]}", file=sys.stderr)
-
-        if trace_enabled and day_label_for_trace:
-            print(f"PY_TRACE_HIST: Fund: {fund_name_for_trace}, Day: {day_label_for_trace} - Final Score: {score:.2f}", file=sys.stderr)
-        return score, pct_contributions
+        return pct_contributions
     # --- End Python Helper function ---
 
     pat = re.compile(r'fund_tables_(\d+)\.csv$')
@@ -287,7 +276,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
 
                 current_ys = pd.to_numeric(df_temp[col_name_raw], errors='coerce').dropna().values
                 if len(current_ys) > 0:
-                    all_funds_raw_log_series[col_name] = current_ys # Store as numpy array
+                    all_funds_raw_log_series[col_name] = current_ys
                     if trace_enabled: print(f"TRACE_AGGREGATION: Fund: {col_name} from {fname} - Stored/Updated raw log series. Length: {len(current_ys)}", file=sys.stderr)
                 elif trace_enabled:
                      print(f"TRACE_AGGREGATION: Fund: {col_name} from {fname} - No numeric data after cleaning. Skipping fund series.", file=sys.stderr)
@@ -304,9 +293,9 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     if trace_enabled: print(f"TRACE: Data aggregation complete. Total unique funds found: {len(all_funds_raw_log_series)}", file=sys.stderr)
 
     output_fund_names = []
-    main_score_contributions_list_for_js = [] # For JS updates
+    main_score_contributions_list_for_js = []
     initial_scores_list_py = []
-    score_gradients_list_py = []
+    historical_contributions_for_all_funds_js = {} # {fund_name: [[D0_contribs], [D-1_contribs], ...]}
 
     smallest_window_size = py_windows[0] if py_windows else 5
     min_total_length_for_gradient = smallest_window_size + (num_gradient_lookback_days - 1)
@@ -315,85 +304,65 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         if trace_enabled: print(f"TRACE: Processing fund {fund_idx+1}/{len(all_funds_raw_log_series)}: {fund_name} with series length {len(original_ys)}", file=sys.stderr)
         output_fund_names.append(fund_name)
 
-        main_score_py, main_contributions_py = calculate_score_from_series_py(original_ys, py_windows, py_init_weights, fund_name, None)
-        main_score_contributions_list_for_js.append(main_contributions_py) # Pass to JS
-        initial_scores_list_py.append(main_score_py)
+        # Get main contributions for the fund
+        main_contributions_py = get_window_contributions_py(original_ys, py_windows, fund_name, "MAIN_CONTRIBS")
+        main_score_contributions_list_for_js.append(main_contributions_py)
+
+        # Calculate initial main score using default weights
+        initial_main_score_py = sum(p * wt for p, wt in zip(main_contributions_py, py_init_weights))
+        if not np.isfinite(initial_main_score_py): initial_main_score_py = 0.0 # Clean
+        initial_scores_list_py.append(initial_main_score_py)
+
         if trace_enabled:
-            printable_main_contribs = [round(p, 2) if np.isfinite(p) else 'NonFinite' for p in main_contributions_py]
-            printable_main_score = round(main_score_py, 2) if np.isfinite(main_score_py) else 'NonFinite'
-            print(f"TRACE_MAIN_SCORE: Fund: {fund_name} - Main Contributions: {printable_main_contribs}, Main Score: {printable_main_score}", file=sys.stderr)
+            print(f"TRACE_MAIN_SCORE: Fund: {fund_name} - Main Contributions: {[round(p,2) for p in main_contributions_py]}, Initial Main Score (default weights): {initial_main_score_py:.2f}", file=sys.stderr)
 
-        historical_scores_for_fund_py = []
+        # Pre-calculate historical contributions for this fund
+        fund_historical_contribs_sets = []
         if len(original_ys) < min_total_length_for_gradient:
-            if trace_enabled: print(f"TRACE_GRADIENT: Fund: {fund_name} - Series too short ({len(original_ys)} < {min_total_length_for_gradient}) for {num_gradient_lookback_days}-day score gradient. Gradient will be NaN.", file=sys.stderr)
-            score_gradients_list_py.append(np.nan)
-            continue
-
-        for k in range(num_gradient_lookback_days):
-            historical_end_index = len(original_ys) - k
-            historical_series_segment = original_ys[:historical_end_index]
-
-            if len(historical_series_segment) < smallest_window_size:
-                 if trace_enabled: print(f"TRACE_GRADIENT: Fund: {fund_name}, HistDay D-{k} - Segment too short ({len(historical_series_segment)} < {smallest_window_size}) for score calc. Skipping score for this day.", file=sys.stderr)
-                 historical_scores_for_fund_py.append(np.nan)
-                 continue
-
-            baseline_val = historical_series_segment[-1]
-            renormalized_historical_segment = historical_series_segment - baseline_val
-
-            if trace_enabled:
-                series_to_print = renormalized_historical_segment[-10:] if len(renormalized_historical_segment) > 10 else renormalized_historical_segment
-                print(f"TRACE_GRADIENT: Fund: {fund_name}, HistDay D-{k} - Original segment len: {len(historical_series_segment)}, Renormalized segment (last 10 or all): {np.round(series_to_print,3).tolist()}", file=sys.stderr)
-
-            hist_score_py, _ = calculate_score_from_series_py(renormalized_historical_segment, py_windows, py_init_weights, fund_name, f"D-{k}")
-            historical_scores_for_fund_py.append(hist_score_py)
-
-        valid_historical_scores_py = [s for s in historical_scores_for_fund_py if np.isfinite(s)]
-        if trace_enabled: print(f"TRACE_GRADIENT: Fund: {fund_name} - Collected historical scores (D-0 to D-{num_gradient_lookback_days-1}): {[round(s,2) if np.isfinite(s) else 'NonFinite' for s in historical_scores_for_fund_py]}", file=sys.stderr)
-
-        if len(valid_historical_scores_py) == num_gradient_lookback_days:
-            gradient_slope_py, _ = np.polyfit(np.arange(num_gradient_lookback_days), valid_historical_scores_py[::-1], 1)
-            score_gradients_list_py.append(gradient_slope_py)
-            if trace_enabled: print(f"TRACE_GRADIENT: Fund: {fund_name} - Calculated {num_gradient_lookback_days}-day score gradient: {gradient_slope_py:.2f}", file=sys.stderr)
+            if trace_enabled: print(f"TRACE_GRADIENT_PRECALC: Fund: {fund_name} - Series too short ({len(original_ys)} < {min_total_length_for_gradient}) for {num_gradient_lookback_days}-day historical contributions. Will result in NaN gradient.", file=sys.stderr)
+            # Store empty lists or lists of zeros if not enough data, JS will handle it
+            for _ in range(num_gradient_lookback_days):
+                fund_historical_contribs_sets.append([0.0] * len(py_windows))
         else:
-            score_gradients_list_py.append(np.nan)
-            if trace_enabled: print(f"TRACE_GRADIENT: Fund: {fund_name} - Not enough valid historical scores ({len(valid_historical_scores_py)}/{num_gradient_lookback_days}) to calculate gradient. Gradient set to NaN.", file=sys.stderr)
+            for k in range(num_gradient_lookback_days):
+                historical_end_index = len(original_ys) - k
+                historical_series_segment = original_ys[:historical_end_index]
 
+                current_hist_contribs = [0.0] * len(py_windows) # Default to zeros
+                if len(historical_series_segment) >= smallest_window_size:
+                    baseline_val = historical_series_segment[-1]
+                    renormalized_historical_segment = historical_series_segment - baseline_val
+                    current_hist_contribs = get_window_contributions_py(renormalized_historical_segment, py_windows, fund_name, f"HIST_CONTRIBS_D-{k}")
+                elif trace_enabled:
+                    print(f"TRACE_GRADIENT_PRECALC: Fund: {fund_name}, HistDay D-{k} - Segment too short ({len(historical_series_segment)} < {smallest_window_size}) for contrib calc. Using zeros.", file=sys.stderr)
+                fund_historical_contribs_sets.append(current_hist_contribs)
+
+        historical_contributions_for_all_funds_js[fund_name] = fund_historical_contribs_sets
+
+    # Clean initial_scores_list_py before passing to Plotly
     cleaned_initial_scores_py = []
-    if trace_enabled: print(f"TRACE_MAIN_SCORE_CLEAN: Cleaning initial_scores_list_py (length {len(initial_scores_list_py)}).", file=sys.stderr)
+    if trace_enabled: print(f"TRACE_PY_INIT_SCORE_CLEAN: Cleaning initial_scores_list_py (length {len(initial_scores_list_py)}).", file=sys.stderr)
     for score_idx, score_val in enumerate(initial_scores_list_py):
         fund_name_for_trace_clean = output_fund_names[score_idx] if score_idx < len(output_fund_names) else "Unknown Fund"
         if not np.isfinite(score_val):
             cleaned_initial_scores_py.append(None)
             if trace_enabled:
-                print(f"TRACE_MAIN_SCORE_CLEAN: Fund: {fund_name_for_trace_clean} - Original score '{score_val}' was non-finite/NaN, set to None for plotting.", file=sys.stderr)
+                print(f"TRACE_PY_INIT_SCORE_CLEAN: Fund: {fund_name_for_trace_clean} - Original score '{score_val}' was non-finite/NaN, set to None for plotting.", file=sys.stderr)
         else:
             cleaned_initial_scores_py.append(score_val)
     initial_scores_list_py = cleaned_initial_scores_py
-    if trace_enabled: print(f"TRACE_MAIN_SCORE_CLEAN: Finished cleaning initial_scores_list_py.", file=sys.stderr)
+    if trace_enabled: print(f"TRACE_PY_INIT_SCORE_CLEAN: Finished cleaning initial_scores_list_py.", file=sys.stderr)
 
-    cleaned_score_gradients_py = []
-    if trace_enabled: print(f"TRACE_GRADIENT_CLEAN: Cleaning score_gradients_list_py (length {len(score_gradients_list_py)}).", file=sys.stderr)
-    for grad_idx, grad_val in enumerate(score_gradients_list_py):
-        fund_name_for_grad_clean = output_fund_names[grad_idx] if grad_idx < len(output_fund_names) else "Unknown Fund"
-        if not np.isfinite(grad_val):
-            cleaned_score_gradients_py.append(None)
-            if trace_enabled:
-                print(f"TRACE_GRADIENT_CLEAN: Fund: {fund_name_for_grad_clean} - Original gradient '{grad_val}' was non-finite/NaN, set to None for customdata.", file=sys.stderr)
-        else:
-            cleaned_score_gradients_py.append(grad_val)
-    score_gradients_list_py = cleaned_score_gradients_py
-    if trace_enabled: print(f"TRACE_GRADIENT_CLEAN: Finished cleaning score_gradients_list_py.", file=sys.stderr)
-
-    custom_data_for_plot_py = [[g] for g in score_gradients_list_py]
+    # Initial customdata is placeholder, JS will calculate and fill it.
+    initial_custom_data_py = [[None]] * len(output_fund_names)
 
     fig = go.Figure(go.Bar(
         x=output_fund_names,
         y=initial_scores_list_py,
-        customdata=custom_data_for_plot_py,
+        customdata=initial_custom_data_py, # Placeholder for gradient
         marker_color='steelblue',
         name='Fund Scores',
-        hovertemplate=(
+        hovertemplate=( # This will be updated by JS once gradient is calculated
             '<b>Fund:</b> %{x}<br>'
             '<b>Score:</b> %{y:.2f}<br>'
             f'<b>Score Trend ({num_gradient_lookback_days}d):</b> %{{customdata[0]:.2f}}<extra></extra>'
@@ -424,15 +393,15 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         f'<script>var figDataInit={fig_json};Plotly.newPlot("bar-chart",figDataInit.data,figDataInit.layout);</script>'
     )
 
-    slider_html = '<table style="margin:auto; width:90%; border-spacing: 5px;"><tr>' # Adjusted width for 8 sliders
+    slider_html = '<table style="margin:auto; width:90%; border-spacing: 5px;"><tr>'
     for i, w_days in enumerate(py_windows):
         period_name = py_period_label_map.get(w_days, f"{w_days}d")
         slider_html += (
-            '<td style="text-align:center; padding:8px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px; min-width:100px;">' # min-width for cell
+            '<td style="text-align:center; padding:8px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px; min-width:100px;">'
             f'<div>Window {w_days}d</div>'
             f'<div>{period_name}</div>'
             f'<div>Weight: <span id="v{i}" style="font-weight:bold;">{py_init_weights[i]:.1f}</span></div>'
-            f'<div><input id="w{i}" data-index="{i}" class="weight-slider" type="range" min="0" max="10" step="0.1" ' # Added class
+            f'<div><input id="w{i}" data-index="{i}" class="weight-slider" type="range" min="0" max="10" step="0.1" '
             f'value="{py_init_weights[i]:.1f}" style="width:100%;"></div></td>'
         )
     slider_html += '</tr></table>'
@@ -447,24 +416,52 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         '</div>'
     )
 
-    # Pass main_score_contributions_list_for_js to JavaScript
     js_data_script = f"""
 <script>
   const mainContributionsJS = {json.dumps(main_score_contributions_list_for_js)};
+  const historicalContributionsDataJS = {json.dumps(historical_contributions_for_all_funds_js)};
   const pyInitialWeightsJS = {json.dumps(py_init_weights)};
-  // For isolate/reset, we also need the original fund names and their static customdata (gradients)
   const allFundNamesJS = {json.dumps(output_fund_names)};
-  const staticCustomDataJS = {json.dumps(custom_data_for_plot_py)};
+  const numGradientLookbackDaysJS = {json.dumps(num_gradient_lookback_days)};
 </script>
 """
 
-    # Simplified JavaScript for updating scores based on weight sliders
-    # Gradient is static from Python, so JS does not recalculate it.
     main_js_logic = """
 <script>
   const weightSliders = Array.from(document.querySelectorAll('input.weight-slider'));
 
-  function updateScores() { // Renamed from recalculateScoresAndGradients
+  // Function to calculate score from a set of contributions and weights
+  function calculateScore(contributions, weights) {
+      if (!contributions || !Array.isArray(contributions)) return null;
+      let scoreSum = 0;
+      for (let i = 0; i < contributions.length; i++) {
+          const perfPoint = typeof contributions[i] === 'number' ? contributions[i] : 0;
+          scoreSum += perfPoint * weights[i];
+      }
+      return Number.isFinite(scoreSum) ? scoreSum : null;
+  }
+
+  // Function to calculate slope for gradient
+  function calculateSlope(y_values) {
+      if (!y_values || y_values.length < 2) return null;
+      const n = y_values.length;
+      const x_values = Array.from({length: n}, (_, i) => i); // 0, 1, 2...
+
+      let sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
+      for (let i = 0; i < n; i++) {
+          if (typeof y_values[i] !== 'number' || !Number.isFinite(y_values[i])) return null; // Need all points valid for slope
+          sum_x += x_values[i];
+          sum_y += y_values[i];
+          sum_xy += x_values[i] * y_values[i];
+          sum_xx += x_values[i] * x_values[i];
+      }
+      const denominator = (n * sum_xx - sum_x * sum_x);
+      if (denominator === 0) return null;
+      const slope = (n * sum_xy - sum_x * sum_y) / denominator;
+      return Number.isFinite(slope) ? slope : null;
+  }
+
+  function updateScoresAndGradients() {
     const currentWeights = weightSliders.map(el => parseFloat(el.value));
 
     // Update displayed weight values
@@ -473,26 +470,41 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         if (vElement) { vElement.textContent = val.toFixed(1); }
     });
 
-    // Recalculate Y scores using mainContributionsJS
-    const newYScores = mainContributionsJS.map(fundContribs => {
-      if (!fundContribs || !Array.isArray(fundContribs)) return null;
-      let scoreSum = 0;
-      for (let i = 0; i < fundContribs.length; i++) {
-        const perfPoint = typeof fundContribs[i] === 'number' ? fundContribs[i] : 0;
-        scoreSum += perfPoint * currentWeights[i];
-      }
-      return Number.isFinite(scoreSum) ? scoreSum : null;
+    let newYScores = [];
+    let newCustomData = []; // For gradients
+
+    allFundNamesJS.forEach((fundName, index) => {
+        // 1. Calculate Main Score
+        const fundMainContribs = mainContributionsJS[index];
+        const mainScore = calculateScore(fundMainContribs, currentWeights);
+        newYScores.push(mainScore);
+
+        // 2. Calculate Score Gradient
+        const fundHistContribSets = historicalContributionsDataJS[fundName];
+        let historicalScoresForGradient = [];
+        if (fundHistContribSets && fundHistContribSets.length === numGradientLookbackDaysJS) {
+            for (let i = 0; i < numGradientLookbackDaysJS; i++) {
+                const histContribsForDay = fundHistContribSets[i]; // These are [D0_contribs, D-1_contribs, ...]
+                const histScoreForDay = calculateScore(histContribsForDay, currentWeights);
+                historicalScoresForGradient.push(histScoreForDay);
+            }
+            // Ensure scores are in chronological order (D-N, ..., D-1, D0) for slope calculation
+            const gradient = calculateSlope(historicalScoresForGradient.slice().reverse());
+            newCustomData.push([gradient]);
+        } else {
+            newCustomData.push([null]); // Not enough data or sets for gradient
+        }
     });
 
-    // Only restyle Y values. Customdata (gradients) and hovertemplate are static from Python.
-    Plotly.restyle('bar-chart', {'y': [newYScores]}, [0]);
+    // Hovertemplate is static in this version, as gradient lookback is fixed
+    Plotly.restyle('bar-chart', {
+        'y': [newYScores],
+        'customdata': [newCustomData]
+    }, [0]);
   }
 
   weightSliders.forEach(slider => {
-    slider.addEventListener('input', () => {
-        // The displayed value 'v'+i is updated inside updateScores()
-        updateScores();
-    });
+    slider.addEventListener('input', updateScoresAndGradients);
     slider.addEventListener('wheel', function(event) {
       event.preventDefault();
       const step = parseFloat(slider.step) || 0.1;
@@ -503,22 +515,17 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
       else { currentValue -= step; }
       currentValue = Math.max(minVal, Math.min(maxVal, currentValue));
       slider.value = currentValue.toFixed(1);
-      // The displayed value 'v'+i is updated inside updateScores()
-      updateScores();
+      updateScoresAndGradients();
     });
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Set weight sliders to Python defaults. Displayed values will be set by the first call to updateScores().
     pyInitialWeightsJS.forEach((val, i) => {
         const slider = document.getElementById('w' + i);
-        if (slider) {
-            slider.value = val.toFixed(1);
-        }
+        if (slider) { slider.value = val.toFixed(1); }
+        // Displayed value 'v'+i will be set by the first call to updateScoresAndGradients
     });
-    // Initial graph is plotted by Python's fig_json which uses initial weights.
-    // Call updateScores to ensure slider display values are set and graph reflects slider defaults if they differ from fig_json.
-    updateScores();
+    updateScoresAndGradients(); // Initial calculation based on default weights
   });
 </script>
 """
@@ -538,55 +545,48 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     const selectedFundNames = Array.from(fundSelectElement_iso.selectedOptions).map(opt => opt.value);
     if (selectedFundNames.length === 0) {{ return; }}
 
-    const currentWeights_iso = weightSliders.map(el => parseFloat(el.value)); // weightSliders from main_js_logic
+    const currentWeights_iso = weightSliders.map(el => parseFloat(el.value));
 
     let isolatedXValues = [];
     let isolatedYScores = [];
-    let isolatedCustomData = []; // Will hold the static gradients for the isolated funds
+    let isolatedCustomData = [];
 
     selectedFundNames.forEach(name => {{
-        const originalIndex = allFundNamesJS.indexOf(name); // allFundNamesJS from js_data_script
+        const originalIndex = allFundNamesJS.indexOf(name);
         if (originalIndex !== -1) {{
             isolatedXValues.push(name);
 
-            const fundContribs = mainContributionsJS[originalIndex]; // mainContributionsJS from js_data_script
-            let currentScore = 0;
-            if (fundContribs) {{
-                 currentScore = fundContribs.reduce((sum, p, i) => sum + (typeof p === 'number' ? p : 0) * currentWeights_iso[i], 0);
+            // Calculate main score for isolated fund
+            const fundMainContribs_iso = mainContributionsJS[originalIndex];
+            const mainScore_iso = calculateScore(fundMainContribs_iso, currentWeights_iso); // calculateScore from main_js_logic
+            isolatedYScores.push(mainScore_iso);
+
+            // Calculate gradient for isolated fund
+            const fundHistContribSets_iso = historicalContributionsDataJS[name];
+            let historicalScoresForGradient_iso = [];
+            let gradient_iso = null;
+            if (fundHistContribSets_iso && fundHistContribSets_iso.length === numGradientLookbackDaysJS) {{
+                for (let i = 0; i < numGradientLookbackDaysJS; i++) {{
+                    const histScoreForDay_iso = calculateScore(fundHistContribSets_iso[i], currentWeights_iso);
+                    historicalScoresForGradient_iso.push(histScoreForDay_iso);
+                }}
+                gradient_iso = calculateSlope(historicalScoresForGradient_iso.slice().reverse()); // calculateSlope from main_js_logic
             }}
-            isolatedYScores.push(Number.isFinite(currentScore) ? currentScore : null);
-            isolatedCustomData.push(staticCustomDataJS[originalIndex]); // staticCustomDataJS from js_data_script
+            isolatedCustomData.push([gradient_iso]);
         }}
     }});
 
-    // Hovertemplate is static from Python fig, no need to update it here for static gradient version
     Plotly.restyle('bar-chart', {{
         'x': [isolatedXValues],
         'y': [isolatedYScores],
         'customdata': [isolatedCustomData]
-        // 'hovertemplate' is not changed as the lookback period is fixed
     }}, [0]);
   }});
 
   document.getElementById('reset').addEventListener('click', function() {{
     fundSelectElement_iso.selectedIndex = -1;
-    const currentWeights_iso = weightSliders.map(el => parseFloat(el.value));
-
-    const allRecalculatedScores = mainContributionsJS.map(fundContribs => {{
-        if (!fundContribs) return null;
-        let scoreSum = 0;
-        for (let i = 0; i < fundContribs.length; i++) {{
-            const perfPoint = typeof fundContribs[i] === 'number' ? perfPoint : 0;
-            scoreSum += perfPoint * currentWeights_iso[i];
-        }}
-        return Number.isFinite(scoreSum) ? scoreSum : null;
-    }});
-
-    Plotly.restyle('bar-chart', {{
-        'x': [allFundNamesJS],
-        'y': [allRecalculatedScores],
-        'customdata': [staticCustomDataJS]
-    }}, [0]);
+    // Recalculate for all funds using current weights
+    updateScoresAndGradients(); // This function now handles all updates
   }});
 </script>
 """
@@ -595,7 +595,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title>'
         '<style>body {{ font-family: Arial, sans-serif; }}</style></head><body>'
         '<h1 style="text-align:center; color:#333;">Fund Performance Dashboard</h1>'
-        '<h3 style="text-align:center; color:#555;">Adjust Scoring Weights</h3>' # Title changed back
+        '<h3 style="text-align:center; color:#555;">Adjust Scoring Weights</h3>'
         + slider_html
         + '<h3 style="text-align:center; margin-top:30px; color:#555;">Fund Scores Bar Chart</h3>'
         + body
@@ -805,3 +805,4 @@ if not use_stdin and not args.bar_mode and (htmls or internal_html):
         print(f"Generated index at {idxp}")
 elif not use_stdin and not args.bar_mode:
     print("No charts to include in master index.", file=sys.stderr)
+s
