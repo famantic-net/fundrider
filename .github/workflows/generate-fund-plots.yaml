@@ -40,6 +40,7 @@ jobs:
     - name: Run growth assessment script
       run: |
         python3 bin/fund_momentum_emailer.py > results/growth-recommendations.md
+        python3 bin/fund_momentum_emailer.py --email > results/growth-recommendations.html
 
     - name: Copy to GitHub Pages docs directory
       run: |
@@ -47,6 +48,7 @@ jobs:
         cp results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html docs/latest_fund_series_scores.html
         cp results/growth-recommendations.md docs/growth-recommendations.md
+        cp results/growth-recommendations.html docs/growth-recommendations.html
 
     - name: Commit and push if changed
       run: |
@@ -55,6 +57,7 @@ jobs:
         git add results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
         git add results/fund_series_scores.stdout.html docs/latest_fund_series_scores.html
         git add results/growth-recommendations.md docs/growth-recommendations.md
+        git add results/growth-recommendations.html docs/growth-recommendations.html
 
         if git diff --cached --quiet; then
           echo "No changes to commit"
@@ -101,6 +104,7 @@ jobs:
         cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html ../fundrider-pages/docs/latest_fund_series_scores.html
         cp results/growth-recommendations.md ../fundrider-pages/docs/growth-recommendations.md
+        cp results/growth-recommendations.html ../fundrider-pages/docs/growth-recommendations.html
 
         cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
         cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
@@ -121,7 +125,7 @@ jobs:
         cd ../fundrider-pages
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/growth-recommendations.md docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/fund_tables_concat.txt docs/tables/index.html
+        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/growth-recommendations.md docs/growth-recommendations.html docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/fund_tables_concat.txt docs/tables/index.html
 
         if git diff --cached --quiet; then
           echo "No changes to publish"
@@ -131,3 +135,23 @@ jobs:
         fi
       env:
         FUND_PAGES_DEPLOY_KEY: ${{ secrets.FUND_PAGES_DEPLOY_KEY }}
+
+    - name: Read HTML summary into output
+      id: get_summary
+      run: |
+        echo "summary_html<<EOF" >> $GITHUB_OUTPUT
+        cat results/growth-recommendations.html >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Send HTML results email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.SMTP_USER_0 }}
+        password: ${{ secrets.SMTP_PASS_0 }}
+        subject: "📊 Fundrider Daily Growth Recommendations"
+        html_body: ${{ steps.get_summary.outputs.summary_html }}
+        to: "fundrider@famantic.net"
+        from: "GitHub Fundrider Bot <nenads.jobmail@gmail.com>"
+        secure: true
