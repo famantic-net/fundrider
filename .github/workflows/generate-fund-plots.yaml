@@ -37,11 +37,16 @@ jobs:
       run: |
         python3 bin/interactive_fund_plot.gradient.py --bar -t tables -r :internal: > results/fund_series_scores.stdout.html 2>/dev/null
 
+    - name: Run growth assessment script
+      run: |
+        python3 bin/fund_momentum_emailer.py 2>/dev/null > results/growth-recommendations.md
+
     - name: Copy to GitHub Pages docs directory
       run: |
         mkdir -p docs
         cp results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html docs/latest_fund_series_scores.html
+        cp results/growth-recommendations.md docs/growth-recommendations.md
 
     - name: Commit and push if changed
       run: |
@@ -49,11 +54,12 @@ jobs:
         git config --global user.email "github-actions@github.com"
         git add results/fund_series_charts.stdout.html docs/latest_fund_series_charts.html
         git add results/fund_series_scores.stdout.html docs/latest_fund_series_scores.html
+        git add results/growth-recommendations.md docs/growth-recommendations.md
 
         if git diff --cached --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Update fund chart and scores HTML for $(date +%F)"
+          git commit -m "Update fund chart, scores HTML and growth recomendations for $(date +%F)"
           git push
         fi
 
@@ -66,7 +72,7 @@ jobs:
       with:
         tag_name: ${{ steps.get_date.outputs.date_tag }}
         name: "Fund Charts - ${{ steps.get_date.outputs.date_tag }}"
-        body: "Auto-generated fund chart and scores for ${{ steps.get_date.outputs.date_tag }}."
+        body: "Auto-generated fund chart, scores and growth recomendations for ${{ steps.get_date.outputs.date_tag }}."
         draft: false
         prerelease: false
       env:
@@ -80,6 +86,7 @@ jobs:
           tables/fund_tables.zip
           results/fund_series_charts.stdout.html
           results/fund_series_scores.stdout.html
+          results/growth-recommendations.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -93,6 +100,8 @@ jobs:
 
         cp results/fund_series_charts.stdout.html ../fundrider-pages/docs/latest_fund_series_charts.html
         cp results/fund_series_scores.stdout.html ../fundrider-pages/docs/latest_fund_series_scores.html
+        cp results/growth-recommendations.md ../fundrider-pages/docs/growth-recommendations.md
+
         cp tables/fund_tables.zip ../fundrider-pages/docs/tables/fund_tables.zip
         cp tables/fund_tables_*.csv ../fundrider-pages/docs/tables/
         cp tables/fund_tables_concat.txt ../fundrider-pages/docs/tables/fund_tables_concat.txt
@@ -112,7 +121,7 @@ jobs:
         cd ../fundrider-pages
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/fund_tables_concat.txt docs/tables/index.html
+        git add docs/latest_fund_series_charts.html docs/latest_fund_series_scores.html docs/growth-recommendations.md docs/tables/fund_tables.zip docs/tables/fund_tables_*.csv docs/tables/fund_tables_concat.txt docs/tables/index.html
 
         if git diff --cached --quiet; then
           echo "No changes to publish"
