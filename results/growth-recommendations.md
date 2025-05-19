@@ -1,5 +1,5 @@
 
-### Best Long-Term Growth Assessment (Top 20)
+### Best Long-Term Growth Assessment (Top 20) - 2025-05-19
 
 | Fund                                               | 2w   | 1m    | 2m    | 3m     | 6m     | 1y    | All Dates   |
 |:---------------------------------------------------|:-----|:------|:------|:-------|:-------|:------|:------------|
@@ -24,7 +24,7 @@
 | d&g global all cap                                 | 6.9% | 8.4%  | 1.2%  | -6.7%  | -6.0%  | -5.4% | 18.9%       |
 | lärarfond försiktig                                | 1.9% | 3.5%  | 0.0%  | 0.2%   | 0.0%   | 2.1%  | 18.3%       |
 
-### Best Lag-Adjusted Short-Term Assessment (Top 20)
+### Best Lag-Adjusted Short-Term Assessment (Top 20) - 2025-05-19
 
 | Fund                                               | 2w    | 1m    | 2m    | 3m     | 6m     | 1y     | All Dates   |
 |:---------------------------------------------------|:------|:------|:------|:-------|:-------|:-------|:------------|
