@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Files in /docs</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h1 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin: 0.5rem 0;
+    }
+    a {
+      text-decoration: none;
+      color: #0366d6;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Files in /docs</h1>
+  <ul id="file-list">
+    <li>Loading file list...</li>
+  </ul>
+
+  <script>
+    const username = "YOUR_USERNAME";
+    const repo = "YOUR_REPO";
+    const branch = "main"; // or "master" or your default branch
+    const path = "docs";
+
+    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`;
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch file list");
+        return response.json();
+      })
+      .then(files => {
+        const ul = document.getElementById("file-list");
+        ul.innerHTML = ""; // Clear placeholder
+
+        files.forEach(file => {
+          if (file.type === "file") {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = file.name;
+            a.textContent = file.name;
+            li.appendChild(a);
+            ul.appendChild(li);
+          }
+        });
+      })
+      .catch(error => {
+        const ul = document.getElementById("file-list");
+        ul.innerHTML = `<li>Error: ${error.message}</li>`;
+      });
+  </script>
+</body>
+</html>
