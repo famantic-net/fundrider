@@ -8,7 +8,7 @@ Supports:
 - Directory mode: Reads all fund_tables_<n>.csv in a directory, outputs individual HTMLs and a master index.
 - STDIN mode: Reads a single CSV from stdin if no -t provided, outputs one chart.
 - `-r :internal:` mode: Stores HTML in-memory (internal_html) and prints the master HTML to STDOUT.
-- `--bar`: Creates fund score performance chart
+- `--bar`: Creates fund score performance chart with change gradients
 
 # Description
 
@@ -31,6 +31,8 @@ The charts all converge to value 0 (zero) at the end which is the latest date. T
   - two years
 
   The weights can be adjusted interactively.
+
+  Each bar dispplays the fund score change gradient since 10 dates back.
 
 - -r
   Specifies directory where to store the fund charts, unless the word '`:internal:`' is given. If `-r` is omitted the fund charts will be written to the current directory.
@@ -70,7 +72,6 @@ The charts all converge to value 0 (zero) at the end which is the latest date. T
 
   `python3 bin/interactive_fund_plot.py --bar -t tables -r :internal: > results/fund_series_scores.stdout.html
 """
-
 import os
 import re
 import sys
@@ -183,9 +184,6 @@ def df_to_html(df, title=None, last_dates=None):
         # Ensure data is numeric
         series_data = pd.to_numeric(df[col], errors='coerce')
 
-        # Corrected custom_hover_data calculation as per user's update
-        # series_data (the y-value) is the log10 of the fractional change.
-        # To get percentage change: 10^y * 100
         custom_hover_data = 10 ** series_data * 100
 
         fig.add_trace(go.Scatter(
@@ -193,12 +191,12 @@ def df_to_html(df, title=None, last_dates=None):
             line=dict(width=2), hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
-                '<b>Value (log10):</b> %{y:.3f}<br>' # Displaying the direct log10 normalized value
-                '<b>Relative Change:</b> %{customdata:.1f}%<extra></extra>' # Displaying the calculated percentage
+                '<b>Value (log10):</b> %{y:.3f}<br>'
+                '<b>Relative Change:</b> %{customdata:.1f}%<extra></extra>'
             )
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
-                  yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'), # Clarified Y-axis title
+                  yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'),
                   xaxis=dict(title='Date'),
                   legend=dict(traceorder='normal'))
     if title: layout['title'] = dict(text=title, x=0.5, xanchor='center')
@@ -211,302 +209,509 @@ def df_to_html(df, title=None, last_dates=None):
     return html
 
 # Bar-chart mode function
-def bar_chart_mode(input_dir, output_dir, internal, trace_enabled): # Added trace_enabled parameter
+def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     import os, re, json, numpy as np, pandas as pd, plotly.graph_objs as go
-    # Adjusted window sizes to ~71.5% of original calendar days, rounded
-    # New window for 1.5 years (390 days) added
-    windows = [5, 10, 21, 64, 129, 261, 390, 522] # Original: [7,  14,  30,  90,  180,  365, 730]
-                                                  # New:      [5,  10,  21,  64,  129, 261, 390, 522] (approx 5/7ths for trading days)
-    # Default weights for each window's percentage change, new weight for 390d window added
-    init_weights = [0.3, 1.5, 2.5, 4, 3, 2, 1.5, 1]
-    # Mapping for slider period labels, new label for 390d window added
-    period_label_map = {
-        5: 'Week',
-        10: 'Fortnight',
-        21: 'Month',
-        64: 'Quarter',
-        129: 'Half year',
-        261: 'Year',
-        390: '1.5 years', # New label
-        522: '2 years'
+
+    py_windows = [5, 10, 21, 64, 129, 261, 390, 522]
+    py_init_weights = [0.3, 1.5, 2.5, 4, 3, 2, 1.5, 1]
+    py_period_label_map = {
+        5: 'Week', 10: 'Fortnight', 21: 'Month', 64: 'Quarter',
+        129: 'Half year', 261: 'Year', 390: '1.5 years', 522: '2 years'
     }
 
+    num_gradient_lookback_days = 10 # Static gradient lookback period for Python pre-calculation
+
+    # --- Helper function to calculate window contributions (Python version) ---
+    def get_window_contributions_py(ys_series, current_windows, fund_name_for_trace, context_label_for_trace):
+        pct_contributions = []
+        if not isinstance(ys_series, np.ndarray):
+            ys_series = np.array(ys_series)
+
+        for w_idx, w_val in enumerate(current_windows):
+            if trace_enabled and context_label_for_trace:
+                 print(f"PY_TRACE_CONTRIB: Fund: {fund_name_for_trace}, Context: {context_label_for_trace}, Window: {w_val}d - Series len: {len(ys_series)}", file=sys.stderr)
+
+            if len(ys_series) < w_val:
+                pct_contributions.append(0.0)
+            else:
+                m, _ = np.polyfit(np.arange(w_val), ys_series[-w_val:], 1)
+                raw_contrib = m * (w_val - 1) * 100
+
+                contrib = 0.0
+                if not np.isfinite(raw_contrib):
+                    contrib = 0.0
+                    if trace_enabled:
+                        print(f"PY_TRACE_CONTRIB_CLEAN: Fund: {fund_name_for_trace}, Context: {context_label_for_trace}, Window: {w_val}d - Slope(m): {m:.6f} non-finite raw_contrib ({raw_contrib}). Contrib set to 0.0", file=sys.stderr)
+                else:
+                    contrib = raw_contrib
+                pct_contributions.append(contrib)
+        return pct_contributions
+    # --- End Python Helper function ---
 
     pat = re.compile(r'fund_tables_(\d+)\.csv$')
-    funds, data = [], [] # funds stores fund names, data stores list of [pct_change_w1, pct_change_w2, ...] for each fund
-    # Ensure input_dir exists before listing files
+    all_funds_raw_log_series = {}
+
+    if trace_enabled: print(f"TRACE: Starting data aggregation from input directory: {input_dir}", file=sys.stderr)
     if not os.path.isdir(input_dir):
         print(f"Error: Input directory '{input_dir}' not found.", file=sys.stderr)
-        sys.exit(1) # Critical error, so exit
+        sys.exit(1)
 
     for fname in sorted(f for f in os.listdir(input_dir) if pat.match(f)):
+        if trace_enabled: print(f"TRACE: Processing file: {fname}", file=sys.stderr)
         try:
-            # Read CSV using common options defined globally
             df_temp = pd.read_csv(os.path.join(input_dir, fname), **df_kwargs)
             if df_temp.empty:
-                # Warning if CSV is empty or becomes empty after skipping initial rows
                 if trace_enabled: print(f"TRACE: File: {fname} - CSV empty or no data after skiprows. Skipping.", file=sys.stderr)
-                print(f"Warning: CSV file {fname} is empty or has no data after skiprows. Skipping.", file=sys.stderr)
                 continue
-            # Rename the first column (assumed to be date) to 'Date'
-            df_temp.rename(columns={df_temp.columns[0]: 'Date'}, inplace=True)
-            # Set 'Date' column as index for easier time-series operations
-            df_temp.set_index('Date', inplace=True)
 
-            # Iterate through each column (each fund series) in the CSV
-            for col in df_temp.columns:
-                if col.startswith('Unnamed:'): # Skip any unnamed columns that might exist
-                    if trace_enabled: print(f"TRACE: File: {fname}, Column: {col} - Skipping unnamed column.", file=sys.stderr)
-                    continue
-                # Convert column data to numeric, coercing errors to NaN, then drop NaNs
-                # These are the 'ys' values for regression.
-                # IMPORTANT: For bar_chart_mode, the 'ys' values are the direct normalized values from CSV
-                # which are log10(fractional_change). The regression is done on these log10 values.
-                # The percentage contribution is then derived from the slope of this log-space regression.
-                ys = pd.to_numeric(df_temp[col], errors='coerce').dropna().values
-                if len(ys) == 0: # Skip if column becomes empty after coerce/dropna (e.g., all non-numeric)
-                    if trace_enabled: print(f"TRACE: File: {fname}, Fund: {col} - No numeric data after cleaning (ys length is 0). Skipping fund.", file=sys.stderr)
-                    print(f"Warning: Column '{col}' in {fname} has no numeric data after cleaning. Skipping.", file=sys.stderr)
-                    continue
-
-                pct = [] # List to store percentage changes for the current fund across different windows
-                for w_idx, w in enumerate(windows): # Iterate through each defined window size (e.g., 5 days, 10 days, ...)
+            for col_name_raw in df_temp.columns:
+                col_name = str(col_name_raw).strip()
+                if (col_name.lower() in ['date', 'datum', '#'] or \
+                    col_name.startswith('Unnamed:') or \
+                    not col_name):
                     if trace_enabled:
-                        print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Checking data points. Available ys length: {len(ys)}", file=sys.stderr)
+                        print(f"TRACE_AGGREGATION: File: {fname}, Column: '{col_name_raw}' (stripped: '{col_name}') - Skipping (date/unnamed/placeholder/empty).", file=sys.stderr)
+                    continue
 
-                    if len(ys) < w:
-                        # If fund history is shorter than the window, append 0 change
-                        pct.append(0)
-                        if trace_enabled:
-                            print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Insufficient data points ({len(ys)} < {w}). Contribution set to 0.", file=sys.stderr)
-                    else:
-                        # Perform linear regression on the last 'w' data points (which are log10 values)
-                        m, _ = np.polyfit(np.arange(w), ys[-w:], 1) # m is slope in log10 space
-
-                        # To calculate the equivalent percentage change from a slope in log10 space:
-                        # The change in y (log10 value) over the window is m * (w-1)
-                        # If y_start is log10(V_start) and y_end is log10(V_end)
-                        # m * (w-1) = y_end - y_start = log10(V_end) - log10(V_start) = log10(V_end / V_start)
-                        # So, V_end / V_start = 10**(m * (w-1))
-                        # Percentage change = ((V_end / V_start) - 1) * 100
-                        # Or, if V_start is the reference (normalized to 1 for relative change calc),
-                        # then V_end itself represents the factor of change.
-                        # The user's initial description of the bar chart calculation was:
-                        # "Linear regression slope factor ... based on that slope factor, a number in percent for the relative change"
-                        # "pct.append(m * (w - 1) * 100)"
-                        # This implies 'm' was treated as a direct slope of *percentage points* or fractional change per day.
-                        # If 'ys' are log10 values, then 'm' is log10(change_factor_per_day).
-                        # Let's stick to the user's original formula for percentage contribution in bar chart mode,
-                        # assuming the linear regression on log-values and then multiplying by 100 is the desired metric,
-                        # even if it's not a direct percentage in the typical sense without anti-log.
-                        # The user's formula: "pct.append(m * (w - 1) * 100)"
-                        # This means the "percentage" is slope_in_log_space * number_of_intervals * 100.
-                        # This will be a "log-percentage-points" style metric.
-                        current_pct_contribution = m * (w - 1) * 100
-                        pct.append(current_pct_contribution)
-
-                        if trace_enabled:
-                            print(f"TRACE: File: {fname}, Fund: {col}, Window: {w}d - Sufficient data points ({len(ys)} >= {w}). Calculated slope (m_log_space): {m:.6f}, Contribution (as per formula m*(w-1)*100): {current_pct_contribution:.2f}", file=sys.stderr)
-                funds.append(col) # Add fund name
-                data.append(pct)  # Add list of percentage changes for this fund
+                current_ys = pd.to_numeric(df_temp[col_name_raw], errors='coerce').dropna().values
+                if len(current_ys) > 0:
+                    all_funds_raw_log_series[col_name] = current_ys
+                    if trace_enabled: print(f"TRACE_AGGREGATION: Fund: {col_name} from {fname} - Stored/Updated raw log series. Length: {len(current_ys)}", file=sys.stderr)
+                elif trace_enabled:
+                     print(f"TRACE_AGGREGATION: Fund: {col_name} from {fname} - No numeric data after cleaning. Skipping fund series.", file=sys.stderr)
         except Exception as e:
-            # Catch any other errors during file processing
             if trace_enabled: print(f"TRACE: File: {fname} - Error during processing: {e}", file=sys.stderr)
             print(f"Error processing file {fname}: {e}", file=sys.stderr)
-            continue # Skip to the next file
+            continue
 
-    if not funds: # Check if any fund data was successfully processed
-        if trace_enabled: print(f"TRACE: No valid fund data collected from {input_dir}. Exiting bar chart mode.", file=sys.stderr)
+    if not all_funds_raw_log_series:
+        if trace_enabled: print(f"TRACE: No valid fund data collected from any CSVs in {input_dir}. Exiting bar chart mode.", file=sys.stderr)
         print(f"No valid fund data collected from {input_dir}. Exiting bar chart mode.", file=sys.stderr)
-        return # Use return if called as a function, or sys.exit if standalone script section
+        return
 
-    # Calculate initial scores for each fund based on default weights
-    # Each 'row' in 'data' is a list of percentage changes for a fund (now 8 elements long)
-    # Each 'p' is a percentage change, each 'w_val' is its corresponding weight
-    scores = [sum(p * w_val for p,w_val in zip(row, init_weights)) for row in data]
+    if trace_enabled: print(f"TRACE: Data aggregation complete. Total unique funds found: {len(all_funds_raw_log_series)}", file=sys.stderr)
 
-    # Prepare list of funds for dropdown, excluding any "Unnamed" columns that might have slipped through (safety)
-    dropdown_funds = sorted([f for f in funds if not f.startswith('Unnamed:')])
+    sorted_fund_names = sorted(all_funds_raw_log_series.keys())
+    if trace_enabled: print(f"TRACE: Fund names sorted alphabetically for processing.", file=sys.stderr)
 
-    # Create the initial bar chart figure
-    fig = go.Figure(go.Bar(x=funds, y=scores, marker_color='steelblue', name='Fund Scores')) # x should be all original funds for initial plot
+    output_fund_names = []
+    main_score_contributions_list_for_js = []
+    initial_scores_list_py = []
+    initial_gradients_list_py = []
+    historical_contributions_for_all_funds_js = {}
+
+    smallest_window_size = py_windows[0] if py_windows else 5
+    min_total_length_for_gradient = smallest_window_size + (num_gradient_lookback_days - 1)
+
+    for fund_idx, fund_name in enumerate(sorted_fund_names):
+        original_ys = all_funds_raw_log_series[fund_name]
+        if trace_enabled: print(f"TRACE: Fund: {fund_name} (Sorted Index: {fund_idx}) - Processing for initial scores and historical contributions.", file=sys.stderr)
+        output_fund_names.append(fund_name)
+
+        main_contributions_py = get_window_contributions_py(original_ys, py_windows, fund_name, "MAIN_CONTRIBS_FOR_JS")
+        main_score_contributions_list_for_js.append(main_contributions_py)
+
+        initial_main_score_py = sum(p * wt for p, wt in zip(main_contributions_py, py_init_weights))
+        if not np.isfinite(initial_main_score_py): initial_main_score_py = 0.0
+        initial_scores_list_py.append(initial_main_score_py)
+
+        if trace_enabled:
+            print(f"TRACE_MAIN_SCORE: Fund: {fund_name} - Main Contributions: {[round(p,2) for p in main_contributions_py]}, Initial Main Score (default weights): {initial_main_score_py:.2f}", file=sys.stderr)
+
+        fund_historical_contrib_sets_for_js = []
+        if len(original_ys) < min_total_length_for_gradient:
+            if trace_enabled: print(f"TRACE_GRADIENT_PRECALC_JS: Fund: {fund_name} - Series too short for historical contribs. Will use zeros.", file=sys.stderr)
+            for _ in range(num_gradient_lookback_days):
+                fund_historical_contrib_sets_for_js.append([0.0] * len(py_windows))
+        else:
+            for k in range(num_gradient_lookback_days):
+                historical_end_index = len(original_ys) - k
+                historical_series_segment = original_ys[:historical_end_index]
+                current_hist_contribs = [0.0] * len(py_windows)
+                if len(historical_series_segment) >= smallest_window_size:
+                    baseline_val = historical_series_segment[-1]
+                    renormalized_historical_segment = historical_series_segment - baseline_val
+                    current_hist_contribs = get_window_contributions_py(renormalized_historical_segment, py_windows, fund_name, f"HIST_CONTRIBS_FOR_JS_D-{k}")
+                fund_historical_contrib_sets_for_js.append(current_hist_contribs)
+        historical_contributions_for_all_funds_js[fund_name] = fund_historical_contrib_sets_for_js
+
+        initial_historical_scores_for_gradient = []
+        if len(original_ys) >= min_total_length_for_gradient:
+            for k_init_grad in range(num_gradient_lookback_days):
+                hist_contribs_for_day = fund_historical_contrib_sets_for_js[k_init_grad]
+                hist_score_for_day = sum(p_hist * wt_init for p_hist, wt_init in zip(hist_contribs_for_day, py_init_weights))
+                initial_historical_scores_for_gradient.append(hist_score_for_day if np.isfinite(hist_score_for_day) else 0.0)
+
+            valid_initial_hist_scores = [s for s in initial_historical_scores_for_gradient if np.isfinite(s)]
+            if len(valid_initial_hist_scores) == num_gradient_lookback_days:
+                initial_gradient_slope, _ = np.polyfit(np.arange(num_gradient_lookback_days), valid_initial_hist_scores[::-1], 1)
+                initial_gradients_list_py.append(initial_gradient_slope)
+            else:
+                initial_gradients_list_py.append(np.nan)
+        else:
+            initial_gradients_list_py.append(np.nan)
+
+    cleaned_initial_scores_py = []
+    for score_val in initial_scores_list_py:
+        cleaned_initial_scores_py.append(None if not np.isfinite(score_val) else score_val)
+    initial_scores_list_py = cleaned_initial_scores_py
+
+    cleaned_initial_gradients_py = []
+    for grad_val in initial_gradients_list_py:
+        cleaned_initial_gradients_py.append(None if not np.isfinite(grad_val) else grad_val)
+
+    custom_data_for_plot_py = []
+    for i in range(len(output_fund_names)):
+        grad_val = cleaned_initial_gradients_py[i] if i < len(cleaned_initial_gradients_py) else None
+        custom_data_for_plot_py.append([grad_val])
+
+
+    fig = go.Figure(go.Bar(
+        x=output_fund_names,
+        y=initial_scores_list_py,
+        customdata=custom_data_for_plot_py,
+        marker_color='steelblue',
+        name='Fund Scores',
+        hovertemplate=(
+            '<b>Fund:</b> %{x}<br>'
+            '<b>Score:</b> %{y:.2f}<br>'
+            f'<b>Score Trend ({num_gradient_lookback_days}d):</b> %{{customdata[0]:.2f}}<extra></extra>'
+        )
+    ))
     fig.update_layout(
         title='Current fund performance', template='plotly_white', height=600,
-        xaxis=dict(showticklabels=False, title='Funds (Scroll/Isolate to see names)'), # Hide individual fund names on x-axis initially for clarity
-        yaxis=dict(title='Score'), barmode='group' # Group barmode (though only one trace here, good practice)
+        xaxis=dict(showticklabels=False, title='Funds (Scroll/Isolate to see names)'),
+        yaxis=dict(title='Score', autorange=True, type='linear'),
+        barmode='group'
     )
-    fig_dict = fig.to_dict() # Convert Plotly figure to dictionary for JSON serialization
-    fig_json = json.dumps(fig_dict) # Serialize to JSON string to embed in HTML/JS
+    fig_dict = fig.to_dict()
+    def clean_fig_dict_infs_nans(obj):
+        if isinstance(obj, dict):
+            return {k: clean_fig_dict_infs_nans(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [clean_fig_dict_infs_nans(elem) for elem in obj]
+        elif isinstance(obj, float) and not np.isfinite(obj):
+            return None
+        return obj
 
-    # HTML for the bar chart div
+    cleaned_fig_dict = clean_fig_dict_infs_nans(fig_dict)
+    fig_json = json.dumps(cleaned_fig_dict)
+
     body = (
         '<div id="bar-chart" style="width:100%; height:600px; margin-bottom:30px;"></div>'
-        '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>' # Include Plotly.js CDN
-        f'<script>var figDataInit={fig_json};Plotly.newPlot("bar-chart",figDataInit.data,figDataInit.layout);</script>' # Initialize chart
+        '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>'
+        f'<script>var figDataInit={fig_json};Plotly.newPlot("bar-chart",figDataInit.data,figDataInit.layout);</script>'
     )
 
-    # HTML for weight adjustment sliders
-    # The table width might need adjustment if it gets too crowded with 8 sliders.
-    slider_html = '<table style="margin:auto; width:90%; border-spacing: 5px;"><tr>' # Increased width, reduced spacing
-    for i, w_days in enumerate(windows): # w_days is the window size in days
-        period_name = period_label_map.get(w_days, f"{w_days}d") # Get descriptive name or default to days
+    slider_html = '<table style="margin:auto; width:90%; border-spacing: 5px;"><tr>'
+    for i, w_days in enumerate(py_windows):
+        period_name = py_period_label_map.get(w_days, f"{w_days}d")
         slider_html += (
-            '<td style="text-align:center; padding:8px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px;">' # Reduced padding
-            # Label for slider using the actual day count from the 'windows' list
+            '<td style="text-align:center; padding:8px; vertical-align:top; border: 1px solid #ddd; border-radius: 5px; min-width:100px;">'
             f'<div>Window {w_days}d</div>'
-            f'<div>{period_name}</div>' # New line for descriptive period name
-            f'<div>Weight: <span id="v{i}" style="font-weight:bold;">{init_weights[i]:.1f}</span></div>' # Display current weight value
-            # Input range slider
-            f'<div><input id="w{i}" data-index="{i}" type="range" min="0" max="10" step="0.1" '
-            f'value="{init_weights[i]:.1f}" style="width:100%;"></div></td>'
+            f'<div>{period_name}</div>'
+            f'<div>Weight: <span id="v{i}" style="font-weight:bold;">{py_init_weights[i]:.1f}</span></div>'
+            f'<div><input id="w{i}" data-index="{i}" class="weight-slider" type="range" min="0" max="10" step="0.1" '
+            f'value="{py_init_weights[i]:.1f}" style="width:100%;"></div></td>'
         )
     slider_html += '</tr></table>'
 
-    # HTML for fund selection dropdown and isolate/reset buttons
-    select_html = (
-        '<div style="text-align:center; margin:20px 0;">'
-        # Multiple select box for funds
-        f'<select id="fund-select" multiple size="{min(len(dropdown_funds), 10)}" '
-        'style="width:300px; height:200px; overflow-y:auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;"></select><br/>'
-        # Buttons for isolating selected funds or resetting view
-        '<button id="isolate" style="margin:10px 5px; padding: 8px 15px; border-radius:5px; background-color:#4CAF50; color:white; border:none; cursor:pointer;">Isolate</button>'
-        '<button id="reset" style="margin:10px 5px; padding: 8px 15px; border-radius:5px; background-color:#f44336; color:white; border:none; cursor:pointer;">Reset</button>'
+    dropdown_funds_for_select = sorted(output_fund_names)
+    controls_and_table_html = (
+        '<div style="display: flex; justify-content: space-around; margin: 20px 0; align-items: flex-start; flex-wrap: wrap;">'
+        '  <div id="fund-isolation-controls" style="flex: 1; min-width: 320px; padding:10px;">'
+        '    <h3 style="text-align:center; color:#555;">Isolate Funds</h3>'
+        f'   <select id="fund-select" multiple size="{min(len(dropdown_funds_for_select), 10)}" '
+        '    style="width:100%; height:200px; overflow-y:auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;"></select><br/>'
+        '    <div style="text-align:center; margin-top:10px;">'
+        '      <button id="isolate" style="margin:5px; padding: 8px 15px; border-radius:5px; background-color:#4CAF50; color:white; border:none; cursor:pointer;">Isolate</button>'
+        '      <button id="reset" style="margin:5px; padding: 8px 15px; border-radius:5px; background-color:#f44336; color:white; border:none; cursor:pointer;">Reset</button>'
+        '    </div>'
+        '  </div>'
+        '  <div id="dynamic-fund-table-container" style="flex: 1.5; min-width: 400px; padding:10px;">'
+        '    <h3 style="text-align:center; color:#555;">Top Funds</h3>'
+        '  </div>'
         '</div>'
     )
 
-    # JavaScript for dynamic score updates based on slider changes (including scroll wheel)
-    post_js = f"""
+    js_data_script = f"""
 <script>
-  // Pass Python 'data' (list of lists of percentage changes) to JavaScript
-  const percDataForPostJs = {json.dumps(data)};
-  // Get all weight input slider elements
-  const weightInputsForPostJs = Array.from(document.querySelectorAll('input[id^="w"]'));
-
-  function updateScoresOnWeightChange() {{
-    // Get current values from all weight sliders
-    const currentWeights = weightInputsForPostJs.map(el => parseFloat(el.value));
-    // Update the displayed weight values next to sliders
-    currentWeights.forEach((val,i) => {{
-        const vElement = document.getElementById('v'+i); // Span element for weight value
-        if (vElement) {{ // Check if element exists
-            vElement.textContent = val.toFixed(1); // Display with one decimal place
-        }}
-    }});
-    // Recalculate scores for all funds using new weights
-    const newYScores = percDataForPostJs.map(fundPerformanceRow =>
-      fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
-    );
-    // Update the 'y' values (scores) of the bar chart
-    Plotly.restyle('bar-chart', 'y', [newYScores]);
-  }}
-
-  weightInputsForPostJs.forEach(slider => {{
-    // Event listener for 'input' (when slider is dragged or value changed via code that triggers input)
-    slider.addEventListener('input', updateScoresOnWeightChange);
-
-    // Event listener for 'wheel' (mouse scroll over slider)
-    slider.addEventListener('wheel', function(event) {{
-      event.preventDefault(); // Prevent page from scrolling
-
-      const step = parseFloat(slider.step) || 0.1; // Get step from slider attribute, default to 0.1
-      let currentValue = parseFloat(slider.value);
-      const minVal = parseFloat(slider.min) || 0;   // Get min from slider attribute, default to 0
-      const maxVal = parseFloat(slider.max) || 10;  // Get max from slider attribute, default to 10
-
-      if (event.deltaY < 0) {{ // Wheel up increases value
-        currentValue += step;
-      }} else {{ // Wheel down decreases value
-        currentValue -= step;
-      }}
-
-      // Clamp value to be within min/max range of the slider
-      currentValue = Math.max(minVal, Math.min(maxVal, currentValue));
-
-      slider.value = currentValue.toFixed(1); // Update slider's actual value (toFixed for precision)
-
-      // Manually trigger the update function because changing .value programmatically doesn't fire 'input' event
-      updateScoresOnWeightChange();
-    }});
-  }});
-  // Initial scores are set by Plotly.newPlot using figDataInit.
-  // No explicit call to updateScoresOnWeightChange() is needed here at load time.
+  const mainContributionsJS = {json.dumps(main_score_contributions_list_for_js)};
+  const historicalContributionsDataJS = {json.dumps(historical_contributions_for_all_funds_js)};
+  const pyInitialWeightsJS = {json.dumps(py_init_weights)};
+  const allFundNamesJS = {json.dumps(output_fund_names)}; // Sorted
+  const numGradientLookbackDaysJS = {json.dumps(num_gradient_lookback_days)};
+  // initialGradientsFromPython is not explicitly used here anymore as JS recalculates gradients
 </script>
 """
-    # JavaScript for fund isolation functionality
+
+    main_js_logic = """
+<script>
+  const weightSliders = Array.from(document.querySelectorAll('input.weight-slider'));
+  let currentSortColumn = 'score';
+  let currentSortAscending = false;
+  let currentlyIsolatedFundNames = null; // To store isolated fund names
+
+  function calculateScore(contributions, weights) {
+      if (!contributions || !Array.isArray(contributions)) return null;
+      let scoreSum = 0;
+      for (let i = 0; i < contributions.length; i++) {
+          const perfPoint = typeof contributions[i] === 'number' ? contributions[i] : 0;
+          scoreSum += perfPoint * weights[i];
+      }
+      return Number.isFinite(scoreSum) ? scoreSum : null;
+  }
+
+  function calculateSlope(y_values) {
+      if (!y_values || y_values.length < 2) return null;
+      const n = y_values.length;
+      const x_values = Array.from({length: n}, (_, i) => i);
+
+      let sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
+      let validPoints = 0;
+      for (let i = 0; i < n; i++) {
+          if (typeof y_values[i] === 'number' && Number.isFinite(y_values[i])) {
+              sum_x += x_values[i];
+              sum_y += y_values[i];
+              sum_xy += x_values[i] * y_values[i];
+              sum_xx += x_values[i] * x_values[i];
+              validPoints++;
+          }
+      }
+      if (validPoints < 2) return null;
+
+      const denominator = (validPoints * sum_xx - sum_x * sum_x);
+      if (denominator === 0) return null;
+      const slope = (validPoints * sum_xy - sum_x * sum_y) / denominator;
+      return Number.isFinite(slope) ? slope : null;
+  }
+
+  function renderDynamicTable(fundDataToDisplay) {
+    const tableContainer = document.getElementById('dynamic-fund-table-container');
+    const existingTitle = tableContainer.querySelector('h3'); // Preserve title
+    tableContainer.innerHTML = '';
+    if(existingTitle) tableContainer.appendChild(existingTitle);
+
+
+    if (!fundDataToDisplay || fundDataToDisplay.length === 0) {
+        const p = document.createElement('p');
+        p.textContent = 'No funds to display.';
+        p.style.textAlign = 'center';
+        tableContainer.appendChild(p);
+        return;
+    }
+
+    fundDataToDisplay.sort((a, b) => {
+        let valA = currentSortColumn === 'score' ? a.score : a.gradient;
+        let valB = currentSortColumn === 'score' ? b.score : b.gradient;
+
+        valA = (valA === null || isNaN(valA)) ? (currentSortAscending ? Infinity : -Infinity) : valA;
+        valB = (valB === null || isNaN(valB)) ? (currentSortAscending ? Infinity : -Infinity) : valB;
+
+        if (valA < valB) return currentSortAscending ? -1 : 1;
+        if (valA > valB) return currentSortAscending ? 1 : -1;
+        return 0;
+    });
+
+    const top20Data = fundDataToDisplay.slice(0, 20);
+
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.marginTop = '10px';
+
+    const thead = table.createTHead();
+    const headerRow = thead.insertRow();
+    const headers = [
+        {text: 'Fund Name', key: 'name'},
+        {text: 'Fund Score', key: 'score'},
+        {text: 'Fund Score Gradient (' + numGradientLookbackDaysJS + 'd)', key: 'gradient'}
+    ];
+
+    headers.forEach(headerInfo => {
+        const th = document.createElement('th');
+        th.textContent = headerInfo.text;
+        th.style.border = '1px solid #ddd';
+        th.style.padding = '8px';
+        th.style.textAlign = 'left';
+        th.style.backgroundColor = '#f0f0f0';
+        th.style.fontWeight = 'bold';
+        if (headerInfo.key === 'score' || headerInfo.key === 'gradient') {
+            th.style.cursor = 'pointer';
+            th.addEventListener('click', () => {
+                if (currentSortColumn === headerInfo.key) {
+                    currentSortAscending = !currentSortAscending;
+                } else {
+                    currentSortColumn = headerInfo.key;
+                    currentSortAscending = false;
+                }
+                updateScoresAndGradients();
+            });
+            if (currentSortColumn === headerInfo.key) {
+                th.style.fontStyle = 'italic';
+                th.innerHTML += currentSortAscending ? ' &uarr;' : ' &darr;';
+            }
+        }
+        headerRow.appendChild(th);
+    });
+
+    const tbody = table.createTBody();
+    top20Data.forEach(fund => {
+        const row = tbody.insertRow();
+        const cellName = row.insertCell();
+        cellName.textContent = fund.name;
+        cellName.style.border = '1px solid #ddd';
+        cellName.style.padding = '8px';
+
+        const cellScore = row.insertCell();
+        cellScore.textContent = fund.score !== null && !isNaN(fund.score) ? fund.score.toFixed(2) : 'N/A';
+        cellScore.style.border = '1px solid #ddd';
+        cellScore.style.padding = '8px';
+        cellScore.style.textAlign = 'right';
+
+        const cellGradient = row.insertCell();
+        cellGradient.textContent = fund.gradient !== null && !isNaN(fund.gradient) ? fund.gradient.toFixed(2) : 'N/A';
+        cellGradient.style.border = '1px solid #ddd';
+        cellGradient.style.padding = '8px';
+        cellGradient.style.textAlign = 'right';
+    });
+    tableContainer.appendChild(table);
+  }
+
+
+  function updateScoresAndGradients(fundNamesToProcessARG = null) {
+    const currentWeights = weightSliders.map(el => parseFloat(el.value));
+
+    currentWeights.forEach((val,i) => {
+        const vElement = document.getElementById('v'+i);
+        if (vElement) { vElement.textContent = val.toFixed(1); }
+    });
+
+    let newYScores = [];
+    let newCustomData = [];
+    let tableDataPayload = [];
+    // Determine which set of fund names to use
+    let currentFundNamesForProcessing = fundNamesToProcessARG ? fundNamesToProcessARG : (currentlyIsolatedFundNames || allFundNamesJS);
+
+
+    currentFundNamesForProcessing.forEach(fundName => {
+        const originalIndex = allFundNamesJS.indexOf(fundName);
+        if (originalIndex === -1) return;
+
+        const fundMainContribs = mainContributionsJS[originalIndex];
+        const mainScore = calculateScore(fundMainContribs, currentWeights);
+
+        // Only add to newYScores and newCustomData if we are processing *all* funds for the chart,
+        // or if the current fund is in the isolated list (which is already handled by currentFundNamesForProcessing)
+        if (!fundNamesToProcessARG || fundNamesToProcessARG.includes(fundName)) {
+             newYScores.push(mainScore);
+        }
+
+
+        const fundHistContribSets = historicalContributionsDataJS[fundName];
+        let historicalScoresForGradient = [];
+        let gradient = null;
+
+        if (fundHistContribSets && fundHistContribSets.length === numGradientLookbackDaysJS) {
+            for (let i = 0; i < numGradientLookbackDaysJS; i++) {
+                const histContribsForDay = fundHistContribSets[i];
+                const histScoreForDay = calculateScore(histContribsForDay, currentWeights);
+                historicalScoresForGradient.push(histScoreForDay);
+            }
+            gradient = calculateSlope(historicalScoresForGradient.slice().reverse());
+        }
+        if (!fundNamesToProcessARG || fundNamesToProcessARG.includes(fundName)) {
+            newCustomData.push([gradient]);
+        }
+        tableDataPayload.push({name: fundName, score: mainScore, gradient: gradient});
+    });
+
+    const updateData = {};
+    // If fundNamesToProcessARG is null, we are updating all funds (e.g. on weight change or reset)
+    // If fundNamesToProcessARG is provided, we are isolating.
+    updateData.x = [currentFundNamesForProcessing];
+    updateData.y = [newYScores]; // newYScores is already filtered if isolated
+    updateData.customdata = [newCustomData]; // newCustomData is already filtered if isolated
+
+    Plotly.restyle('bar-chart', updateData, [0]);
+
+    renderDynamicTable(tableDataPayload);
+  }
+
+  weightSliders.forEach(slider => {
+    slider.addEventListener('input', () => updateScoresAndGradients());
+    slider.addEventListener('wheel', function(event) {
+      event.preventDefault();
+      const step = parseFloat(slider.step) || 0.1;
+      let currentValue = parseFloat(slider.value);
+      const minVal = parseFloat(slider.min) || 0;
+      const maxVal = parseFloat(slider.max) || 10;
+      if (event.deltaY < 0) { currentValue += step; }
+      else { currentValue -= step; }
+      currentValue = Math.max(minVal, Math.min(maxVal, currentValue));
+      slider.value = currentValue.toFixed(1);
+      updateScoresAndGradients();
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    pyInitialWeightsJS.forEach((val, i) => {
+        const slider = document.getElementById('w' + i);
+        if (slider) { slider.value = val.toFixed(1); }
+    });
+    updateScoresAndGradients();
+  });
+</script>
+"""
+
     isolate_js = f"""
 <script>
-  // Pass Python 'funds' (original list of all fund names) and 'data' to JavaScript
-  const allOriginalFunds = {json.dumps(funds)};
-  const fundsForDropdown = {json.dumps(dropdown_funds)}; // Sorted list for the select element
-  const percDataForIsolate = {json.dumps(data)}; // Same as percDataForPostJs if in same scope
+  const fundSelectElement_iso = document.getElementById('fund-select');
+  const fundsForDropdownIsolate_iso = {json.dumps(dropdown_funds_for_select)}; // Already sorted
 
-  const fundSelectElement = document.getElementById('fund-select');
-  // weightInputsForPostJs is already defined if post_js is included before this.
-  // If these scripts were separate, it would need to be re-selected.
-
-  // Populate the dropdown select element with fund names
-  fundsForDropdown.forEach(fundName => {{
+  fundsForDropdownIsolate_iso.forEach(fundName => {{
     const optionElement = document.createElement('option');
-    optionElement.value = fundName;
-    optionElement.text = fundName;
-    fundSelectElement.appendChild(optionElement);
+    optionElement.value = fundName; optionElement.text = fundName;
+    fundSelectElement_iso.appendChild(optionElement);
   }});
 
-  function calculateAllCurrentScores() {{
-    // Use weightInputsForPostJs as it's the one tied to the event listeners for updates
-    const currentWeights = weightInputsForPostJs.map(el => parseFloat(el.value));
-    // Recalculate all scores based on current weights
-    return percDataForIsolate.map(fundPerformanceRow =>
-      fundPerformanceRow.reduce((scoreSum, perfPoint, i) => scoreSum + perfPoint * currentWeights[i], 0)
-    );
-  }}
-
   document.getElementById('isolate').addEventListener('click', function() {{
-    // Get names of funds selected in the dropdown
-    const selectedFundNames = Array.from(fundSelectElement.selectedOptions).map(opt => opt.value);
-    if (selectedFundNames.length === 0) {{ return; }} // Do nothing if no funds selected
-
-    const allCurrentScores = calculateAllCurrentScores(); // Get scores for ALL funds with current weights
-
-    // Get the indices of the selected funds in the *original* 'allOriginalFunds' list
-    const indicesInOriginalList = selectedFundNames.map(name => allOriginalFunds.indexOf(name)).filter(index => index !== -1);
-
-    // Filter x-values (fund names) to only include valid, selected funds
-    const isolatedXValues = selectedFundNames.filter(name => allOriginalFunds.includes(name));
-    // Get the scores for these selected funds using their original indices
-    const isolatedYValues = indicesInOriginalList.map(index => allCurrentScores[index]);
-
-    // Update the bar chart to show only the isolated funds and their scores
-    Plotly.restyle('bar-chart', {{ 'x': [isolatedXValues], 'y': [isolatedYValues] }});
+    const selectedFundNames = Array.from(fundSelectElement_iso.selectedOptions).map(opt => opt.value);
+    if (selectedFundNames.length === 0) {{
+        // If selection is cleared, effectively a reset for the table's content source
+        currentlyIsolatedFundNames = null;
+        updateScoresAndGradients();
+        return;
+    }}
+    currentlyIsolatedFundNames = selectedFundNames; // Set global isolation state
+    updateScoresAndGradients(selectedFundNames);
   }});
 
   document.getElementById('reset').addEventListener('click', function() {{
-    fundSelectElement.selectedIndex = -1; // Clear selection in dropdown
-    const allCurrentScores = calculateAllCurrentScores(); // Recalculate all scores
-    // Reset chart to show all original funds and their current scores
-    Plotly.restyle('bar-chart', {{ 'x': [allOriginalFunds], 'y': [allCurrentScores] }});
+    fundSelectElement_iso.selectedIndex = -1;
+    currentlyIsolatedFundNames = null; // Clear global isolation state
+    updateScoresAndGradients();
   }});
 </script>
 """
-    # Combine all HTML parts into a full page
+
     full_html = (
         '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title>'
-        '<style>body {{ font-family: Arial, sans-serif; }}</style></head><body>'
+        '<style>body {{ font-family: Arial, sans-serif; }} </style></head><body>'
         '<h1 style="text-align:center; color:#333;">Fund Performance Dashboard</h1>'
         '<h3 style="text-align:center; color:#555;">Adjust Scoring Weights</h3>'
         + slider_html
         + '<h3 style="text-align:center; margin-top:30px; color:#555;">Fund Scores Bar Chart</h3>'
         + body
-        + '<div style="clear:both; margin-top:20px;"></div>'
-        + '<h3 style="text-align:center; color:#555;">Isolate Funds</h3>'
-        + select_html
-        + post_js  # JS for slider interactions
-        + isolate_js # JS for fund isolation
+        + controls_and_table_html
+        + js_data_script
+        + main_js_logic
+        + isolate_js
         + '</body></html>'
     )
-    if internal: # If internal mode, print HTML to stdout
+    if internal:
         print(full_html)
-    else: # Otherwise, save to file
+    else:
         out = os.path.join(output_dir, 'fund_series_scores.html')
         with open(out, 'w', encoding='utf-8') as f:
             f.write(full_html)
@@ -525,53 +730,47 @@ if use_stdin and not args.bar_mode:
         sys.exit(1)
 
     df0.rename(columns={df0.columns[0]:'Date'}, inplace=True)
-    df0.dropna(axis=1, how='all', inplace=True) # Drop columns that are all NA
-    df0.dropna(subset=['Date'], how='all', inplace=True) # Drop rows where 'Date' itself is NA
+    df0.dropna(axis=1, how='all', inplace=True)
+    df0.dropna(subset=['Date'], how='all', inplace=True)
     if df0.empty:
         print("Data became empty after initial NA handling from stdin.", file=sys.stderr)
         sys.exit(1)
     df0.set_index('Date', inplace=True)
 
-    df0 = df0.dropna(axis=1, how='all') # Drop series that are entirely NA after setting index
+    df0 = df0.dropna(axis=1, how='all')
     if df0.empty:
         print("No valid data series found after initial processing from stdin.", file=sys.stderr)
         sys.exit(1)
 
-    # Get last valid date for each series to display in legend
     last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns if pd.notna(df0[c].last_valid_index())}
 
-    # Ensure data is sorted by date if not already
     if not df0.index.is_monotonic_increasing:
         df0 = df0.sort_index()
 
-    # Convert index to datetime objects, coercing errors
     df0.index = pd.to_datetime(df0.index, errors='coerce')
-    df0 = df0[pd.notna(df0.index)] # Remove rows where date conversion failed
+    df0 = df0[pd.notna(df0.index)]
 
     if df0.empty:
         print("No valid dates found in stdin data after conversion.", file=sys.stderr)
         sys.exit(1)
 
     min_date, max_date = df0.index.min(), df0.index.max()
-    if pd.isna(min_date) or pd.isna(max_date): # Check if date range is valid
+    if pd.isna(min_date) or pd.isna(max_date):
         print("Could not determine a valid date range from stdin data.", file=sys.stderr)
         sys.exit(1)
 
-    # Create a full date range and reindex/interpolate
-    idx=pd.date_range(min_date, max_date, freq='D') # Daily frequency
+    idx=pd.date_range(min_date, max_date, freq='D')
     df=df0.reindex(idx).interpolate(method='time').reset_index()
-    # Rename 'index' column (from reset_index) to 'Date' if 'Date' isn't already a column name
     if 'index' in df.columns and 'Date' not in df.columns:
         df.rename(columns={'index':'Date'}, inplace=True)
 
     if 'Date' in df.columns:
         date_column_data = df['Date']
         other_columns_df = df.drop(columns=['Date'])
-        # Drop columns that are still all NaN after interpolation
         cleaned_other_columns_df = other_columns_df.dropna(axis=1, how='all')
         df = pd.concat([date_column_data, cleaned_other_columns_df], axis=1)
 
-        if len(df.columns) <= 1 : # Only 'Date' column left, or empty
+        if len(df.columns) <= 1 :
             print("No valid data series to plot after interpolation and cleaning from stdin (only Date column).", file=sys.stderr)
             sys.exit(1)
     else:
@@ -585,117 +784,108 @@ if use_stdin and not args.bar_mode:
         outf=os.path.join(args.output_dir,'fund_series_chart_stdin.html')
         with open(outf,'w',encoding='utf-8') as f: f.write(html)
         print(f"Saved {outf}",file=sys.stderr)
-    sys.exit(0) # Successfully processed stdin
+    sys.exit(0)
 
-# Bar-mode (triggered by --bar argument)
 if args.bar_mode:
-    if use_stdin: # Bar mode cannot use stdin as it expects a directory of CSVs
+    if use_stdin:
         print("Bar mode cannot be used with stdin input. Please provide an input directory with -t.", file=sys.stderr)
         sys.exit(1)
-    # Pass the trace_mode argument to the function
     bar_chart_mode(args.input_dir, args.output_dir, internal_only, args.trace_mode)
-    sys.exit(0) # Successfully processed bar mode
+    sys.exit(0)
 
-# Directory time-series (default mode if not stdin or bar mode)
-pat=re.compile(r'fund_tables_(\d+)\.csv$') # Regex to find and parse numbered CSV files
+pat=re.compile(r'fund_tables_(\d+)\.csv$')
 csv_files = []
-if os.path.isdir(args.input_dir): # Check if input path is a directory
+if os.path.isdir(args.input_dir):
     csv_files = sorted(
-        # Create list of (number, filepath) tuples, sorted by number
         (int(m.group(1)), os.path.join(args.input_dir, f))
-        for f in os.listdir(args.input_dir) # Iterate over files in directory
-        for m in [pat.match(f)] if m # Match regex and proceed if match found
+        for f in os.listdir(args.input_dir)
+        for m in [pat.match(f)] if m
     )
-else: # Handle case where input_dir is not a directory
-    if not (use_stdin or args.bar_mode): # If not other modes, then this is an error
+else:
+    if not (use_stdin or args.bar_mode):
         print(f"Error: Input directory '{args.input_dir}' not found or is not a directory.", file=sys.stderr)
         sys.exit(1)
 
 
-if not csv_files and not (use_stdin or args.bar_mode): # Check only if this mode is active
+if not csv_files and not (use_stdin or args.bar_mode):
     print(f"No CSVs matching 'fund_tables_<n>.csv' found in {args.input_dir}", file=sys.stderr)
-    sys.exit(1) # Exit if no files found for this mode
+    sys.exit(1)
 
-htmls=[] # List to store names of generated HTML files (for index)
-internal_html={} # Dictionary to store HTML content if internal_only
-for idx_num, filepath in csv_files: # Iterate through sorted CSV files
+htmls=[]
+internal_html={}
+for idx_num, filepath in csv_files:
     try:
-        df0=pd.read_csv(filepath,**df_kwargs) # Read CSV
+        df0=pd.read_csv(filepath,**df_kwargs)
     except Exception as e:
         print(f"Error reading CSV file {filepath}: {e}", file=sys.stderr)
-        continue # Skip to next file on error
+        continue
 
-    if df0.empty: # Check if DataFrame is empty after reading (e.g., due to skiprows)
+    if df0.empty:
         print(f"Warning: CSV file {filepath} is empty or has no data after skiprows. Skipping.", file=sys.stderr)
         continue
 
-    df0.rename(columns={df0.columns[0]:'Date'},inplace=True) # Rename first column to 'Date'
-    df0.dropna(axis=1,how='all',inplace=True) # Drop columns that are entirely NA
-    df0.dropna(subset=['Date'], how='all', inplace=True) # Drop rows where 'Date' itself is NA
+    df0.rename(columns={df0.columns[0]:'Date'},inplace=True)
+    df0.dropna(axis=1,how='all',inplace=True)
+    df0.dropna(subset=['Date'], how='all', inplace=True)
     if df0.empty:
         print(f"Data became empty for {filepath} after initial NA handling.", file=sys.stderr)
         continue
-    df0.set_index('Date',inplace=True) # Set 'Date' as index
+    df0.set_index('Date',inplace=True)
 
-    df0 = df0.dropna(axis=1, how='all') # Drop series that are entirely NA after setting index
+    df0 = df0.dropna(axis=1, how='all')
     if df0.empty:
         print(f"No valid data series in {filepath} after initial processing.", file=sys.stderr)
         continue
 
-    # Get last valid date for each series
     last_dates={c:df0[c].last_valid_index().strftime('%Y-%m-%d') for c in df0.columns if pd.notna(df0[c].last_valid_index())}
 
-    if not df0.index.is_monotonic_increasing: # Sort by date if not already
+    if not df0.index.is_monotonic_increasing:
         df0 = df0.sort_index()
 
-    df0.index = pd.to_datetime(df0.index, errors='coerce') # Convert index to datetime
-    df0 = df0[pd.notna(df0.index)] # Remove rows with invalid dates
+    df0.index = pd.to_datetime(df0.index, errors='coerce')
+    df0 = df0[pd.notna(df0.index)]
 
     if df0.empty:
         print(f"No valid dates in {filepath} after conversion. Skipping.", file=sys.stderr)
         continue
 
-    min_date, max_date = df0.index.min(), df0.index.max() # Get date range
+    min_date, max_date = df0.index.min(), df0.index.max()
     if pd.isna(min_date) or pd.isna(max_date):
         print(f"Could not determine a valid date range from {filepath}. Skipping.", file=sys.stderr)
         continue
 
-    idxr=pd.date_range(min_date,max_date,freq='D') # Create daily date range
-    df=df0.reindex(idxr).interpolate(method='time').reset_index() # Reindex, interpolate, reset index
-    if 'index' in df.columns and 'Date' not in df.columns: # Rename 'index' to 'Date' if needed
+    idxr=pd.date_range(min_date,max_date,freq='D')
+    df=df0.reindex(idxr).interpolate(method='time').reset_index()
+    if 'index' in df.columns and 'Date' not in df.columns:
         df.rename(columns={'index':'Date'}, inplace=True)
 
-    # Remove columns (except 'Date') that are still all NaN after interpolation
     if 'Date' in df.columns:
         date_column_data = df['Date']
         other_columns_df = df.drop(columns=['Date'])
         cleaned_other_columns_df = other_columns_df.dropna(axis=1, how='all')
         df = pd.concat([date_column_data, cleaned_other_columns_df], axis=1)
 
-        if len(df.columns) <= 1: # Only 'Date' column (or fewer)
+        if len(df.columns) <= 1:
             print(f"No valid data series to plot in {filepath} after interpolation and cleaning (only Date column or empty).", file=sys.stderr)
             continue
-    else: # Should not happen if logic is correct, but as a safeguard
+    else:
         print(f"Warning: 'Date' column not found in DataFrame for {filepath} after reset_index. Skipping this file.", file=sys.stderr)
         continue
 
-    # Generate HTML chart for the current file
     html=df_to_html(df,title=f'Fund Series Chart {idx_num}',last_dates=last_dates)
-    if internal_only: # Store HTML internally if internal mode
+    if internal_only:
         internal_html[idx_num]=html; print(f"Stored chart {idx_num} internally",file=sys.stderr)
-    else: # Save HTML to file
+    else:
         name=f'fund_series_chart_{idx_num}.html'
         p=os.path.join(args.output_dir,name)
         with open(p,'w',encoding='utf-8') as ff: ff.write(html)
-        print(f"Saved {p}"); htmls.append(name) # Add filename to list for index
+        print(f"Saved {p}"); htmls.append(name)
 
-if not (use_stdin or args.bar_mode) and not htmls and not internal_html : # Check only if this mode was active
+if not (use_stdin or args.bar_mode) and not htmls and not internal_html :
     print("No charts were generated from directory processing.", file=sys.stderr)
-    # sys.exit(1) # Avoid exiting if other modes might have run or if this is not critical
 
-# Master index (only if not in stdin mode or bar_mode, as they handle their own output/exit)
 if not use_stdin and not args.bar_mode and (htmls or internal_html):
-    base=['</body>','</html>'] # Base HTML tags
+    base=['</body>','</html>']
     lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
            '  <meta name="viewport" content="width=device-width, initial-scale=1">',
            '  <title>Aggregated Fund Series Charts</title>',
@@ -703,17 +893,17 @@ if not use_stdin and not args.bar_mode and (htmls or internal_html):
            '</head>','<body>']
     lines.append('<h1 style="text-align:center; margin-top:20px; margin-bottom:20px;">Aggregated Fund Series Charts</h1>')
 
-    if internal_only: # If internal mode, use srcdoc for iframes
+    if internal_only:
         for idx_num in sorted(internal_html.keys()):
-            c=internal_html[idx_num].replace('"','&quot;') # Escape quotes for srcdoc
+            c=internal_html[idx_num].replace('"','&quot;')
             lines.append(f'<iframe title="Fund Series Chart {idx_num}" srcdoc="{c}" style="width:100%; height:850px; border:none;"></iframe>')
-        print("\n".join(lines+base)) # Print combined HTML to stdout
-    else: # If saving to files, link iframes by src
-        for name in htmls: # Iterate through saved chart filenames
+        print("\n".join(lines+base))
+    else:
+        for name in htmls:
             lines.append(f'<iframe title="{name}" src="{name}" style="width:100%; height:850px; border:none;"></iframe>')
         lines+=base
-        idxp=os.path.join(args.output_dir,'fund_series_charts_index.html') # Path for index file
-        with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(lines)) # Write index file
+        idxp=os.path.join(args.output_dir,'fund_series_charts_index.html')
+        with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(lines))
         print(f"Generated index at {idxp}")
-elif not use_stdin and not args.bar_mode: # If no charts generated in directory mode
+elif not use_stdin and not args.bar_mode:
     print("No charts to include in master index.", file=sys.stderr)
