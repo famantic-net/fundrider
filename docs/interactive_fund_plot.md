@@ -21,7 +21,11 @@ The charts all converge to value 0 (zero) at the end which is the latest date. T
   - year
   - two years
 
+  Funds can be isolated for closer comparisons.
+
   The weights can be adjusted interactively.
+
+  Each fund score bar shows the change gradient for the score when hovered over.
 
 - -r
   Specifies directory where to store the fund charts, unless the word '`:internal:`' is given. If `-r` is omitted the fund charts will be written to the current directory.
@@ -51,7 +55,7 @@ The charts all converge to value 0 (zero) at the end which is the latest date. T
 - Take input from STDIN and write from result chart to directory '`../results`' in file '`fund_series_chart.html`'.
 
   `cat ../tables/fund_tables_5.csv | python3 interactive_fund_plot.py -r ../results`
-  
+
 - Create fund performance chart and print on STDOUT
 
   `python3 bin/interactive_fund_plot.py --bar -t tables -r :internal: > results/fund_series_scores.stdout.html`
