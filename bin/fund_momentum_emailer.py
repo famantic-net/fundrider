@@ -9,6 +9,7 @@ computes two momentum screens:
        penalizing for poor 1-year and very poor recent (2-month) performance.
     2. Best Lag-Adjusted Short-Term Assessment (top-20)
 
+Also displays a table of funds appearing in both top-20 lists.
 Optionally, a list of specific funds can be provided via --compare for direct comparison.
 Output tables include 2-week, 1-month, 2-month, 3-month, 6-month, 1-year, and All Dates performance.
 
@@ -228,7 +229,7 @@ def load_and_parse_individual_csv_files(tables_dir: Path) -> pd.DataFrame:
             )
 
             if df_raw_data.empty:
-                print(f"Warning: DataFrame (raw) empty after reading data from {csv_file_path.name}. Skipping.", file=sys.stderr)
+                # print(f"Warning: DataFrame (raw) empty after reading data from {csv_file_path.name}. Skipping.", file=sys.stderr) # Can be verbose
                 continue
 
             num_fund_cols_from_header = len(column_names_from_header)
@@ -671,6 +672,32 @@ def main() -> None:
         lag_adj_top_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
         full_perf_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
 
+    # --- Overlap Funds Logic ---
+    md_overlap_table = ""
+    html_overlap_table = ""
+    overlap_funds_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
+
+    if not long_term_top_df.empty and not lag_adj_top_df.empty and "Fund" in full_perf_df.columns:
+        long_term_fund_names = set(long_term_top_df['Fund'])
+        lag_adj_fund_names = set(lag_adj_top_df['Fund'])
+        common_fund_names = list(long_term_fund_names.intersection(lag_adj_fund_names))
+
+        if common_fund_names:
+            # Filter the full_perf_df (which contains all metrics) for these common funds
+            # Ensure 'LongTermAdjustedPerf' is present for sorting
+            if 'LongTermAdjustedPerf' in full_perf_df.columns:
+                overlap_funds_df = full_perf_df[full_perf_df['Fund'].isin(common_fund_names)].sort_values(
+                    "LongTermAdjustedPerf", ascending=False
+                ).copy()
+            else: # Fallback if 'LongTermAdjustedPerf' isn't in full_perf_df for some reason
+                overlap_funds_df = full_perf_df[full_perf_df['Fund'].isin(common_fund_names)].copy()
+
+
+            md_overlap_table = df_to_markdown_table(overlap_funds_df)
+            html_overlap_table = df_to_html_table_styled(overlap_funds_df, "overlapFundTable")
+    # --- End Overlap Funds Logic ---
+
+
     md_comparison_table = ""
     html_comparison_table = ""
     comparison_funds_perf_df = pd.DataFrame(columns=DISPLAY_COLUMNS)
@@ -730,6 +757,11 @@ def main() -> None:
             .footer p {{margin: 5px 0;}}
         </style></head><body><div class="email-container">
         <h1><a href="https://famantic-net.github.io/fundrider-pages/" class="header-link">{final_email_subject}</a></h1>
+        """
+        if html_overlap_table:
+             html_email_body += f"""<h2>Funds Appearing in Both Top 20 Assessments</h2>{html_overlap_table}"""
+
+        html_email_body += f"""
         <h2>Best Long-Term Growth Assessment (Top 20)</h2>{html_long_term_table}
         <h2>Best Lag-Adjusted Short-Term Assessment (Top 20)</h2>{html_lag_adj_table}
         """
@@ -743,7 +775,12 @@ def main() -> None:
         """
         print(html_email_body, file=sys.stdout)
     else:
+        # Output Markdown to STDOUT if --email is not used
         print("\n--- Email sending skipped (--email flag not provided) ---", file=sys.stderr)
+        if md_overlap_table:
+            print("\n### Funds Appearing in Both Top 20 Assessments\n", file=sys.stdout)
+            print(md_overlap_table, file=sys.stdout)
+
         print(f"\n### Best Long-Term Growth Assessment (Top 20) - {current_date_utc_str}\n", file=sys.stdout)
         print(md_long_term_table, file=sys.stdout)
         print(f"\n### Best Lag-Adjusted Short-Term Assessment (Top 20) - {current_date_utc_str}\n", file=sys.stdout)
