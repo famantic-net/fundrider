@@ -535,6 +535,13 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         '    </div></div>'
         '  <div id="dynamic-fund-table-container" style="flex: 1.5; min-width: 400px; padding:10px;"><h3 style="text-align:center; color:#555;">Top Funds</h3></div></div>')
 
+    # HTML for the Copy CSV button
+    csv_button_html = """
+<div id="csv-export-area" style="text-align:center; margin-top:5px; margin-bottom: 20px;">
+    <button id="copy-csv-button" style="padding: 10px 20px; border-radius:5px; background-color:#007bff; color:white; border:none; cursor:pointer; font-size: 15px;">Copy Table CSV</button>
+</div>
+"""
+
     js_data_script = f"""<script>
   const mainContributionsJS = {json.dumps(main_score_contributions_list_for_js)};
   const historicalContributionsDataJS = {json.dumps(historical_contributions_for_all_funds_js)};
@@ -545,6 +552,8 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     main_js_logic = """<script>
   const weightSliders = Array.from(document.querySelectorAll('input.weight-slider'));
   let currentSortColumn = 'score', currentSortAscending = false, currentlyIsolatedFundNames = null;
+  let dataForCSVExport = []; // Holds the data currently shown in the Top Funds table for CSV export
+
   function calculateScore(contribs, weights) {
     if (!contribs || !Array.isArray(contribs)) return null;
     let score = 0; contribs.forEach((c,j) => score += (typeof c === 'number' ? c : 0) * weights[j]);
@@ -560,9 +569,15 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
   }
   function renderDynamicTable(fundData) {
     const container=document.getElementById('dynamic-fund-table-container'),title=container.querySelector('h3'); container.innerHTML=''; if(title)container.appendChild(title);
-    if(!fundData||fundData.length===0){const p=document.createElement('p');p.textContent='No funds to display.';p.style.textAlign='center';container.appendChild(p);return;}
+    if(!fundData||fundData.length===0){
+        const p=document.createElement('p');p.textContent='No funds to display.';p.style.textAlign='center';container.appendChild(p);
+        dataForCSVExport = []; // Clear CSV data if table is empty
+        return;
+    }
     fundData.sort((a,b)=>{let vA=currentSortColumn==='score'?a.score:a.gradient,vB=currentSortColumn==='score'?b.score:b.gradient;vA=(vA===null||isNaN(vA))?(currentSortAscending?Infinity:-Infinity):vA;vB=(vB===null||isNaN(vB))?(currentSortAscending?Infinity:-Infinity):vB;if(vA<vB)return currentSortAscending?-1:1;if(vA>vB)return currentSortAscending?1:-1;return 0;});
-    const top20=fundData.slice(0,20),table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;margin-top:10px;';
+    const top20=fundData.slice(0,20);
+    dataForCSVExport = [...top20]; // Update data for CSV export with the displayed top 20
+    const table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;margin-top:10px;';
     const head=table.createTHead().insertRow(),headers=[{t:'Fund Name',k:'name'},{t:'Fund Score',k:'score'},{t:`Fund Score Gradient (${numGradientLookbackDaysJS}d)`,k:'gradient'}];
     headers.forEach(h=>{const th=document.createElement('th');th.textContent=h.t;th.style.cssText='border:1px solid #ddd;padding:8px;text-align:left;background-color:#f0f0f0;font-weight:bold;';if(h.k==='score'||h.k==='gradient'){th.style.cursor='pointer';th.addEventListener('click',()=>{currentSortColumn===h.k?currentSortAscending=!currentSortAscending:(currentSortColumn=h.k,currentSortAscending=false);updateScoresAndGradients();});if(currentSortColumn===h.k){th.style.fontStyle='italic';th.innerHTML+=currentSortAscending?' &uarr;':' &darr;';}}head.appendChild(th);});
     const tbody=table.createTBody();top20.forEach(f=>{const r=tbody.insertRow(),s=f.score,g=f.gradient;r.insertCell().textContent=f.name;r.insertCell().textContent=s!==null&&!isNaN(s)?s.toFixed(2):'N/A';r.insertCell().textContent=g!==null&&!isNaN(g)?g.toFixed(2):'N/A';Array.from(r.cells).forEach(c=>{c.style.border='1px solid #ddd';c.style.padding='8px';if(c!==r.cells[0])c.style.textAlign='right';});});container.appendChild(table);
@@ -577,8 +592,8 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     Plotly.restyle('bar-chart',{x:[namesToUse],y:[yScores],customdata:[customData]},[0]);
     let fullTableData = [];
     if (currentlyIsolatedFundNames && currentlyIsolatedFundNames.length > 0) {
-        fullTableData = tableData;
-    } else {
+        fullTableData = tableData; // Use only isolated funds for the table
+    } else { // Use all funds if no isolation
         allFundNamesJS.forEach(fN=>{
             const idx=allFundNamesJS.indexOf(fN);
             const mC=mainContributionsJS[idx];
@@ -595,7 +610,63 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     renderDynamicTable(fullTableData);
   }
   weightSliders.forEach(s=>{s.addEventListener('input',()=>updateScoresAndGradients());s.addEventListener('wheel',function(e){e.preventDefault();const step=parseFloat(s.step)||0.1;let cur=parseFloat(s.value),min=parseFloat(s.min)||0,max=parseFloat(s.max)||10;e.deltaY<0?cur+=step:cur-=step;s.value=Math.max(min,Math.min(max,cur)).toFixed(1);updateScoresAndGradients();});});
-  document.addEventListener('DOMContentLoaded',()=>{pyInitialWeightsJS.forEach((v,i)=>{const s=document.getElementById('w'+i);if(s)s.value=v.toFixed(1);});updateScoresAndGradients();});
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    pyInitialWeightsJS.forEach((v,i)=>{const s=document.getElementById('w'+i);if(s)s.value=v.toFixed(1);});
+    updateScoresAndGradients(); // Initial population of table and chart
+
+    const copyCsvButton = document.getElementById('copy-csv-button');
+    if (copyCsvButton) {
+        copyCsvButton.addEventListener('click', () => {
+            if (dataForCSVExport.length === 0) {
+                const originalButtonText = copyCsvButton.textContent;
+                copyCsvButton.textContent = 'No data!';
+                copyCsvButton.disabled = true;
+                setTimeout(() => {
+                    copyCsvButton.textContent = originalButtonText;
+                    copyCsvButton.disabled = false;
+                }, 2000);
+                return;
+            }
+
+            const headers = ['Fund Name', 'Fund Score', `Fund Score Gradient (${numGradientLookbackDaysJS}d)`];
+            let csvContent = headers.join(',') + '\\n';
+
+            dataForCSVExport.forEach(item => {
+                const score = (item.score !== null && !isNaN(item.score)) ? item.score.toFixed(2) : 'N/A';
+                const gradient = (item.gradient !== null && !isNaN(item.gradient)) ? item.gradient.toFixed(2) : 'N/A';
+                const name = `"${String(item.name).replace(/"/g, '""')}"`; // Escape quotes and wrap in quotes
+                csvContent += [name, score, gradient].join(',') + '\\n';
+            });
+
+            const textArea = document.createElement('textarea');
+            textArea.value = csvContent;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            let msg = '';
+            try {
+                const successful = document.execCommand('copy');
+                msg = successful ? 'CSV Copied!' : 'Copy failed';
+            } catch (err) {
+                msg = 'Error!';
+            }
+            document.body.removeChild(textArea);
+
+            const originalButtonText = copyCsvButton.textContent;
+            copyCsvButton.textContent = msg;
+            copyCsvButton.disabled = true;
+            setTimeout(() => {
+                copyCsvButton.textContent = originalButtonText;
+                copyCsvButton.disabled = false;
+            }, 2000);
+        });
+    }
+  });
 </script>"""
     isolate_js = f"""<script>
   const fundSel=document.getElementById('fund-select'),fundsDrop={json.dumps(output_fund_names)};
@@ -627,6 +698,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     full_html = ('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title><style>body{font-family:Arial,sans-serif;}</style></head><body>'
                  '<h1 style="text-align:center;color:#333;">Fund Performance Dashboard</h1><h3 style="text-align:center;color:#555;">Adjust Scoring Weights</h3>' +
                  slider_html + '<h3 style="text-align:center;margin-top:30px;color:#555;">Fund Scores Bar Chart</h3>' + body + controls_and_table_html +
+                 csv_button_html + # Added CSV button HTML here
                  js_data_script + main_js_logic + isolate_js + '</body></html>')
     if internal: print(full_html)
     else:
