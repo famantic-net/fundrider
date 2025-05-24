@@ -132,71 +132,88 @@ styling_constants_js = """
 </script>
 """
 
-# This script will be used by individual chart files OR by the single large HTML in internal_only mode
 selection_and_hover_js_logic = """
 <script>
     // [JS SELECTION/HOVER LOGIC] Script block started.
     // console.log('!!! [JS SELECTION/HOVER LOGIC] SCRIPT BLOCK EXECUTING !!! Title:', document.title);
 
     let currentGlobalSelectedFunds = []; // Master state for selected funds
+    const DBL_CLICK_DELAY_MS = 250; // Milliseconds to wait for a double click
 
     function applyGlobalFundSelectionStyle(gd, fundsToUse) {
-        if (gd._isApplyingStyles) {
-            // console.log('[JS applyGlobalFundSelectionStyle] Skipping for gd.id:', gd.id, 'due to _isApplyingStyles flag.');
+        if (gd._isApplyingStylesCurrently) { // Renamed flag
+            // console.log('[AGFS] Skipping for gd.id:', gd.id, 'due to _isApplyingStylesCurrently flag.');
             return;
         }
-        // console.log('[JS applyGlobalFundSelectionStyle] Called for chart. GD id:', gd.id, 'fundsToUse:', JSON.parse(JSON.stringify(fundsToUse)));
         if (!gd || !gd.data || !gd.layout) {
-            // console.warn('[JS applyGlobalFundSelectionStyle] GD, gd.data, or gd.layout not ready for gd.id:', gd ? gd.id : 'undefined_gd');
+            // console.warn('[AGFS] GD, gd.data, or gd.layout not ready for gd.id:', gd ? gd.id : 'undefined_gd');
             return;
         }
+
+        gd._isApplyingStylesCurrently = true; // Set flag
+        // console.log('[AGFS] Started for gd.id:', gd.id, 'Hovered:', gd._lastHoveredTraceIndex, 'FundsToUse:', fundsToUse);
+
 
         const legendTexts = gd.querySelectorAll('.legendtext');
         const restyleUpdate = {
             'line.width': [],
             'opacity': []
         };
-        const traceIndicesToUpdate = Array.from({length: gd.data.length}, (_, k) => k);
+        const traceIndices = gd.data.map((_,idx) => idx);
 
         gd.data.forEach((trace, i) => {
             const baseTraceName = (trace.name || '').split('<br>')[0];
             let targetLineWidth = defaultLineWidth;
             let targetOpacity = defaultOpacity;
-            let legendFontWeight = 'normal';
+            let targetLegendFontWeight = 'normal';
 
-            if (fundsToUse && fundsToUse.length > 0) {
-                if (fundsToUse.includes(baseTraceName)) {
-                    targetLineWidth = selectedLineWidth;
+            const isCurrentlyHovered = (i === gd._lastHoveredTraceIndex);
+            const isVisible = (trace.visible !== 'legendonly');
+
+            if (isCurrentlyHovered && isVisible) {
+                // Apply hover styles if this trace is hovered and visible
+                targetLineWidth = hoverLineWidth;
+                targetOpacity = defaultOpacity;
+                targetLegendFontWeight = 'bold';
+            } else if (!isVisible) {
+                // Style for traces explicitly hidden via legend or plot click
+                targetLineWidth = dimmedLineWidth;
+                targetOpacity = dimmedOpacity;
+                targetLegendFontWeight = 'normal';
+            } else {
+                // Trace is visible and not hovered, apply global selection or default styles
+                if (fundsToUse && fundsToUse.length > 0) { // Global selection is active
+                    if (fundsToUse.includes(baseTraceName)) { // This trace is globally selected
+                        targetLineWidth = selectedLineWidth;
+                        targetOpacity = defaultOpacity;
+                        targetLegendFontWeight = 'bold';
+                    } else { // This trace is visible but NOT globally selected (dim it)
+                        targetLineWidth = dimmedLineWidth;
+                        targetOpacity = dimmedOpacity;
+                        targetLegendFontWeight = 'normal';
+                    }
+                } else { // No global selection, all visible traces are in their default state
+                    targetLineWidth = defaultLineWidth;
                     targetOpacity = defaultOpacity;
-                    legendFontWeight = 'bold';
-                } else {
-                    targetLineWidth = dimmedLineWidth;
-                    targetOpacity = dimmedOpacity;
-                    legendFontWeight = 'normal';
+                    targetLegendFontWeight = 'normal';
                 }
             }
-
             restyleUpdate['line.width'][i] = targetLineWidth;
             restyleUpdate['opacity'][i] = targetOpacity;
-
             if (legendTexts && legendTexts[i]) {
-                legendTexts[i].style.fontWeight = legendFontWeight;
+                // console.log(`[AGFS] gd: ${gd.id}, trace ${i} (${baseTraceName}), hover: ${isCurrentlyHovered}, visible: ${isVisible}, legendWeight: ${targetLegendFontWeight}`);
+                legendTexts[i].style.fontWeight = targetLegendFontWeight;
             }
         });
 
-        if (traceIndicesToUpdate.length > 0) {
-            gd._isApplyingStyles = true;
-            // console.log('[JS applyGlobalFundSelectionStyle] PRE-RESTYLE for gd.id:', gd.id, 'Update Object:', JSON.stringify(restyleUpdate));
-            Plotly.restyle(gd, restyleUpdate, traceIndicesToUpdate).then(function() {
-                 // console.log('[JS applyGlobalFundSelectionStyle] Restyle successful for gd.id:', gd.id);
-            }).catch(function(err) {
-                 console.error('[JS applyGlobalFundSelectionStyle] Restyle FAILED for gd.id:', gd.id, err);
+        // console.log('[AGFS] Applying to gd.id:', gd.id, JSON.stringify(restyleUpdate));
+        Plotly.restyle(gd, restyleUpdate, traceIndices)
+            .catch(function(err) {
+                console.error('[AGFS] Restyle FAILED for gd.id:', gd.id, err);
             }).finally(function() {
-                setTimeout(() => {
-                    gd._isApplyingStyles = false;
-                }, 50);
+                gd._isApplyingStylesCurrently = false; // Reset flag immediately when this restyle operation's promise settles
+                // console.log('[AGFS] Reset _isApplyingStylesCurrently for gd.id:', gd.id);
             });
-        }
     }
 
     // For IFRAME mode (when not internal_only)
@@ -206,7 +223,7 @@ selection_and_hover_js_logic = """
                 currentGlobalSelectedFunds = event.data.selectedFunds || [];
                 document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
                     if (gdNode.data && gdNode.layout) {
-                         applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+                        applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
                     }
                 });
             }
@@ -215,37 +232,64 @@ selection_and_hover_js_logic = """
 
     // For SINGLE-PAGE mode, called by internal_master_js
     function updateAllChartsOnPage(selectedFundsFromMaster) {
-        // console.log('!!! [JS SELECTION/HOVER LOGIC] updateAllChartsOnPage called with funds:', selectedFundsFromMaster);
         currentGlobalSelectedFunds = selectedFundsFromMaster || [];
-
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
             if (gdNode.data && gdNode.layout) {
-                // console.log(`[JS updateAllChartsOnPage] Triggering Plotly.react for ${gdNode.id}`);
-                if (gdNode._isApplyingStyles) {
-                    // console.warn(`[JS updateAllChartsOnPage] Skipping react for ${gdNode.id} as it is already applying styles.`);
-                    return;
-                }
-                Plotly.react(gdNode, gdNode.data, gdNode.layout);
+                // if (gdNode._isApplyingStylesCurrently) return; // This check is now inside applyGlobalFundSelectionStyle
+                applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
             }
         });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // console.log('[JS SELECTION/HOVER LOGIC] DOMContentLoaded in:', document.title);
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
-             gdNode._isApplyingStyles = false;
+            gdNode._isApplyingStylesCurrently = false; // Initialize flag
+            gdNode._plotClickState = { timer: null, lastTime: 0, lastCurveNumber: -1 };
+            gdNode._lastHoveredTraceIndex = -1; // Initialize hover state for each graph
 
-             gdNode.on('plotly_afterplot', function(){
-                if (!gdNode._isApplyingStyles) {
-                    applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
-                }
-             });
+            gdNode.on('plotly_afterplot', function(){
+                // console.log('[plotly_afterplot] gd.id:', gdNode.id, 'Hovered:', gdNode._lastHoveredTraceIndex);
+                // The applyGlobalFundSelectionStyle function itself will check _isApplyingStylesCurrently
+                applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+            });
 
-             if (gdNode.data && gdNode.layout) {
-                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
-             }
+            if (gdNode.data && gdNode.layout) { // Initial application of styles
+                applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+            }
 
             if (!gdNode.on) return;
+
+            gdNode.on('plotly_click', function(eventData) {
+                // if (gdNode._isApplyingStylesCurrently) return; // Check is inside applyGlobalFundSelectionStyle if it were called directly
+                if (!eventData || !eventData.points || eventData.points.length === 0) return;
+
+                const clickedCurveNumber = eventData.points[0].curveNumber;
+                const clickTime = new Date().getTime();
+
+                if (clickTime - gdNode._plotClickState.lastTime < DBL_CLICK_DELAY_MS &&
+                    clickedCurveNumber === gdNode._plotClickState.lastCurveNumber) {
+                    if (gdNode._plotClickState.timer) {
+                        clearTimeout(gdNode._plotClickState.timer);
+                        gdNode._plotClickState.timer = null;
+                    }
+                    const visibilityUpdates = gdNode.data.map((_, i) => (i === clickedCurveNumber) ? true : 'legendonly');
+                    Plotly.restyle(gdNode, {visible: visibilityUpdates}); // Triggers afterplot, which calls applyGlobalFundSelectionStyle
+                    gdNode._plotClickState.lastTime = 0;
+                    gdNode._plotClickState.lastCurveNumber = -1;
+                } else {
+                    if (gdNode._plotClickState.timer) clearTimeout(gdNode._plotClickState.timer);
+                    gdNode._plotClickState.timer = setTimeout(function() {
+                        if (!gdNode.data || !gdNode.data[clickedCurveNumber]) return;
+                        const currentVisibility = gdNode.data[clickedCurveNumber].visible;
+                        const newVisibility = (currentVisibility === true || currentVisibility === undefined) ? 'legendonly' : true;
+                        Plotly.restyle(gdNode, {visible: newVisibility}, [clickedCurveNumber]); // Triggers afterplot
+                        gdNode._plotClickState.timer = null;
+                    }, DBL_CLICK_DELAY_MS);
+                }
+                gdNode._plotClickState.lastTime = clickTime;
+                gdNode._plotClickState.lastCurveNumber = clickedCurveNumber;
+            });
+
 
             gdNode.on('plotly_hover', function(data) {
               var ci = data.points[0].curveNumber;
@@ -267,24 +311,20 @@ selection_and_hover_js_logic = """
             });
 
             gdNode.on('plotly_unhover', function() {
-              if (typeof applyGlobalFundSelectionStyle === 'function') {
+                // if (gdNode._isApplyingStylesCurrently) return; // Check is inside applyGlobalFundSelectionStyle
+                // console.log('[plotly_unhover] gd.id:', gdNode.id, 'Clearing hover.');
+                gdNode._lastHoveredTraceIndex = -1;
                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
-              }
             });
 
-            gdNode.on('plotly_legendclick', function() {
-                setTimeout(function() {
-                    if (typeof applyGlobalFundSelectionStyle === 'function' && !gdNode._isApplyingStyles) {
-                        applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
-                    }
-                }, 0);
-            });
+            // Let plotly_afterplot handle styling after default legend actions
+            gdNode.on('plotly_legendclick', function() { return true; });
+            gdNode.on('plotly_legenddoubleclick', function() { return true; });
+
         });
 
         if (window.parent && window.parent !== window) {
-            try {
-                 window.parent.postMessage({ type: 'iframeReady', title: document.title }, '*');
-            } catch (e) { /* ignore */ }
+            try { window.parent.postMessage({ type: 'iframeReady', title: document.title }, '*'); } catch (e) { /* ignore */ }
         }
     });
 </script>
@@ -306,7 +346,7 @@ def df_to_html_individual_file(df, title=None, last_dates=None):
         custom_hover_data = 10 ** series_data * 100
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
-            line=dict(width=2), # Initial default width
+            line=dict(width=2),
             hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
@@ -323,7 +363,6 @@ def df_to_html_individual_file(df, title=None, last_dates=None):
 
     plotly_cdn_script = '<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>'
     chart_div_and_script = fig.to_html(include_plotlyjs=False, full_html=False)
-
     escaped_title = html.escape(title if title else "Fund Series Chart")
 
     html_output = f"""<!DOCTYPE html>
@@ -357,7 +396,8 @@ def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_date
         custom_hover_data = 10 ** series_data * 100
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
-            line=dict(width=2), hovertemplate=('<b>Series:</b> %{fullData.name}<br><b>Date:</b> %{x|%Y-%m-%d}<br><b>Value (log10):</b> %{y:.3f}<br><b>Relative Change:</b> %{customdata:.1f}%<extra></extra>')
+            line=dict(width=2),
+            hovertemplate=('<b>Series:</b> %{fullData.name}<br><b>Date:</b> %{x|%Y-%m-%d}<br><b>Value (log10):</b> %{y:.3f}<br><b>Relative Change:</b> %{customdata:.1f}%<extra></extra>')
         ))
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
                   yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'),
@@ -373,8 +413,8 @@ def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_date
 <script type="text/javascript">
     var data_{div_id} = {fig_data_json};
     var layout_{div_id} = {fig_layout_json};
-    var gd_{div_id} = document.getElementById('{div_id}');
-    Plotly.newPlot(gd_{div_id}, data_{div_id}, layout_{div_id});
+    var gd_element_{div_id} = document.getElementById('{div_id}');
+    Plotly.newPlot(gd_element_{div_id}, data_{div_id}, layout_{div_id});
 </script>
 """
     return chart_div_html + "\n" + plotly_script_html
@@ -452,6 +492,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
             for k_init_grad in range(num_gradient_lookback_days):
                 hist_score = sum(p * wt for p, wt in zip(fund_historical_contrib_sets_for_js[k_init_grad], py_init_weights))
                 initial_historical_scores_for_gradient.append(hist_score if np.isfinite(hist_score) else 0.0)
+
             if len([s for s in initial_historical_scores_for_gradient if np.isfinite(s)]) == num_gradient_lookback_days:
                 slope, _ = np.polyfit(np.arange(num_gradient_lookback_days), initial_historical_scores_for_gradient[::-1], 1)
                 initial_gradients_list_py.append(slope)
@@ -463,7 +504,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     custom_data_for_plot_py = [[cleaned_initial_gradients_py[i] if i < len(cleaned_initial_gradients_py) else None] for i in range(len(output_fund_names))]
 
     fig = go.Figure(go.Bar(x=output_fund_names, y=initial_scores_list_py, customdata=custom_data_for_plot_py, marker_color='steelblue', name='Fund Scores',
-                           hovertemplate='<b>Fund:</b> %{x}<br><b>Score:</b> %{y:.2f}<br><b>Score Trend (' + str(num_gradient_lookback_days) + 'd):</b> %{customdata[0]:.2f}<extra></extra>'))
+                            hovertemplate='<b>Fund:</b> %{x}<br><b>Score:</b> %{y:.2f}<br><b>Score Trend (' + str(num_gradient_lookback_days) + 'd):</b> %{customdata[0]:.2f}<extra></extra>'))
     fig.update_layout(title='Current fund performance', template='plotly_white', height=600, xaxis=dict(showticklabels=False, title='Funds (Scroll/Isolate to see names)'), yaxis=dict(title='Score', autorange=True, type='linear'), barmode='group')
 
     def clean_fig_dict_infs_nans(obj):
@@ -487,7 +528,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         '<div style="display: flex; justify-content: space-around; margin: 20px 0; align-items: flex-start; flex-wrap: wrap;">'
         '  <div id="fund-isolation-controls" style="flex: 1; min-width: 320px; padding:10px;">'
         '    <h3 style="text-align:center; color:#555;">Isolate Funds</h3>'
-        f'   <select id="fund-select" multiple size="{min(len(output_fund_names), 10)}" style="width:100%; height:200px; overflow-y:auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;"></select><br/>'
+        f'    <select id="fund-select" multiple size="{min(len(output_fund_names), 10)}" style="width:100%; height:200px; overflow-y:auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;"></select><br/>'
         '    <div style="text-align:center; margin-top:10px;">'
         '      <button id="isolate" style="margin:5px; padding: 8px 15px; border-radius:5px; background-color:#4CAF50; color:white; border:none; cursor:pointer;">Isolate</button>'
         '      <button id="reset" style="margin:5px; padding: 8px 15px; border-radius:5px; background-color:#f44336; color:white; border:none; cursor:pointer;">Reset</button>'
@@ -515,7 +556,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     let sumX=0, sumY=0, sumXY=0, sumXX=0, validPts=0;
     for(let i=0;i<n;i++){if(typeof yVals[i]==='number'&&Number.isFinite(yVals[i])){sumX+=xVals[i];sumY+=yVals[i];sumXY+=xVals[i]*yVals[i];sumXX+=xVals[i]*xVals[i];validPts++;}}
     if(validPts<2)return null; const denom=(validPts*sumXX-sumX*sumX); if(denom===0)return null;
-    return Number.isFinite(slope=(validPts*sumXY-sumX*sumY)/denom)?slope:null;
+    const slope=(validPts*sumXY-sumX*sumY)/denom; return Number.isFinite(slope)?slope:null;
   }
   function renderDynamicTable(fundData) {
     const container=document.getElementById('dynamic-fund-table-container'),title=container.querySelector('h3'); container.innerHTML=''; if(title)container.appendChild(title);
@@ -534,8 +575,24 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
       if(histSets&&histSets.length===numGradientLookbackDaysJS){for(let i=0;i<numGradientLookbackDaysJS;i++)histScores.push(calculateScore(histSets[i],weights));grad=calculateSlope(histScores.slice().reverse());}
       customData.push([grad]);tableData.push({name:fundName,score:mainScore,gradient:grad});});
     Plotly.restyle('bar-chart',{x:[namesToUse],y:[yScores],customdata:[customData]},[0]);
-    if(!currentlyIsolatedFundNames){tableData=[];allFundNamesJS.forEach(fN=>{const idx=allFundNamesJS.indexOf(fN),mC=mainContributionsJS[idx],mS=calculateScore(mC,weights);const hS=historicalContributionsDataJS[fN];let hScrs=[],gr=null;if(hS&&hS.length===numGradientLookbackDaysJS){for(let i=0;i<numGradientLookbackDaysJS;i++)hScrs.push(calculateScore(hS[i],weights));gr=calculateSlope(hScrs.slice().reverse());}tableData.push({name:fN,score:mS,gradient:gr});});}
-    renderDynamicTable(tableData);
+    let fullTableData = [];
+    if (currentlyIsolatedFundNames && currentlyIsolatedFundNames.length > 0) {
+        fullTableData = tableData;
+    } else {
+        allFundNamesJS.forEach(fN=>{
+            const idx=allFundNamesJS.indexOf(fN);
+            const mC=mainContributionsJS[idx];
+            const mS=calculateScore(mC,weights);
+            const hS_sets=historicalContributionsDataJS[fN];
+            let hScrs_for_grad=[],gr_val=null;
+            if(hS_sets && hS_sets.length===numGradientLookbackDaysJS){
+                for(let i=0;i<numGradientLookbackDaysJS;i++) hScrs_for_grad.push(calculateScore(hS_sets[i],weights));
+                gr_val=calculateSlope(hScrs_for_grad.slice().reverse());
+            }
+            fullTableData.push({name:fN,score:mS,gradient:gr_val});
+        });
+    }
+    renderDynamicTable(fullTableData);
   }
   weightSliders.forEach(s=>{s.addEventListener('input',()=>updateScoresAndGradients());s.addEventListener('wheel',function(e){e.preventDefault();const step=parseFloat(s.step)||0.1;let cur=parseFloat(s.value),min=parseFloat(s.min)||0,max=parseFloat(s.max)||10;e.deltaY<0?cur+=step:cur-=step;s.value=Math.max(min,Math.min(max,cur)).toFixed(1);updateScoresAndGradients();});});
   document.addEventListener('DOMContentLoaded',()=>{pyInitialWeightsJS.forEach((v,i)=>{const s=document.getElementById('w'+i);if(s)s.value=v.toFixed(1);});updateScoresAndGradients();});
@@ -615,9 +672,9 @@ if use_stdin and not args.bar_mode:
         html_content=df_to_html_individual_file(df,title='Fund Series Chart (from stdin)',last_dates=last_dates)
         print(html_content)
         if not internal_only:
-             outf=os.path.join(args.output_dir,'fund_series_chart_stdin.html')
-             with open(outf,'w',encoding='utf-8') as f: f.write(html_content)
-             print(f"Saved {outf}",file=sys.stderr)
+            outf=os.path.join(args.output_dir,'fund_series_chart_stdin.html')
+            with open(outf,'w',encoding='utf-8') as f: f.write(html_content)
+            print(f"Saved {outf}",file=sys.stderr)
 
     except Exception as e:
         print(f"Error processing stdin: {e}", file=sys.stderr)
@@ -701,28 +758,28 @@ if not generated_any_chart and not (use_stdin or args.bar_mode) :
     print("No charts were generated from directory processing.", file=sys.stderr)
 
 
-# --- Assemble and print/save the final output ---
+# --- Assemble and print/save the final output for directory processing mode ---
 
 if not use_stdin and not args.bar_mode and generated_any_chart:
 
     final_html_lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
-           '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-           '  <title>Aggregated Fund Series Charts</title>',
-           '  <style>',
-           '    body { font-family: Arial, sans-serif; margin: 10px; padding: 0; background-color: #f4f4f4; }',
-           '    iframe { border: 1px solid #ccc; margin-bottom: 10px; width:100%; height:850px; }',
-           '    .chart-container { margin-bottom: 20px; padding:10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;}',
-           '    #global-selector-area { text-align: center; margin-bottom: 20px; }',
-           '    #fund-selector-container { display: inline-flex; align-items: flex-start; background-color: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }',
-           '    #global-fund-selector { width: auto; min-width: 300px; max-width: 60%; flex-shrink: 0; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-right: 10px; }', # Removed min/max-height
-           '    #fund-selector-buttons { display: flex; flex-direction: column; }',
-           '    .selector-button { padding: 10px 15px; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; color: white; margin-bottom: 10px; width: 150px; text-align: center;}',
-           '    #apply-fund-selection { background-color: #5cb85c; }',
-           '    #apply-fund-selection:hover { background-color: #4cae4c; }',
-           '    #reset-fund-selection { background-color: #d9534f; }',
-           '    #reset-fund-selection:hover { background-color: #c9302c; }',
-           '  </style>',
-           '<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>']
+               '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+               '  <title>Aggregated Fund Series Charts</title>',
+               '  <style>',
+               '    body { font-family: Arial, sans-serif; margin: 10px; padding: 0; background-color: #f4f4f4; }',
+               '    iframe { border: 1px solid #ccc; margin-bottom: 10px; width:100%; height:850px; }',
+               '    .chart-container { margin-bottom: 20px; padding:10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;}',
+               '    #global-selector-area { text-align: center; margin-bottom: 20px; }',
+               '    #fund-selector-container { display: inline-flex; align-items: flex-start; background-color: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }',
+               '    #global-fund-selector { width: auto; min-width: 300px; max-width: 60%; flex-shrink: 0; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-right: 10px; }', # Corrected Python comment
+               '    #fund-selector-buttons { display: flex; flex-direction: column; }',
+               '    .selector-button { padding: 10px 15px; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; color: white; margin-bottom: 10px; width: 150px; text-align: center;}',
+               '    #apply-fund-selection { background-color: #5cb85c; }',
+               '    #apply-fund-selection:hover { background-color: #4cae4c; }',
+               '    #reset-fund-selection { background-color: #d9534f; }',
+               '    #reset-fund-selection:hover { background-color: #c9302c; }',
+               '  </style>',
+               '<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>']
 
     if internal_only:
         final_html_lines.append(styling_constants_js)
@@ -735,11 +792,12 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
         final_html_lines.append('<div id="global-selector-area">')
         final_html_lines.append('  <h3 style="margin-bottom: 10px;">Global Fund Selector</h3>')
         final_html_lines.append('  <div id="fund-selector-container">')
-        final_html_lines.append('    <select id="global-fund-selector" multiple size="10">') # Set size to 10
+        final_html_lines.append('    <select id="global-fund-selector" multiple size="10">')
         for fund_name in sorted(list(all_unique_fund_names)):
             json_string_value = json.dumps(fund_name)
-            html_escaped_value = html.escape(json_string_value)
-            final_html_lines.append(f'      <option value="{html_escaped_value}">{fund_name}</option>')
+            html_escaped_value_attr = html.escape(json_string_value, quote=True)
+            html_escaped_text_content = html.escape(fund_name)
+            final_html_lines.append(f'      <option value="{html_escaped_value_attr}">{html_escaped_text_content}</option>')
         final_html_lines.append('    </select>')
         final_html_lines.append('    <div id="fund-selector-buttons">')
         final_html_lines.append('      <button id="apply-fund-selection" class="selector-button">Apply Selection</button>')
@@ -759,28 +817,28 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
 <script>
     // [SINGLE-PAGE MASTER JS] Loaded
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('[SINGLE-PAGE] DOMContentLoaded.');
+        // console.log('[SINGLE-PAGE] DOMContentLoaded.');
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
 
         if (globalFundSelector) {
-            console.log('[SINGLE-PAGE] Clearing globalFundSelector on DOMContentLoaded.');
+            // console.log('[SINGLE-PAGE] Clearing globalFundSelector on DOMContentLoaded.');
             Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
         }
 
         function handleSelectionChange() {
-            console.log('[SINGLE-PAGE] handleSelectionChange called.');
+            // console.log('[SINGLE-PAGE] handleSelectionChange called.');
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
             const selectedFunds = selectedOptionsRaw.map(val => {
                 try { return JSON.parse(val); } catch (e) { console.error('[SINGLE-PAGE] Error parsing option value:', val, e); return null; }
             }).filter(value => value !== null);
-            console.log('[SINGLE-PAGE] Parsed selected funds:', selectedFunds);
+            // console.log('[SINGLE-PAGE] Parsed selected funds:', selectedFunds);
 
             if (typeof updateAllChartsOnPage === 'function') {
-                 updateAllChartsOnPage(selectedFunds);
+                updateAllChartsOnPage(selectedFunds);
             } else {
-                console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found.');
+                console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found. Ensure selection_and_hover_js_logic is loaded.');
             }
         }
 
@@ -795,42 +853,45 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
                 handleSelectionChange();
             });
         }
-        console.log('[SINGLE-PAGE] Applying initial (empty) selection.');
+        // console.log('[SINGLE-PAGE] Applying initial (empty) selection.');
         handleSelectionChange();
     });
 </script>
 """
         final_html_lines.append(internal_master_js)
 
-    else: # For file output mode (not internal_only) - uses iframes
+    else:
         fund_selector_master_js = r"""
 <script>
     // [PARENT IFRAME MASTER JS] Loaded
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('[PARENT IFRAME] DOMContentLoaded.');
+        // console.log('[PARENT IFRAME] DOMContentLoaded.');
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
         const iframes = document.querySelectorAll('iframe');
-        console.log('[PARENT IFRAME] Found iframes:', iframes.length);
+        // console.log('[PARENT IFRAME] Found iframes:', iframes.length);
 
         if (globalFundSelector) {
-            console.log('[PARENT IFRAME] Clearing globalFundSelector on DOMContentLoaded.');
+            // console.log('[PARENT IFRAME] Clearing globalFundSelector on DOMContentLoaded.');
             Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
         }
 
         function dispatchSelectionUpdate() {
-            console.log('[PARENT IFRAME] dispatchSelectionUpdate called.');
+            // console.log('[PARENT IFRAME] dispatchSelectionUpdate called.');
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
             const selectedFunds = selectedOptionsRaw.map(val => {
                 try { return JSON.parse(val); } catch (e) { console.error('[PARENT IFRAME] Error parsing option value:', val, e); return null; }
             }).filter(value => value !== null);
-            console.log('[PARENT IFRAME] Parsed selected funds for dispatch:', selectedFunds);
+            // console.log('[PARENT IFRAME] Parsed selected funds for dispatch:', selectedFunds);
 
             const message = { type: 'fundSelectionUpdate', selectedFunds: selectedFunds };
             iframes.forEach((iframe, index) => {
                 if (iframe.contentWindow) {
                     iframe.contentWindow.postMessage(message, '*');
+                    // console.log(`[PARENT IFRAME] Posted message to iframe ${index}:`, message);
+                } else {
+                    // console.warn(`[PARENT IFRAME] Cannot access contentWindow of iframe ${index}. It might be cross-origin or not loaded yet.`);
                 }
             });
         }
@@ -849,18 +910,17 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
 
         window.addEventListener('message', function(event) {
             if (event.data && event.data.type === 'iframeReady') {
-                console.log(`[PARENT IFRAME] Received iframeReady message from: ${event.data.title}`);
+                // console.log(`[PARENT IFRAME] Received iframeReady message from: ${event.data.title || 'an iframe'}`);
                 if (event.source && globalFundSelector) {
                     const selectedOptionsRaw = Array.from(globalFundSelector.selectedOptions).map(opt => opt.value);
                     const selectedFunds = selectedOptionsRaw.map(val => {
                         try { return JSON.parse(val); } catch (e) { return null; }
                     }).filter(value => value !== null);
                     event.source.postMessage({ type: 'fundSelectionUpdate', selectedFunds: selectedFunds }, '*');
+                    // console.log(`[PARENT IFRAME] Sent current selection to ready iframe: ${event.data.title || ''}`);
                 }
             }
         });
-
-        console.log('[PARENT IFRAME] Dispatching initial (empty) selection update after DOMContentLoaded setup.');
         dispatchSelectionUpdate();
     });
 </script>
@@ -876,9 +936,8 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
         print(f"Printed single aggregated HTML page to stdout.", file=sys.stderr)
     else:
         idxp=os.path.join(args.output_dir,'fund_series_charts_index.html')
-        with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(index_html_lines))
+        with open(idxp,'w',encoding='utf-8') as f:f.write("\n".join(final_html_lines))
         print(f"Generated index at {idxp}")
 
 elif not use_stdin and not args.bar_mode and not generated_any_chart:
-     print("No charts to include in master index (no charts were generated).", file=sys.stderr)
-
+    print("No charts to include in master index (no charts were generated).", file=sys.stderr)
