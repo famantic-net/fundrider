@@ -135,24 +135,17 @@ styling_constants_js = """
 selection_and_hover_js_logic = """
 <script>
     // [JS SELECTION/HOVER LOGIC] Script block started.
-    // console.log('!!! [JS SELECTION/HOVER LOGIC] SCRIPT BLOCK EXECUTING !!! Title:', document.title);
-
     let currentGlobalSelectedFunds = []; // Master state for selected funds
     const DBL_CLICK_DELAY_MS = 250; // Milliseconds to wait for a double click
 
     function applyGlobalFundSelectionStyle(gd, fundsToUse) {
-        if (gd._isApplyingStylesCurrently) { // Renamed flag
-            // console.log('[AGFS] Skipping for gd.id:', gd.id, 'due to _isApplyingStylesCurrently flag.');
+        if (gd._isApplyingStylesCurrently) {
             return;
         }
         if (!gd || !gd.data || !gd.layout) {
-            // console.warn('[AGFS] GD, gd.data, or gd.layout not ready for gd.id:', gd ? gd.id : 'undefined_gd');
             return;
         }
-
-        gd._isApplyingStylesCurrently = true; // Set flag
-        // console.log('[AGFS] Started for gd.id:', gd.id, 'Hovered:', gd._lastHoveredTraceIndex, 'FundsToUse:', fundsToUse);
-
+        gd._isApplyingStylesCurrently = true;
 
         const legendTexts = gd.querySelectorAll('.legendtext');
         const restyleUpdate = {
@@ -171,28 +164,25 @@ selection_and_hover_js_logic = """
             const isVisible = (trace.visible !== 'legendonly');
 
             if (isCurrentlyHovered && isVisible) {
-                // Apply hover styles if this trace is hovered and visible
                 targetLineWidth = hoverLineWidth;
                 targetOpacity = defaultOpacity;
                 targetLegendFontWeight = 'bold';
             } else if (!isVisible) {
-                // Style for traces explicitly hidden via legend or plot click
                 targetLineWidth = dimmedLineWidth;
                 targetOpacity = dimmedOpacity;
                 targetLegendFontWeight = 'normal';
             } else {
-                // Trace is visible and not hovered, apply global selection or default styles
-                if (fundsToUse && fundsToUse.length > 0) { // Global selection is active
-                    if (fundsToUse.includes(baseTraceName)) { // This trace is globally selected
+                if (fundsToUse && fundsToUse.length > 0) {
+                    if (fundsToUse.includes(baseTraceName)) {
                         targetLineWidth = selectedLineWidth;
                         targetOpacity = defaultOpacity;
                         targetLegendFontWeight = 'bold';
-                    } else { // This trace is visible but NOT globally selected (dim it)
+                    } else {
                         targetLineWidth = dimmedLineWidth;
                         targetOpacity = dimmedOpacity;
                         targetLegendFontWeight = 'normal';
                     }
-                } else { // No global selection, all visible traces are in their default state
+                } else {
                     targetLineWidth = defaultLineWidth;
                     targetOpacity = defaultOpacity;
                     targetLegendFontWeight = 'normal';
@@ -201,22 +191,18 @@ selection_and_hover_js_logic = """
             restyleUpdate['line.width'][i] = targetLineWidth;
             restyleUpdate['opacity'][i] = targetOpacity;
             if (legendTexts && legendTexts[i]) {
-                // console.log(`[AGFS] gd: ${gd.id}, trace ${i} (${baseTraceName}), hover: ${isCurrentlyHovered}, visible: ${isVisible}, legendWeight: ${targetLegendFontWeight}`);
                 legendTexts[i].style.fontWeight = targetLegendFontWeight;
             }
         });
 
-        // console.log('[AGFS] Applying to gd.id:', gd.id, JSON.stringify(restyleUpdate));
         Plotly.restyle(gd, restyleUpdate, traceIndices)
             .catch(function(err) {
                 console.error('[AGFS] Restyle FAILED for gd.id:', gd.id, err);
             }).finally(function() {
-                gd._isApplyingStylesCurrently = false; // Reset flag immediately when this restyle operation's promise settles
-                // console.log('[AGFS] Reset _isApplyingStylesCurrently for gd.id:', gd.id);
+                gd._isApplyingStylesCurrently = false;
             });
     }
 
-    // For IFRAME mode (when not internal_only)
     if (window.parent && window.parent !== window) {
         window.addEventListener('message', function(event) {
             if (event.data && event.data.type === 'fundSelectionUpdate') {
@@ -230,12 +216,10 @@ selection_and_hover_js_logic = """
         });
     }
 
-    // For SINGLE-PAGE mode, called by internal_master_js
     function updateAllChartsOnPage(selectedFundsFromMaster) {
         currentGlobalSelectedFunds = selectedFundsFromMaster || [];
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
             if (gdNode.data && gdNode.layout) {
-                // if (gdNode._isApplyingStylesCurrently) return; // This check is now inside applyGlobalFundSelectionStyle
                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
             }
         });
@@ -243,26 +227,22 @@ selection_and_hover_js_logic = """
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
-            gdNode._isApplyingStylesCurrently = false; // Initialize flag
+            gdNode._isApplyingStylesCurrently = false;
             gdNode._plotClickState = { timer: null, lastTime: 0, lastCurveNumber: -1 };
-            gdNode._lastHoveredTraceIndex = -1; // Initialize hover state for each graph
+            gdNode._lastHoveredTraceIndex = -1;
 
             gdNode.on('plotly_afterplot', function(){
-                // console.log('[plotly_afterplot] gd.id:', gdNode.id, 'Hovered:', gdNode._lastHoveredTraceIndex);
-                // The applyGlobalFundSelectionStyle function itself will check _isApplyingStylesCurrently
                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
             });
 
-            if (gdNode.data && gdNode.layout) { // Initial application of styles
+            if (gdNode.data && gdNode.layout) {
                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
             }
 
             if (!gdNode.on) return;
 
             gdNode.on('plotly_click', function(eventData) {
-                // if (gdNode._isApplyingStylesCurrently) return; // Check is inside applyGlobalFundSelectionStyle if it were called directly
                 if (!eventData || !eventData.points || eventData.points.length === 0) return;
-
                 const clickedCurveNumber = eventData.points[0].curveNumber;
                 const clickTime = new Date().getTime();
 
@@ -273,7 +253,7 @@ selection_and_hover_js_logic = """
                         gdNode._plotClickState.timer = null;
                     }
                     const visibilityUpdates = gdNode.data.map((_, i) => (i === clickedCurveNumber) ? true : 'legendonly');
-                    Plotly.restyle(gdNode, {visible: visibilityUpdates}); // Triggers afterplot, which calls applyGlobalFundSelectionStyle
+                    Plotly.restyle(gdNode, {visible: visibilityUpdates});
                     gdNode._plotClickState.lastTime = 0;
                     gdNode._plotClickState.lastCurveNumber = -1;
                 } else {
@@ -282,7 +262,7 @@ selection_and_hover_js_logic = """
                         if (!gdNode.data || !gdNode.data[clickedCurveNumber]) return;
                         const currentVisibility = gdNode.data[clickedCurveNumber].visible;
                         const newVisibility = (currentVisibility === true || currentVisibility === undefined) ? 'legendonly' : true;
-                        Plotly.restyle(gdNode, {visible: newVisibility}, [clickedCurveNumber]); // Triggers afterplot
+                        Plotly.restyle(gdNode, {visible: newVisibility}, [clickedCurveNumber]);
                         gdNode._plotClickState.timer = null;
                     }, DBL_CLICK_DELAY_MS);
                 }
@@ -290,11 +270,12 @@ selection_and_hover_js_logic = """
                 gdNode._plotClickState.lastCurveNumber = clickedCurveNumber;
             });
 
-
             gdNode.on('plotly_hover', function(data) {
               var ci = data.points[0].curveNumber;
               var legendTexts = gdNode.querySelectorAll('.legendtext');
-              Plotly.restyle(gdNode, {'line.width': hoverLineWidth, opacity: defaultOpacity}, [ci]);
+              gdNode._lastHoveredTraceIndex = ci;
+              applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+
               if (gdNode.data && gdNode.data[ci] && legendTexts && legendTexts.length > ci) {
                 var traceName = gdNode.data[ci].name || '';
                 var foundMatchByName = false;
@@ -311,16 +292,12 @@ selection_and_hover_js_logic = """
             });
 
             gdNode.on('plotly_unhover', function() {
-                // if (gdNode._isApplyingStylesCurrently) return; // Check is inside applyGlobalFundSelectionStyle
-                // console.log('[plotly_unhover] gd.id:', gdNode.id, 'Clearing hover.');
                 gdNode._lastHoveredTraceIndex = -1;
                 applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
             });
 
-            // Let plotly_afterplot handle styling after default legend actions
             gdNode.on('plotly_legendclick', function() { return true; });
             gdNode.on('plotly_legenddoubleclick', function() { return true; });
-
         });
 
         if (window.parent && window.parent !== window) {
@@ -524,6 +501,10 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         f'<div><input id="w{i}" data-index="{i}" class="weight-slider" type="range" min="0" max="10" step="0.1" value="{py_init_weights[i]:.1f}" style="width:100%;"></div></td>'
         for i, d in enumerate(py_windows)]) + '</tr></table>'
 
+    defaults_button_html = '<button id="reset-weights-button" title="Reset weights to default values" style="font-size: 0.8em; padding: 4px 8px; margin-left: 10px; background-color: #6c757d; color:white; border:none; border-radius:4px; cursor:pointer; vertical-align: middle;">Defaults</button>'
+    slider_section_title_html = f'<h3 style="text-align:center;color:#555;">Adjust Scoring Weights {defaults_button_html}</h3>'
+
+
     controls_and_table_html = (
         '<div style="display: flex; justify-content: space-around; margin: 20px 0; align-items: flex-start; flex-wrap: wrap;">'
         '  <div id="fund-isolation-controls" style="flex: 1; min-width: 320px; padding:10px;">'
@@ -535,7 +516,6 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
         '    </div></div>'
         '  <div id="dynamic-fund-table-container" style="flex: 1.5; min-width: 400px; padding:10px;"><h3 style="text-align:center; color:#555;">Top Funds</h3></div></div>')
 
-    # HTML for the Copy CSV button
     csv_button_html = """
 <div id="csv-export-area" style="text-align:center; margin-top:5px; margin-bottom: 20px;">
     <button id="copy-csv-button" style="padding: 10px 20px; border-radius:5px; background-color:#007bff; color:white; border:none; cursor:pointer; font-size: 15px;">Copy Table CSV</button>
@@ -552,7 +532,7 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     main_js_logic = """<script>
   const weightSliders = Array.from(document.querySelectorAll('input.weight-slider'));
   let currentSortColumn = 'score', currentSortAscending = false, currentlyIsolatedFundNames = null;
-  let dataForCSVExport = []; // Holds the data currently shown in the Top Funds table for CSV export
+  let dataForCSVExport = [];
 
   function calculateScore(contribs, weights) {
     if (!contribs || !Array.isArray(contribs)) return null;
@@ -568,32 +548,99 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
     const slope=(validPts*sumXY-sumX*sumY)/denom; return Number.isFinite(slope)?slope:null;
   }
   function renderDynamicTable(fundData) {
-    const container=document.getElementById('dynamic-fund-table-container'),title=container.querySelector('h3'); container.innerHTML=''; if(title)container.appendChild(title);
+    const container=document.getElementById('dynamic-fund-table-container');
+    const title=container.querySelector('h3');
+    container.innerHTML='';
+    if(title) container.appendChild(title);
+
     if(!fundData||fundData.length===0){
         const p=document.createElement('p');p.textContent='No funds to display.';p.style.textAlign='center';container.appendChild(p);
-        dataForCSVExport = []; // Clear CSV data if table is empty
+        dataForCSVExport = [];
         return;
     }
-    fundData.sort((a,b)=>{let vA=currentSortColumn==='score'?a.score:a.gradient,vB=currentSortColumn==='score'?b.score:b.gradient;vA=(vA===null||isNaN(vA))?(currentSortAscending?Infinity:-Infinity):vA;vB=(vB===null||isNaN(vB))?(currentSortAscending?Infinity:-Infinity):vB;if(vA<vB)return currentSortAscending?-1:1;if(vA>vB)return currentSortAscending?1:-1;return 0;});
+    fundData.sort((a,b)=>{
+        let vA=currentSortColumn==='score'?a.score:a.gradient;
+        let vB=currentSortColumn==='score'?b.score:b.gradient;
+        vA=(vA===null||isNaN(vA))?(currentSortAscending?Infinity:-Infinity):vA;
+        vB=(vB===null||isNaN(vB))?(currentSortAscending?Infinity:-Infinity):vB;
+        if(vA<vB)return currentSortAscending?-1:1;
+        if(vA>vB)return currentSortAscending?1:-1;
+        return 0;
+    });
     const top20=fundData.slice(0,20);
-    dataForCSVExport = [...top20]; // Update data for CSV export with the displayed top 20
+    dataForCSVExport = [...top20];
     const table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;margin-top:10px;';
-    const head=table.createTHead().insertRow(),headers=[{t:'Fund Name',k:'name'},{t:'Fund Score',k:'score'},{t:`Fund Score Gradient (${numGradientLookbackDaysJS}d)`,k:'gradient'}];
-    headers.forEach(h=>{const th=document.createElement('th');th.textContent=h.t;th.style.cssText='border:1px solid #ddd;padding:8px;text-align:left;background-color:#f0f0f0;font-weight:bold;';if(h.k==='score'||h.k==='gradient'){th.style.cursor='pointer';th.addEventListener('click',()=>{currentSortColumn===h.k?currentSortAscending=!currentSortAscending:(currentSortColumn=h.k,currentSortAscending=false);updateScoresAndGradients();});if(currentSortColumn===h.k){th.style.fontStyle='italic';th.innerHTML+=currentSortAscending?' &uarr;':' &darr;';}}head.appendChild(th);});
-    const tbody=table.createTBody();top20.forEach(f=>{const r=tbody.insertRow(),s=f.score,g=f.gradient;r.insertCell().textContent=f.name;r.insertCell().textContent=s!==null&&!isNaN(s)?s.toFixed(2):'N/A';r.insertCell().textContent=g!==null&&!isNaN(g)?g.toFixed(2):'N/A';Array.from(r.cells).forEach(c=>{c.style.border='1px solid #ddd';c.style.padding='8px';if(c!==r.cells[0])c.style.textAlign='right';});});container.appendChild(table);
+    const head=table.createTHead().insertRow();
+    const headers=[
+        {t:'Fund Name',k:'name'},
+        {t:'Fund Score',k:'score'},
+        {t:`Fund Score Gradient (${numGradientLookbackDaysJS}d)`,k:'gradient'}
+    ];
+    headers.forEach(h=>{
+        const th=document.createElement('th');
+        th.textContent=h.t;
+        th.style.cssText='border:1px solid #ddd;padding:8px;text-align:left;background-color:#f0f0f0;font-weight:bold;';
+        if(h.k==='score'||h.k==='gradient'){
+            th.style.cursor='pointer';
+            th.addEventListener('click',()=>{
+                currentSortColumn===h.k?currentSortAscending=!currentSortAscending:(currentSortColumn=h.k,currentSortAscending=false);
+                updateScoresAndGradients();
+            });
+            if(currentSortColumn===h.k){th.style.fontStyle='italic';th.innerHTML+=currentSortAscending?' &uarr;':' &darr;';}
+        }
+        head.appendChild(th);
+    });
+    const tbody=table.createTBody();
+    top20.forEach(f=>{
+        const r=tbody.insertRow();
+        const s=f.score,g=f.gradient;
+        r.insertCell().textContent=f.name;
+        r.insertCell().textContent=s!==null&&!isNaN(s)?s.toFixed(2):'N/A';
+        r.insertCell().textContent=g!==null&&!isNaN(g)?g.toFixed(2):'N/A';
+        Array.from(r.cells).forEach(c=>{
+            c.style.border='1px solid #ddd';
+            c.style.padding='8px';
+            if(c!==r.cells[0])c.style.textAlign='right';
+        });
+    });
+    container.appendChild(table);
   }
+
   function updateScoresAndGradients(fundsToProc=null){
-    const weights=weightSliders.map(el=>parseFloat(el.value));weights.forEach((v,i)=>{const el=document.getElementById('v'+i);if(el)el.textContent=v.toFixed(1);});
-    let yScores=[],customData=[],tableData=[]; const namesToUse=fundsToProc?fundsToProc:(currentlyIsolatedFundNames||allFundNamesJS);
-    namesToUse.forEach(fundName=>{const idx=allFundNamesJS.indexOf(fundName);if(idx===-1)return; const mainContribs=mainContributionsJS[idx],mainScore=calculateScore(mainContribs,weights);yScores.push(mainScore);
-      const histSets=historicalContributionsDataJS[fundName];let histScores=[],grad=null;
-      if(histSets&&histSets.length===numGradientLookbackDaysJS){for(let i=0;i<numGradientLookbackDaysJS;i++)histScores.push(calculateScore(histSets[i],weights));grad=calculateSlope(histScores.slice().reverse());}
-      customData.push([grad]);tableData.push({name:fundName,score:mainScore,gradient:grad});});
+    const weights=weightSliders.map((el, index) => {
+        const val = parseFloat(el.value);
+        const displayEl = document.getElementById('v' + index);
+        if(displayEl) displayEl.textContent = val.toFixed(1);
+        localStorage.setItem('slider_w' + index, val.toFixed(1));
+        return val;
+    });
+
+    let yScores=[],customData=[],tableData=[];
+    const namesToUse=fundsToProc?fundsToProc:(currentlyIsolatedFundNames||allFundNamesJS);
+
+    namesToUse.forEach(fundName=>{
+        const idx=allFundNamesJS.indexOf(fundName);
+        if(idx===-1)return;
+        const mainContribs=mainContributionsJS[idx];
+        const mainScore=calculateScore(mainContribs,weights);
+        yScores.push(mainScore);
+
+        const histSets=historicalContributionsDataJS[fundName];
+        let histScores=[],grad=null;
+        if(histSets&&histSets.length===numGradientLookbackDaysJS){
+            for(let i=0;i<numGradientLookbackDaysJS;i++) {
+                histScores.push(calculateScore(histSets[i],weights));
+            }
+            grad=calculateSlope(histScores.slice().reverse());
+        }
+        customData.push([grad]);
+        tableData.push({name:fundName,score:mainScore,gradient:grad});
+    });
     Plotly.restyle('bar-chart',{x:[namesToUse],y:[yScores],customdata:[customData]},[0]);
+
     let fullTableData = [];
-    if (currentlyIsolatedFundNames && currentlyIsolatedFundNames.length > 0) {
-        fullTableData = tableData; // Use only isolated funds for the table
-    } else { // Use all funds if no isolation
+    // Logic to determine fullTableData based on isolation or all funds
+    if (namesToUse === allFundNamesJS && (!currentlyIsolatedFundNames || currentlyIsolatedFundNames.length === 0)) { // Showing all funds
         allFundNamesJS.forEach(fN=>{
             const idx=allFundNamesJS.indexOf(fN);
             const mC=mainContributionsJS[idx];
@@ -606,14 +653,58 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
             }
             fullTableData.push({name:fN,score:mS,gradient:gr_val});
         });
+    } else { // Showing a subset (isolated funds)
+        fullTableData = [...tableData]; // tableData already contains the isolated set
     }
     renderDynamicTable(fullTableData);
   }
-  weightSliders.forEach(s=>{s.addEventListener('input',()=>updateScoresAndGradients());s.addEventListener('wheel',function(e){e.preventDefault();const step=parseFloat(s.step)||0.1;let cur=parseFloat(s.value),min=parseFloat(s.min)||0,max=parseFloat(s.max)||10;e.deltaY<0?cur+=step:cur-=step;s.value=Math.max(min,Math.min(max,cur)).toFixed(1);updateScoresAndGradients();});});
+
+  weightSliders.forEach(s=>{
+    s.addEventListener('input',()=>updateScoresAndGradients()); // updateScoresAndGradients now saves to localStorage
+    s.addEventListener('wheel',function(e){
+        e.preventDefault();
+        const step=parseFloat(s.step)||0.1;
+        let cur=parseFloat(s.value);
+        const min=parseFloat(s.min)||0;
+        const max=parseFloat(s.max)||10;
+        e.deltaY<0?cur+=step:cur-=step;
+        s.value=Math.max(min,Math.min(max,cur)).toFixed(1);
+        updateScoresAndGradients(); // updateScoresAndGradients now saves to localStorage
+    });
+  });
 
   document.addEventListener('DOMContentLoaded',()=>{
-    pyInitialWeightsJS.forEach((v,i)=>{const s=document.getElementById('w'+i);if(s)s.value=v.toFixed(1);});
-    updateScoresAndGradients(); // Initial population of table and chart
+    weightSliders.forEach((slider, index) => {
+        let initialVal = pyInitialWeightsJS[index];
+        slider.value = initialVal.toFixed(1);
+        const savedValue = localStorage.getItem('slider_w' + index);
+        if (savedValue !== null) {
+            slider.value = parseFloat(savedValue).toFixed(1);
+        }
+    });
+
+    const fundSelectDropdown = document.getElementById('fund-select');
+    const savedIsolatedFundsString = localStorage.getItem('isolatedFundsBarChart');
+    if (savedIsolatedFundsString) {
+        try {
+            const savedIsolatedFunds = JSON.parse(savedIsolatedFundsString);
+            if (Array.isArray(savedIsolatedFunds) && savedIsolatedFunds.length > 0) {
+                currentlyIsolatedFundNames = savedIsolatedFunds;
+                if (fundSelectDropdown) { // Ensure dropdown exists before manipulating
+                    Array.from(fundSelectDropdown.options).forEach(opt => { // This populates selection based on loaded isolated funds
+                        opt.selected = savedIsolatedFunds.includes(opt.value);
+                    });
+                }
+            } else {
+                 localStorage.removeItem('isolatedFundsBarChart');
+            }
+        } catch (e) {
+            console.error('Error parsing saved isolated funds:', e);
+            localStorage.removeItem('isolatedFundsBarChart');
+        }
+    }
+
+    updateScoresAndGradients(); // Initial call: updates spans, saves sliders, applies isolation if loaded
 
     const copyCsvButton = document.getElementById('copy-csv-button');
     if (copyCsvButton) {
@@ -628,17 +719,14 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
                 }, 2000);
                 return;
             }
-
             const headers = ['Fund Name', 'Fund Score', `Fund Score Gradient (${numGradientLookbackDaysJS}d)`];
             let csvContent = headers.join(',') + '\\n';
-
             dataForCSVExport.forEach(item => {
                 const score = (item.score !== null && !isNaN(item.score)) ? item.score.toFixed(2) : 'N/A';
                 const gradient = (item.gradient !== null && !isNaN(item.gradient)) ? item.gradient.toFixed(2) : 'N/A';
-                const name = `"${String(item.name).replace(/"/g, '""')}"`; // Escape quotes and wrap in quotes
+                const name = `"${String(item.name).replace(/"/g, '""')}"`;
                 csvContent += [name, score, gradient].join(',') + '\\n';
             });
-
             const textArea = document.createElement('textarea');
             textArea.value = csvContent;
             textArea.style.position = 'fixed';
@@ -647,16 +735,12 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-
             let msg = '';
             try {
                 const successful = document.execCommand('copy');
                 msg = successful ? 'CSV Copied!' : 'Copy failed';
-            } catch (err) {
-                msg = 'Error!';
-            }
+            } catch (err) { msg = 'Error!'; }
             document.body.removeChild(textArea);
-
             const originalButtonText = copyCsvButton.textContent;
             copyCsvButton.textContent = msg;
             copyCsvButton.disabled = true;
@@ -666,39 +750,74 @@ def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
             }, 2000);
         });
     }
+
+    const resetWeightsButton = document.getElementById('reset-weights-button');
+    if (resetWeightsButton) {
+        resetWeightsButton.addEventListener('click', () => {
+            weightSliders.forEach((slider, index) => {
+                slider.value = pyInitialWeightsJS[index].toFixed(1);
+                // localStorage.removeItem('slider_w' + index); // No need to remove here, updateScoresAndGradients will save the new default
+            });
+            updateScoresAndGradients();
+        });
+    }
   });
 </script>"""
     isolate_js = f"""<script>
-  const fundSel=document.getElementById('fund-select'),fundsDrop={json.dumps(output_fund_names)};
-  fundsDrop.forEach(fN=>{{
-    const opt=document.createElement('option');
-    opt.value=fN;
-    opt.text=fN;
-    fundSel.appendChild(opt);
-  }});
+  const fundSel = document.getElementById('fund-select');
 
-  document.getElementById('isolate').addEventListener('click',()=>{{
-    const sel=Array.from(fundSel.selectedOptions).map(o=>o.value);
-    if(sel.length===0){{
-        currentlyIsolatedFundNames=null;
-        updateScoresAndGradients();
-        return;
+  if (fundSel && typeof allFundNamesJS !== 'undefined' && Array.isArray(allFundNamesJS)) {{
+    allFundNamesJS.forEach(fN => {{ // Use allFundNamesJS from js_data_script
+        const opt = document.createElement('option');
+        opt.value = fN;
+        opt.text = fN;
+        fundSel.appendChild(opt);
+    }});
+
+    // After populating, update selection based on currentlyIsolatedFundNames (which might have been loaded from localStorage)
+    if (currentlyIsolatedFundNames && currentlyIsolatedFundNames.length > 0) {{
+        Array.from(fundSel.options).forEach(opt => {{
+            opt.selected = currentlyIsolatedFundNames.includes(opt.value);
+        }});
     }}
-    currentlyIsolatedFundNames=sel;
-    updateScoresAndGradients(sel);
-  }});
 
-  document.getElementById('reset').addEventListener('click',()=>{{
-    fundSel.selectedIndex=-1;
-    currentlyIsolatedFundNames=null;
-    updateScoresAndGradients();
-  }});
+
+    document.getElementById('isolate').addEventListener('click', () => {{
+        const sel = Array.from(fundSel.selectedOptions).map(o => o.value);
+        if (sel.length === 0) {{
+            currentlyIsolatedFundNames = null;
+            localStorage.removeItem('isolatedFundsBarChart');
+            updateScoresAndGradients();
+            return;
+        }}
+        currentlyIsolatedFundNames = sel;
+        localStorage.setItem('isolatedFundsBarChart', JSON.stringify(sel));
+        updateScoresAndGradients(sel);
+    }});
+
+    document.getElementById('reset').addEventListener('click', () => {{
+        fundSel.selectedIndex = -1;
+        currentlyIsolatedFundNames = null;
+        localStorage.removeItem('isolatedFundsBarChart');
+        updateScoresAndGradients();
+    }});
+  }} else {{
+    if (!fundSel) {{
+        console.error("Fund select dropdown (#fund-select) not found for isolate_js.");
+    }}
+    if (typeof allFundNamesJS === 'undefined' || !Array.isArray(allFundNamesJS)) {{
+        console.error("allFundNamesJS is not available or not an array for populating fund select in isolate_js.");
+    }}
+  }}
 </script>"""
 
     full_html = ('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fund Scores</title><style>body{font-family:Arial,sans-serif;}</style></head><body>'
-                 '<h1 style="text-align:center;color:#333;">Fund Performance Dashboard</h1><h3 style="text-align:center;color:#555;">Adjust Scoring Weights</h3>' +
-                 slider_html + '<h3 style="text-align:center;margin-top:30px;color:#555;">Fund Scores Bar Chart</h3>' + body + controls_and_table_html +
-                 csv_button_html + # Added CSV button HTML here
+                 '<h1 style="text-align:center;color:#333;">Fund Performance Dashboard</h1>' +
+                 slider_section_title_html +
+                 slider_html +
+                 '<h3 style="text-align:center;margin-top:30px;color:#555;">Fund Scores Bar Chart</h3>' + body +
+                 controls_and_table_html +
+                 csv_button_html +
                  js_data_script + main_js_logic + isolate_js + '</body></html>')
     if internal: print(full_html)
     else:
@@ -843,7 +962,7 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
                '    .chart-container { margin-bottom: 20px; padding:10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;}',
                '    #global-selector-area { text-align: center; margin-bottom: 20px; }',
                '    #fund-selector-container { display: inline-flex; align-items: flex-start; background-color: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }',
-               '    #global-fund-selector { width: auto; min-width: 300px; max-width: 60%; flex-shrink: 0; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-right: 10px; }', # Corrected Python comment
+               '    #global-fund-selector { width: auto; min-width: 300px; max-width: 60%; flex-shrink: 0; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-right: 10px; }',
                '    #fund-selector-buttons { display: flex; flex-direction: column; }',
                '    .selector-button { padding: 10px 15px; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; color: white; margin-bottom: 10px; width: 150px; text-align: center;}',
                '    #apply-fund-selection { background-color: #5cb85c; }',
@@ -889,28 +1008,24 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
 <script>
     // [SINGLE-PAGE MASTER JS] Loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // console.log('[SINGLE-PAGE] DOMContentLoaded.');
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
 
         if (globalFundSelector) {
-            // console.log('[SINGLE-PAGE] Clearing globalFundSelector on DOMContentLoaded.');
             Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
         }
 
         function handleSelectionChange() {
-            // console.log('[SINGLE-PAGE] handleSelectionChange called.');
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
             const selectedFunds = selectedOptionsRaw.map(val => {
                 try { return JSON.parse(val); } catch (e) { console.error('[SINGLE-PAGE] Error parsing option value:', val, e); return null; }
             }).filter(value => value !== null);
-            // console.log('[SINGLE-PAGE] Parsed selected funds:', selectedFunds);
 
             if (typeof updateAllChartsOnPage === 'function') {
                 updateAllChartsOnPage(selectedFunds);
             } else {
-                console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found. Ensure selection_and_hover_js_logic is loaded.');
+                console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found.');
             }
         }
 
@@ -925,7 +1040,6 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
                 handleSelectionChange();
             });
         }
-        // console.log('[SINGLE-PAGE] Applying initial (empty) selection.');
         handleSelectionChange();
     });
 </script>
@@ -937,33 +1051,25 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
 <script>
     // [PARENT IFRAME MASTER JS] Loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // console.log('[PARENT IFRAME] DOMContentLoaded.');
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
         const iframes = document.querySelectorAll('iframe');
-        // console.log('[PARENT IFRAME] Found iframes:', iframes.length);
 
         if (globalFundSelector) {
-            // console.log('[PARENT IFRAME] Clearing globalFundSelector on DOMContentLoaded.');
             Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
         }
 
         function dispatchSelectionUpdate() {
-            // console.log('[PARENT IFRAME] dispatchSelectionUpdate called.');
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
             const selectedFunds = selectedOptionsRaw.map(val => {
                 try { return JSON.parse(val); } catch (e) { console.error('[PARENT IFRAME] Error parsing option value:', val, e); return null; }
             }).filter(value => value !== null);
-            // console.log('[PARENT IFRAME] Parsed selected funds for dispatch:', selectedFunds);
 
             const message = { type: 'fundSelectionUpdate', selectedFunds: selectedFunds };
-            iframes.forEach((iframe, index) => {
+            iframes.forEach((iframe) => {
                 if (iframe.contentWindow) {
                     iframe.contentWindow.postMessage(message, '*');
-                    // console.log(`[PARENT IFRAME] Posted message to iframe ${index}:`, message);
-                } else {
-                    // console.warn(`[PARENT IFRAME] Cannot access contentWindow of iframe ${index}. It might be cross-origin or not loaded yet.`);
                 }
             });
         }
@@ -982,14 +1088,12 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
 
         window.addEventListener('message', function(event) {
             if (event.data && event.data.type === 'iframeReady') {
-                // console.log(`[PARENT IFRAME] Received iframeReady message from: ${event.data.title || 'an iframe'}`);
                 if (event.source && globalFundSelector) {
                     const selectedOptionsRaw = Array.from(globalFundSelector.selectedOptions).map(opt => opt.value);
                     const selectedFunds = selectedOptionsRaw.map(val => {
                         try { return JSON.parse(val); } catch (e) { return null; }
                     }).filter(value => value !== null);
                     event.source.postMessage({ type: 'fundSelectionUpdate', selectedFunds: selectedFunds }, '*');
-                    // console.log(`[PARENT IFRAME] Sent current selection to ready iframe: ${event.data.title || ''}`);
                 }
             }
         });
