@@ -3,3 +3,11 @@ bin/tester.pl
 bin/tmp.pl
 bin/old.py
 bin/old.0.py
+results/fund-performance_250426.png
+results/fund-performance_250502.png
+results/fund_series_charts.stdout.test.html
+results/fund_series_scores.stdout.gradient.html
+results/fund_series_scores.stdout.gradient.test.html
+results/fund_series_scores.stdout.test.html
+results/growth-recommendations.test.html
+bin/interactive_fund_plot.new.0.py
