@@ -108,8 +108,8 @@ args = parser.parse_args()
 
 # Determine modes
 internal_only = (args.output_dir == ':internal:')
-use_stdin = (args.input_dir == '.' and not sys.stdin.isatty())
-if not internal_only and not use_stdin:
+use_stdin = (args.input_dir == '.' and not sys.stdin.isatty()) # Check if not a TTY and input_dir is default
+if not internal_only and not use_stdin and not os.path.exists(args.output_dir) :
     os.makedirs(args.output_dir, exist_ok=True)
 
 # Common pandas CSV options
@@ -209,9 +209,36 @@ selection_and_hover_js_logic = """
                 currentGlobalSelectedFunds = event.data.selectedFunds || [];
                 document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
                     if (gdNode.data && gdNode.layout) {
-                        applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+                        // Ensure this gdNode is not the overlay plot itself if it also has 'plotly-graph-div'
+                        if (gdNode.id !== 'overlay-chart-plot-inner') {
+                           applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+                        }
                     }
                 });
+            }
+            // Listener for getFundDataForOverlay (for iframe mode)
+            if (event.data && event.data.type === 'getFundDataForOverlay') {
+                const selectedFundsForOverlay = event.data.selectedFunds;
+                const requestId = event.data.requestId;
+                let tracesForParent = [];
+                const gdNode = document.querySelector('.plotly-graph-div'); // Assumes one chart per iframe
+                if (gdNode && gdNode.data) {
+                    gdNode.data.forEach(trace => {
+                        const baseTraceName = (trace.name || '').split('<br>')[0];
+                        if (selectedFundsForOverlay.includes(baseTraceName)) {
+                            tracesForParent.push(JSON.parse(JSON.stringify(trace)));
+                        }
+                    });
+                }
+                if (event.source) {
+                    event.source.postMessage({
+                        type: 'fundDataResponse',
+                        traces: tracesForParent,
+                        requestId: requestId
+                    }, event.origin);
+                } else {
+                    console.error("Cannot postMessage: event.source is null.");
+                }
             }
         });
     }
@@ -220,13 +247,17 @@ selection_and_hover_js_logic = """
         currentGlobalSelectedFunds = selectedFundsFromMaster || [];
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
             if (gdNode.data && gdNode.layout) {
-                applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+                if (gdNode.id !== 'overlay-chart-plot-inner') {
+                    applyGlobalFundSelectionStyle(gdNode, currentGlobalSelectedFunds);
+                }
             }
         });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.plotly-graph-div').forEach(function(gdNode) {
+            if (gdNode.id === 'overlay-chart-plot-inner') return;
+
             gdNode._isApplyingStylesCurrently = false;
             gdNode._plotClickState = { timer: null, lastTime: 0, lastCurveNumber: -1 };
             gdNode._lastHoveredTraceIndex = -1;
@@ -323,7 +354,7 @@ def df_to_html_individual_file(df, title=None, last_dates=None):
         custom_hover_data = 10 ** series_data * 100
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
-            line=dict(width=2),
+            line=dict(width=2), # Default line width for original charts
             hovertemplate=(
                 '<b>Series:</b> %{fullData.name}<br>'
                 '<b>Date:</b> %{x|%Y-%m-%d}<br>'
@@ -334,7 +365,8 @@ def df_to_html_individual_file(df, title=None, last_dates=None):
     layout = dict(hovermode='closest', template='plotly_white', height=height_px,
                   yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'),
                   xaxis=dict(title='Date'),
-                  legend=dict(traceorder='normal'))
+                  legend=dict(traceorder='normal'),
+                  autosize=True) # Ensure autosize for individual charts too
     if title: layout['title'] = dict(text=title, x=0.5, xanchor='center')
     fig.update_layout(**layout)
 
@@ -361,7 +393,7 @@ def df_to_html_individual_file(df, title=None, last_dates=None):
 def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_dates=None):
     num_series = len(df.columns) - 1 if 'Date' in df.columns else len(df.columns)
     base_h = max(500, num_series*25 + 100)
-    height_px = int(base_h * 1.5)
+    height_px = int(base_h * 1.5) # This height is for the container div
     div_id = f"plotlyChartDiv_{chart_id_suffix}"
 
     fig = go.Figure()
@@ -373,12 +405,13 @@ def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_date
         custom_hover_data = 10 ** series_data * 100
         fig.add_trace(go.Scatter(
             x=df['Date'], y=series_data, mode='lines', name=name, customdata=custom_hover_data,
-            line=dict(width=2),
+            line=dict(width=2), # Default line width for original charts
             hovertemplate=('<b>Series:</b> %{fullData.name}<br><b>Date:</b> %{x|%Y-%m-%d}<br><b>Value (log10):</b> %{y:.3f}<br><b>Relative Change:</b> %{customdata:.1f}%<extra></extra>')
         ))
-    layout = dict(hovermode='closest', template='plotly_white', height=height_px,
+    layout = dict(hovermode='closest', template='plotly_white', height=height_px, # Set container height
                   yaxis=dict(zeroline=True, zerolinewidth=3, title='Normalized Value (log10 scale, 0 = Last Date)'),
-                  xaxis=dict(title='Date'), legend=dict(traceorder='normal'))
+                  xaxis=dict(title='Date'), legend=dict(traceorder='normal'),
+                  autosize=True) # Plotly chart itself will autosize within its div
     if title: layout['title'] = dict(text=title, x=0.5, xanchor='center')
     fig.update_layout(**layout)
 
@@ -392,6 +425,9 @@ def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_date
     var layout_{div_id} = {fig_layout_json};
     var gd_element_{div_id} = document.getElementById('{div_id}');
     Plotly.newPlot(gd_element_{div_id}, data_{div_id}, layout_{div_id});
+    // Optional: Add resize listener for individual charts if they also face issues,
+    // though typically CSS width:100% and autosize=true handles this for initial plot.
+    // window.addEventListener('resize', function() {{ Plotly.Plots.resize(gd_element_{div_id}); }});
 </script>
 """
     return chart_div_html + "\n" + plotly_script_html
@@ -399,6 +435,7 @@ def df_to_html_chart_content_internal(df, chart_id_suffix, title=None, last_date
 
 # Bar-chart mode function
 def bar_chart_mode(input_dir, output_dir, internal, trace_enabled):
+    # This function remains unchanged as the request is for the standard time-series mode
     import os, re, json, numpy as np, pandas as pd, plotly.graph_objs as go
 
     py_windows = [5, 10, 21, 64, 129, 261, 390, 522]
@@ -954,9 +991,9 @@ if not generated_any_chart and not (use_stdin or args.bar_mode) :
 if not use_stdin and not args.bar_mode and generated_any_chart:
 
     final_html_lines=['<!DOCTYPE html>','<html lang="en">','<head>','  <meta charset="utf-8">',
-               '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-               '  <title>Aggregated Fund Series Charts</title>',
-               '  <style>',
+               '<meta name="viewport" content="width=device-width, initial-scale=1">',
+               '<title>Aggregated Fund Series Charts</title>',
+               '<style>',
                '    body { font-family: Arial, sans-serif; margin: 10px; padding: 0; background-color: #f4f4f4; }',
                '    iframe { border: 1px solid #ccc; margin-bottom: 10px; width:100%; height:850px; }',
                '    .chart-container { margin-bottom: 20px; padding:10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;}',
@@ -965,20 +1002,25 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
                '    #global-fund-selector { width: auto; min-width: 300px; max-width: 60%; flex-shrink: 0; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-right: 10px; }',
                '    #fund-selector-buttons { display: flex; flex-direction: column; }',
                '    .selector-button { padding: 10px 15px; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; color: white; margin-bottom: 10px; width: 150px; text-align: center;}',
-               '    #apply-fund-selection { background-color: #5cb85c; }',
-               '    #apply-fund-selection:hover { background-color: #4cae4c; }',
-               '    #reset-fund-selection { background-color: #d9534f; }',
-               '    #reset-fund-selection:hover { background-color: #c9302c; }',
-               '  </style>',
+               '    #apply-fund-selection { background-color: #5cb85c; } #apply-fund-selection:hover { background-color: #4cae4c; }',
+               '    #reset-fund-selection { background-color: #d9534f; } #reset-fund-selection:hover { background-color: #c9302c; }',
+               '    #create-overlay-chart { background-color: #007bff; } #create-overlay-chart:hover { background-color: #0056b3; }',
+               '    #overlay-chart-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; }',
+               '    #overlay-chart-content { background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.5); width: 90%; height: 90%; position: relative; display: flex; flex-direction: column; }',
+               '    #overlay-chart-plot-inner { flex-grow: 1; width: 100%; height: 100%; }', # Ensures the div takes up space
+               '    #close-overlay-button { position: absolute; bottom: 10px; right: 10px; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; z-index: 1001;}', # Moved to bottom right
+               '    body.overlay-active > *:not(#overlay-chart-container) { filter: blur(5px) brightness(0.7); pointer-events: none; }',
+               '</style>',
                '<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>']
 
     if internal_only:
         final_html_lines.append(styling_constants_js)
-        final_html_lines.append(selection_and_hover_js_logic)
+        final_html_lines.append(selection_and_hover_js_logic) # Included once for internal_only mode
 
     final_html_lines.extend(['</head>','<body>'])
     final_html_lines.append('<h1 style="text-align:center; margin-top:20px; margin-bottom:20px;">Aggregated Fund Series Charts</h1>')
 
+    # Global Fund Selector HTML
     if all_unique_fund_names:
         final_html_lines.append('<div id="global-selector-area">')
         final_html_lines.append('  <h3 style="margin-bottom: 10px;">Global Fund Selector</h3>')
@@ -993,10 +1035,18 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
         final_html_lines.append('    <div id="fund-selector-buttons">')
         final_html_lines.append('      <button id="apply-fund-selection" class="selector-button">Apply Selection</button>')
         final_html_lines.append('      <button id="reset-fund-selection" class="selector-button" title="Clear fund selection">Reset Selection</button>')
+        final_html_lines.append('      <button id="create-overlay-chart" class="selector-button" title="Overlay selected funds">Overlay Selected</button>')
         final_html_lines.append('    </div>')
         final_html_lines.append('  </div>')
         final_html_lines.append('</div>')
 
+    # Overlay Container HTML
+    final_html_lines.append('<div id="overlay-chart-container">')
+    final_html_lines.append('  <div id="overlay-chart-content">')
+    final_html_lines.append('    <button id="close-overlay-button">Close</button>')
+    final_html_lines.append('    <div id="overlay-chart-plot-inner" class="plotly-graph-div"></div>')
+    final_html_lines.append('  </div>')
+    final_html_lines.append('</div>')
 
     if internal_only:
         for chart_html_part in chart_html_parts:
@@ -1011,42 +1061,62 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
+        const createOverlayChartButton = document.getElementById('create-overlay-chart');
+        const overlayChartContainer = document.getElementById('overlay-chart-container');
+        const overlayChartPlotDiv = document.getElementById('overlay-chart-plot-inner');
+        const closeOverlayButton = document.getElementById('close-overlay-button');
+        let currentSelectedFundsForMaster = [];
 
-        if (globalFundSelector) {
-            Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
-        }
+        if (globalFundSelector) { Array.from(globalFundSelector.options).forEach(opt => opt.selected = false); }
 
         function handleSelectionChange() {
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
-            const selectedFunds = selectedOptionsRaw.map(val => {
-                try { return JSON.parse(val); } catch (e) { console.error('[SINGLE-PAGE] Error parsing option value:', val, e); return null; }
-            }).filter(value => value !== null);
-
-            if (typeof updateAllChartsOnPage === 'function') {
-                updateAllChartsOnPage(selectedFunds);
-            } else {
-                console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found.');
-            }
+            currentSelectedFundsForMaster = selectedOptionsRaw.map(val => { try { return JSON.parse(val); } catch (e) { console.error('[SINGLE-PAGE] Error parsing option value for master:', val, e); return null; } }).filter(value => value !== null);
+            if (typeof updateAllChartsOnPage === 'function') { updateAllChartsOnPage(currentSelectedFundsForMaster); }
+            else { console.error('[SINGLE-PAGE] updateAllChartsOnPage function not found.'); }
         }
 
-        if (applyFundSelectionButton) {
-            applyFundSelectionButton.addEventListener('click', handleSelectionChange);
-        }
-        if (resetFundSelectionButton) {
-            resetFundSelectionButton.addEventListener('click', function() {
-                if (globalFundSelector) {
-                    Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
+        if (applyFundSelectionButton) { applyFundSelectionButton.addEventListener('click', handleSelectionChange); }
+        if (resetFundSelectionButton) { resetFundSelectionButton.addEventListener('click', function() { if (globalFundSelector) { Array.from(globalFundSelector.options).forEach(opt => opt.selected = false); } handleSelectionChange(); }); }
+
+        if (createOverlayChartButton) {
+            createOverlayChartButton.addEventListener('click', function() {
+                if (currentSelectedFundsForMaster.length === 0) {
+                    const ob = createOverlayChartButton.textContent; createOverlayChartButton.textContent = "Select funds first!"; setTimeout(() => { createOverlayChartButton.textContent = ob; }, 2000); return;
                 }
-                handleSelectionChange();
+                let overlayTraces = [];
+                document.querySelectorAll('.plotly-graph-div').forEach(gdElement => {
+                    if (gdElement.id === 'overlay-chart-plot-inner' || !gdElement.data || !gdElement.layout) return; // Skip overlay div itself and non-plotly divs
+                    gdElement.data.forEach(trace => {
+                        const baseTraceName = (trace.name || '').split('<br>')[0];
+                        if (currentSelectedFundsForMaster.includes(baseTraceName)) { overlayTraces.push(JSON.parse(JSON.stringify(trace))); }
+                    });
+                });
+                if (overlayTraces.length > 0) {
+                    const uniqueOverlayTraces = []; const seenFundNames = new Set();
+                    for (const trace of overlayTraces) { const baseName = (trace.name || '').split('<br>')[0]; if (!seenFundNames.has(baseName)) { uniqueOverlayTraces.push(trace); seenFundNames.add(baseName); }}
+
+                    uniqueOverlayTraces.forEach(trace => { // Normalize line styles for overlay
+                        trace.line = trace.line || {};
+                        trace.line.width = typeof defaultLineWidth !== 'undefined' ? defaultLineWidth : 2; // Use global const or fallback
+                        trace.opacity = typeof defaultOpacity !== 'undefined' ? defaultOpacity : 1.0; // Use global const or fallback
+                    });
+
+                    const overlayLayout = { title: 'Selected Funds Overlay', showlegend: true, legend: { traceorder: 'normal' }, yaxis: { zeroline: true, zerolinewidth: 2, title: 'Normalized Value (log10 scale, 0 = Last Date)'}, xaxis: { title: 'Date' }, hovermode: 'closest', template: 'plotly_white', autosize: true };
+                    Plotly.newPlot(overlayChartPlotDiv, uniqueOverlayTraces, overlayLayout);
+                    overlayChartContainer.style.display = 'flex'; // Make container visible
+                    document.body.classList.add('overlay-active');
+                    Plotly.Plots.resize(overlayChartPlotDiv); // Crucial: Resize after visible and plotted
+                } else { const ob = createOverlayChartButton.textContent; createOverlayChartButton.textContent = "No data for selection!"; setTimeout(() => { createOverlayChartButton.textContent = ob; }, 2000); }
             });
         }
-        handleSelectionChange();
+        if (closeOverlayButton) { closeOverlayButton.addEventListener('click', function() { overlayChartContainer.style.display = 'none'; document.body.classList.remove('overlay-active'); Plotly.purge(overlayChartPlotDiv); }); }
+        handleSelectionChange(); // Initial call
     });
 </script>
 """
         final_html_lines.append(internal_master_js)
-
-    else:
+    else: # iframe mode
         fund_selector_master_js = r"""
 <script>
     // [PARENT IFRAME MASTER JS] Loaded
@@ -1054,56 +1124,90 @@ if not use_stdin and not args.bar_mode and generated_any_chart:
         const globalFundSelector = document.getElementById('global-fund-selector');
         const applyFundSelectionButton = document.getElementById('apply-fund-selection');
         const resetFundSelectionButton = document.getElementById('reset-fund-selection');
+        const createOverlayChartButton = document.getElementById('create-overlay-chart');
         const iframes = document.querySelectorAll('iframe');
+        const overlayChartContainer = document.getElementById('overlay-chart-container');
+        const overlayChartPlotDiv = document.getElementById('overlay-chart-plot-inner');
+        const closeOverlayButton = document.getElementById('close-overlay-button');
+        let currentSelectedFundsForParent = [];
 
-        if (globalFundSelector) {
-            Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
-        }
+        if (globalFundSelector) { Array.from(globalFundSelector.options).forEach(opt => opt.selected = false); }
 
         function dispatchSelectionUpdate() {
             const selectedOptionsRaw = globalFundSelector ? Array.from(globalFundSelector.selectedOptions).map(opt => opt.value) : [];
-            const selectedFunds = selectedOptionsRaw.map(val => {
-                try { return JSON.parse(val); } catch (e) { console.error('[PARENT IFRAME] Error parsing option value:', val, e); return null; }
-            }).filter(value => value !== null);
+            currentSelectedFundsForParent = selectedOptionsRaw.map(val => { try { return JSON.parse(val); } catch (e) { console.error('[PARENT IFRAME] Error parsing option value:', val, e); return null; }}).filter(value => value !== null);
+            const message = { type: 'fundSelectionUpdate', selectedFunds: currentSelectedFundsForParent };
+            iframes.forEach((iframe) => { if (iframe.contentWindow) { iframe.contentWindow.postMessage(message, '*'); } });
+        }
 
-            const message = { type: 'fundSelectionUpdate', selectedFunds: selectedFunds };
-            iframes.forEach((iframe) => {
-                if (iframe.contentWindow) {
-                    iframe.contentWindow.postMessage(message, '*');
+        if (applyFundSelectionButton) { applyFundSelectionButton.addEventListener('click', dispatchSelectionUpdate); }
+        if (resetFundSelectionButton) { resetFundSelectionButton.addEventListener('click', function() { if (globalFundSelector) { Array.from(globalFundSelector.options).forEach(opt => opt.selected = false); } dispatchSelectionUpdate(); }); }
+
+        if (createOverlayChartButton) {
+            createOverlayChartButton.addEventListener('click', function() {
+                if (currentSelectedFundsForParent.length === 0) { const ob = createOverlayChartButton.textContent; createOverlayChartButton.textContent = "Select funds first!"; setTimeout(() => {createOverlayChartButton.textContent = ob;}, 2000); return; }
+                let collectedOverlayTraces = [];
+                let expectedResponses = 0;
+                iframes.forEach(iframe => { if (iframe.contentWindow) expectedResponses++; }); // Count only iframes we can message
+
+                let receivedResponses = 0; const requestId = 'overlayDataRequest_' + Date.now();
+
+                if (expectedResponses === 0) {
+                     const ob = createOverlayChartButton.textContent; createOverlayChartButton.textContent = "No charts to overlay!"; setTimeout(() => {createOverlayChartButton.textContent = ob;}, 2000); return;
                 }
+
+                iframes.forEach(iframe => { if (iframe.contentWindow) { iframe.contentWindow.postMessage({ type: 'getFundDataForOverlay', selectedFunds: currentSelectedFundsForParent, requestId: requestId }, '*'); }});
+
+                const responseTimeout = setTimeout(() => { if (receivedResponses < expectedResponses) { console.warn(`Timeout: Received responses from ${receivedResponses}/${expectedResponses} iframes for overlay data.`); } finalizeOverlayChart(collectedOverlayTraces); window.removeEventListener('message', handleIframeDataResponse);}, 5000);
+
+                function handleIframeDataResponse(event) {
+                    if (event.data && event.data.type === 'fundDataResponse' && event.data.requestId === requestId) {
+                        if (event.data.traces && Array.isArray(event.data.traces)) { collectedOverlayTraces.push(...event.data.traces); }
+                        receivedResponses++;
+                        if (receivedResponses === expectedResponses) { clearTimeout(responseTimeout); finalizeOverlayChart(collectedOverlayTraces); window.removeEventListener('message', handleIframeDataResponse); }
+                    }
+                }
+                window.addEventListener('message', handleIframeDataResponse);
             });
         }
 
-        if (applyFundSelectionButton) {
-            applyFundSelectionButton.addEventListener('click', dispatchSelectionUpdate);
+        function finalizeOverlayChart(traces) {
+            if (traces.length > 0) {
+                const uniqueOverlayTraces = []; const seenFundNames = new Set();
+                for (const trace of traces) { const baseName = (trace.name || '').split('<br>')[0]; if (!seenFundNames.has(baseName)) { uniqueOverlayTraces.push(trace); seenFundNames.add(baseName); }}
+
+                uniqueOverlayTraces.forEach(trace => { // Normalize line styles for overlay
+                    trace.line = trace.line || {};
+                    trace.line.width = 2; // Standard thin line width (use global defaultLineWidth if available)
+                    trace.opacity = 1.0;  // Standard full opacity (use global defaultOpacity if available)
+                });
+
+                const overlayLayout = { title: 'Selected Funds Overlay (from iFrames)', showlegend: true, legend: { traceorder: 'normal' }, yaxis: { zeroline: true, zerolinewidth: 2, title: 'Normalized Value (log10 scale, 0 = Last Date)'}, xaxis: { title: 'Date' }, hovermode: 'closest', template: 'plotly_white', autosize: true };
+                Plotly.newPlot(overlayChartPlotDiv, uniqueOverlayTraces, overlayLayout);
+                overlayChartContainer.style.display = 'flex';
+                document.body.classList.add('overlay-active');
+                Plotly.Plots.resize(overlayChartPlotDiv); // Resize after visible
+            } else { const ob = document.getElementById('create-overlay-chart').textContent; document.getElementById('create-overlay-chart').textContent = "No data for selection!"; setTimeout(() => { document.getElementById('create-overlay-chart').textContent = ob; }, 2000); }
         }
-        if (resetFundSelectionButton) {
-            resetFundSelectionButton.addEventListener('click', function() {
-                if (globalFundSelector) {
-                    Array.from(globalFundSelector.options).forEach(opt => opt.selected = false);
-                }
-                dispatchSelectionUpdate();
-            });
-        }
+
+        if (closeOverlayButton) { closeOverlayButton.addEventListener('click', function() { overlayChartContainer.style.display = 'none'; document.body.classList.remove('overlay-active'); Plotly.purge(overlayChartPlotDiv); }); }
 
         window.addEventListener('message', function(event) {
             if (event.data && event.data.type === 'iframeReady') {
                 if (event.source && globalFundSelector) {
                     const selectedOptionsRaw = Array.from(globalFundSelector.selectedOptions).map(opt => opt.value);
-                    const selectedFunds = selectedOptionsRaw.map(val => {
-                        try { return JSON.parse(val); } catch (e) { return null; }
-                    }).filter(value => value !== null);
-                    event.source.postMessage({ type: 'fundSelectionUpdate', selectedFunds: selectedFunds }, '*');
+                    const selectedFundsOnInit = selectedOptionsRaw.map(val => { try { return JSON.parse(val); } catch (e) { return null; }}).filter(value => value !== null);
+                    event.source.postMessage({ type: 'fundSelectionUpdate', selectedFunds: selectedFundsOnInit }, '*');
                 }
             }
         });
-        dispatchSelectionUpdate();
+        dispatchSelectionUpdate(); // Initial dispatch
     });
 </script>
 """
         final_html_lines.append(fund_selector_master_js)
         for chart_info in html_file_outputs_for_index:
-            final_html_lines.append(f'<iframe title="{html.escape(chart_info["title"])}" src="{html.escape(chart_info["content"])}" sandbox="allow-scripts allow-same-origin"></iframe>')
+            final_html_lines.append(f'<iframe title="{html.escape(chart_info["title"])}" src="{html.escape(chart_info["content"])}" sandbox="allow-scripts allow-same-origin allow-modals allow-popups allow-forms allow-downloads allow-popups-to-escape-sandbox"></iframe>') # Expanded sandbox
 
     final_html_lines.extend(['</body>','</html>'])
 
