@@ -1,0 +1,6 @@
+*.py linguist-language=Python
+*.pl linguist-language=Perl
+*.yaml linguist-language=YAML
+results/** linguist-vendored
+data/** linguist-vendored
+tables/** linguist-vendored
